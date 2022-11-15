@@ -1,1 +1,1 @@
-# globalNet
+# NetGlobal
