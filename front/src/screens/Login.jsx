@@ -1,6 +1,6 @@
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import {AiOutlineUser} from "react-icons/ai"
+import imagen from "../assets/styles/image/gris_cuadrado.png"
 import style from "../assets/styles/screens/Login.module.scss"
 
 
@@ -8,9 +8,7 @@ function Login() {
   return (
     <div className={style['login_container']}>
     <Form className={style['registro']}>
-        <p className={style['svg']}>
-          <AiOutlineUser />
-        </p>
+        <img className={style["svg"]} src={imagen} />
       <Form.Group className="mb_3" controlId="formBasicEmail">
         <Form.Label className={style['Form_Label']}>Email</Form.Label>
         <Form.Control className={style['Form_Control']}type="email" placeholder="Ingrese su email" />
