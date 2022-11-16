@@ -25,14 +25,24 @@ Branch.init(
       type: S.STRING,
       allowNull: false,
     },
-    geolocation: {
-      type: S.STRING,
+    latitude: {
+      type: S.FLOAT /* La database NO toma tipo de dato GEOMETRY: PostGIS */,
+      allowNull: false,
+    },
+    longitude: {
+      type: S.FLOAT,
       allowNull: false,
     },
     fullAddress: {
       type: S.VIRTUAL,
       get() {
         return `${this.street} ${this.number}, ${this.city}, ${this.province}`;
+      },
+    },
+    coordinates: {
+      type: S.VIRTUAL,
+      get() {
+        return `${this.latitude}, ${this.longitude}`;
       },
     },
   },
