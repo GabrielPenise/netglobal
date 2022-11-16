@@ -1,7 +1,7 @@
 const S = require("sequelize");
 const db = require("../config/db");
 
-class Branch extends S.model {}
+class Branch extends S.Model {}
 
 Branch.init(
   {
@@ -9,38 +9,26 @@ Branch.init(
       type: S.STRING,
       allowNull: false,
     },
-  },
-  {
     street: {
       type: S.STRING,
       allowNull: false,
     },
-  },
-  {
     number: {
       type: S.INTEGER,
       allowNull: false,
     },
-  },
-  {
     city: {
       type: S.STRING,
       allowNull: false,
     },
-  },
-  {
     province: {
       type: S.STRING,
       allowNull: false,
     },
-  },
-  {
     geolocation: {
-      type: S.GEOMETRY,
+      type: S.STRING,
       allowNull: false,
     },
-  },
-  {
     fullAddress: {
       type: S.VIRTUAL,
       get() {
