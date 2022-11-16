@@ -8,7 +8,7 @@ import {
   FaRegChartBar,
 } from "react-icons/fa";
 
-import style from "../assets/styles/common/SideBar.module.scss";
+import style from "../assets/styles/components/SideBar.module.scss";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -40,7 +40,6 @@ const Sidebar = () => {
       icon: <FaRegChartBar />,
     },
   ];
-
   return (
     <div className={` ${style}[containerSideBar]`}>
       <div

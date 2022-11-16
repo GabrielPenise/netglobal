@@ -1,10 +1,11 @@
-import Nav from 'react-bootstrap/Nav';
+import Nav from "react-bootstrap/Nav";
 import logo from "../assets/styles/image/logo_azul.png";
+import style from "../assets/styles/components/Nadvar.module.scss";
 
 function Nadvar() {
   return (
-    <Nav className='nav'>
-      <img className='logoNav' src={logo} />
+    <Nav className="nav">
+      <img className={style["logoNav"]} src={logo} />
       <Nav.Item as="li">
         <Nav.Link href="/home">Active</Nav.Link>
       </Nav.Item>
@@ -18,4 +19,4 @@ function Nadvar() {
   );
 }
 
-export default  Nadvar;
+export default Nadvar;

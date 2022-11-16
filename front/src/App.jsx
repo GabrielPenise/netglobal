@@ -1,12 +1,14 @@
-import Nadvar from "./common/Nadvar"
-import Footer from "./common/Footter"
+import Nadvar from "./components/Nadvar";
+import Fotter from "./components/Fotter";
+import Sidebar from "./components/SideBar";
 
 function App() {
   return (
     <div className="App">
-      <Nadvar/>
+      <Nadvar />
+      <Sidebar />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
