@@ -41,7 +41,7 @@ const Sidebar = () => {
     },
   ];
   return (
-    <div className={` ${style}[containerSideBar]`}>
+    <div className={style["containerSideBar"]} style={{ maxWidth: "200px" }}>
       <div
         style={{ width: isOpen ? "200px" : "50px" }}
         className={style["sidebar"]}
