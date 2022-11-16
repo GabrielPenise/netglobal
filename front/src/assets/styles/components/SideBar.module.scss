@@ -6,6 +6,9 @@
 }
 .containerSideBar {
   display: flex;
+  float: left;
+  max-width: 200px;
+  z-index: 80;
 }
 
 .sidebar {
