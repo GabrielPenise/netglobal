@@ -6,14 +6,13 @@ import style from "../assets/styles/components/Fotter.module.scss";
 function Fotter() {
   return (
     <div>
-      {" "}
       <div className={style["footer-container"]}>
-        <div className="footer_menu">
-          <div className="footer_datos">
+        <div className={style["footer_menu"]}>
+          <div className={style["footer_datos"]}>
             <h3>Developer</h3>
             <div>
               <p>
-                <div>1</div>
+                <div>Gabriel Penise</div>
                 <a href="https://www.linkedin.com">
                   <BsLinkedin />
                 </a>
@@ -22,7 +21,7 @@ function Fotter() {
                 </a>
               </p>
               <p>
-                <div>2</div>
+                <div>Carmela Cacabelos</div>
                 <a href="https://www.linkedin.com">
                   <BsLinkedin />
                 </a>
@@ -31,7 +30,7 @@ function Fotter() {
                 </a>
               </p>
               <p>
-                <div>3</div>
+                <div>Gerardo Burgos</div>
                 <a href="https://www.linkedin.com">
                   <BsLinkedin />
                 </a>
@@ -40,7 +39,7 @@ function Fotter() {
                 </a>
               </p>
               <p>
-                <div>4</div>
+                <div>Gisela Arroyo Galarce</div>
                 <a href="http://linkedin.com">
                   <BsLinkedin />
                 </a>
@@ -49,7 +48,7 @@ function Fotter() {
                 </a>
               </p>
               <p>
-                <div>5</div>
+                <div>Alberto Carrillo de Comas</div>
                 <a href="https://www.linkedin.com">
                   <BsLinkedin />
                 </a>
