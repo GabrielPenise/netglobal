@@ -1,5 +1,5 @@
 const express = require("express");
-const { Branch, Client } = require("./models");
+const { Branch, Client } = require("../models");
 const router = express.Router();
 
 // GET ALL BRANCHES
@@ -11,21 +11,21 @@ router.get("/", (req, res) => {
 
 // GET BRANCH BY ID
 router.get("/:id", (req, res) => {
-  Branch.findByPk({ where: { id: req.params.id } })
+  const { id } = req.params;
+  Branch.findByPk(id)
     .then((branch) => res.send(branch))
     .catch((err) => res.status(404).send(err));
 });
 
 // GET ALL BRANCHES BY CLIENT
-router.get("/clientBranches/:id", (req, res) => {
-  Client.findByPk({
-    where: { id: req.params.id },
-  })
-    .then((branch) =>
-      branch
+router.get("/byClient/:id", (req, res) => {
+  const { id } = req.params;
+  Client.findByPk(id)
+    .then((client) =>
+      !client
         ? res.sendStatus(400)
-        : Branch.create(req.body)
-            .then((newBranch) => res.status(201).send(newBranch))
+        : Branch.findAll({ where: { clientId: id } })
+            .then((clientBranches) => res.send(clientBranches))
             .catch((err) => res.status(500).send(err))
     )
     .catch((err) => res.status(400).send(err));
@@ -49,15 +49,15 @@ router.post("/", (req, res) => {
 
 // UPDATE A BRANCH
 router.put("/:id", (req, res) => {
-  Branch.findByPk({ where: { id: req.params.id } })
-    .then((branch) =>
-      !branch
+  Branch.findByPk(req.params.id)
+    .then((branch) => {
+      return !branch
         ? res.sendStatus(400)
         : branch
             .update(req.body)
-            .then((updatedBranch) => res.status().send(updatedBranch))
-            .catch((err) => res.status(500).send(err))
-    )
+            .then((updatedBranch) => res.status(202).send(updatedBranch))
+            .catch((err) => res.status(500).send(err));
+    })
     .catch((err) => res.status(400).send(err));
 });
 
