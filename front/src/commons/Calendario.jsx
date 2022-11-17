@@ -4,8 +4,9 @@ import moment from "moment";
 import "moment/locale/es";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { messages } from "../utils/calendar-messages-es";
-import { BsDisplay } from "react-icons/bs";
+
 import CalendarioEvent from "./CalendarioEvent";
+import { CalendarioModal } from "./CalendarioModal";
 
 const localizer = momentLocalizer(moment);
 moment.locale("es");
@@ -49,12 +50,13 @@ export default function Calendario() {
         endAccesor="end"
         messages={messages}
         eventPropGetter={eventStyleGetter}
-        onDoubleClickEvent={() => console.log("hola")}
+        onDoubleClickEvent={() => console.log("Abro el modal")}
         onSelectEvent={(e) => console.log(e)}
         onView={handleOnview}
         view={fijarVista}
         components={{ event: CalendarioEvent }}
       />
+      <CalendarioModal />
     </div>
   );
 }
