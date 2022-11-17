@@ -7,6 +7,7 @@ import { messages } from "../utils/calendar-messages-es";
 
 import CalendarioEvent from "./CalendarioEvent";
 import { CalendarioModal } from "./CalendarioModal";
+import { useModalContext } from "../context/ModalContext";
 
 const localizer = momentLocalizer(moment);
 moment.locale("es");
@@ -23,6 +24,8 @@ export default function Calendario() {
   const [fijarVista, setFijarVista] = useState(
     localStorage.getItem("fijarVista") || "month"
   );
+
+  const { uiOpen, setUiOpen } = useModalContext();
 
   const handleOnview = (e) => {
     setFijarVista(e);
@@ -50,7 +53,7 @@ export default function Calendario() {
         endAccesor="end"
         messages={messages}
         eventPropGetter={eventStyleGetter}
-        onDoubleClickEvent={() => console.log("Abro el modal")}
+        onDoubleClickEvent={() => setUiOpen(true)}
         onSelectEvent={(e) => console.log(e)}
         onView={handleOnview}
         view={fijarVista}
