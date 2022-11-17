@@ -26,7 +26,7 @@ export default function Calendario() {
   const handleOnview = (e) => {
     setFijarVista(e);
     localStorage.setItem("fijarVista", e);
-  };
+  }
 
   const eventStyleGetter = (event, start, end, isSelected) => {
     const style = {
