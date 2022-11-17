@@ -29,7 +29,7 @@ function Login() {
                 <Form.Control
                   type="password"
                   name="password"
-                  placeholder="Ingrese su ContraseNa"
+                  placeholder="Ingrese su Contraseña"
                   required
                 />
               </Form.Group>
@@ -44,28 +44,6 @@ function Login() {
           </Col>
         </Row>
       </Container>
-    // <div className={style['login_container']}>
-    // <Form className={style['registro']}>
-    //     <img className={style["svg"]} src={imagen} />
-    //   <Form.Group className="mb_3" controlId="formBasicEmail">
-    //     <Form.Label className={style['Form_Label']}>Email</Form.Label>
-    //     <Form.Control className={style['Form_Control']}type="email" placeholder="Ingrese su email" />
-    //   </Form.Group>
-
-    //   <Form.Group className="mb_3" controlId="formBasicPassword">
-    //     <Form.Label>Contraseña</Form.Label>
-    //     <Form.Control className={style['Form_Control']} type="password" placeholder="Contraseña" />
-    //   </Form.Group>
-    //   <Form.Group className="mb_3" controlId="formBasicCheckbox">
-    //   </Form.Group>
-    //   <Button className={style['Button']}variant="primary" type="submit">
-    //     Ingresar
-    //   </Button>
-    //   <Form.Text className="text-muted">
-    //     ¿Olvido su contraseña? Haga Click aquí
-    //     </Form.Text>
-    // </Form>
-    // </div>
   );
 }
 

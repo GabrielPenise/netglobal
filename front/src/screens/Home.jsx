@@ -1,21 +1,25 @@
-import React from 'react';
+import React from "react";
 import style from "../assets/styles/screens/Home.module.scss";
 import imagen from "../assets/styles/image/gris_cuadrado.png";
-
+import { Container, Col, Row } from "react-bootstrap";
 
 function Home() {
-  return ( 
+  return (
     <div>
-    <div className={style["conatinerHome"]}>
-    <div>
-    <img className={style["imagenHome"]} src={imagen}/>
+      <Container>
+        <Row className="justify-content-md-center">
+          <Col xs={12} md={6} className="rounded-5 p-4 mt-4 ">
+            <div className={style["divGeneral"]}>
+              <img className={style["imagenLog"]} src={imagen} />
+            </div>
+            <div className={style["tituloHome"]}>
+              <h3>Bienvenido Fravega!</h3>
+            </div>
+          </Col>
+        </Row>
+      </Container>
     </div>
-    <div className={style["tituloHome"]}>
-   <h3 >Bienvenido Fravega!</h3>
-   </div>
-   </div>
-   </div>
-  )
+  );
 }
 
-export default Home
+export default Home;
