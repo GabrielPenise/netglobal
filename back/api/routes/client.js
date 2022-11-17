@@ -2,11 +2,11 @@ const express = require("express");
 const router = express.Router();
 const Client = require("../models/Client");
 const { generateToken } = require("../config/token");
-const { validateAuth } = require("../middlewares/auth");
+const { validateAuth, validateSuperAdmin } = require("../middlewares/auth");
 
 // REGISTER
 
-router.post("/register", (req, res, next) => {
+router.post("/register", validateSuperAdmin, (req, res, next) => {
   console.log(req.body);
   Client.create({
     email: req.body.email,
@@ -66,13 +66,13 @@ router.post("/logout", (req, res) => {
 });
 
 //GET ALL CLIENTS
-router.get("/", (req, res) => {
+router.get("/", validateSuperAdmin, (req, res) => {
   Client.findAll()
     .then((clients) => res.send(clients))
     .catch((err) => res.status(404).send(err));
 });
 
-//GET ONE CLIENT
+//GET ONE CLIENT  ------> acá debería agregar validación superAdmin?
 router.get("/:id", (req, res) => {
   Client.findByPk(req.params.id)
     .then((client) => res.send(client))
@@ -92,7 +92,7 @@ router.put("/:id", (req, res) => {
 });
 
 //DELETE CLIENT
-router.delete("/:id", (req, res) => {
+router.delete("/:id", validateSuperAdmin, (req, res) => {
   Client.findByPk(req.params.id).then((client) => {
     return !client
       ? res.sendStatus(404)
