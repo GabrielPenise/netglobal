@@ -3,6 +3,8 @@ import Fotter from "./components/Fotter";
 import Sidebar from "./components/SideBar";
 import Calendario from "./commons/Calendario";
 import Login from "./screens/Login";
+import Home from "./screens/Home"
+
 import { Route, Routes } from "react-router-dom";
 import DropDownSelect from "./commons/DropDownSelect";
 
@@ -17,6 +19,7 @@ function App() {
         <Route path="/superadmin" element={<DropDownSelect />} />
         <Route path="/vigiladores" element={<DropDownSelect />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/home" element={<Home />} />
       </Routes>
       <Fotter />
     </div>

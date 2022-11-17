@@ -1,7 +1,17 @@
 const S = require("sequelize");
 const db = require("../config/db");
+const bcrypt = require("bcrypt");
 
-class Guards extends S.Model {} 
+class Guards extends S.Model {
+  hash(password, salt) {
+    return bcrypt.hash(password, salt);
+  }
+  validatePassword(password) {
+    return this.hash(password, this.salt).then(
+      (newHash) => newHash === this.password
+    );
+  }
+} 
 
 Guards.init(
   {
@@ -13,9 +23,24 @@ Guards.init(
       type: S.STRING,
       allowNull: false,
     },
-    cuil: {
-      type: S.INTEGER,
+    email: {
+      type: S.STRING,
       allowNull: false,
+      unique: true,
+      validate: { isEmail: true },
+    },
+    cuil: {
+      type: S.BIGINT,
+      unique: true,
+      allowNull: false,
+    },
+    password: {
+      type: S.STRING,
+      allowNull: false, 
+      validate: { min: 6},
+    },
+    salt: {
+      type: S.STRING
     },
     province: {
         type: S.STRING,
@@ -30,12 +55,19 @@ Guards.init(
         allowNull:false
     },
     hours_per_day:{
-        type:S.TIME,
+        type:S.INTEGER,
         allowNull:false
     },
   },
   { sequelize: db, modelName: "guards" }
 );
 
+Guards.beforeCreate((guard) => {
+  const salt = bcrypt.genSaltSync();
+  guard.salt = salt;
+  return guard
+    .hash(guard.password, salt)
+    .then((hash) => (guard.password = hash));
+});
 
 module.exports=Guards

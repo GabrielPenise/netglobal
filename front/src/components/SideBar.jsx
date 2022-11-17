@@ -14,6 +14,7 @@ import style from "../assets/styles/components/SideBar.module.scss";
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
+  
   const menuItem = [
     {
       path: "/superadmin",

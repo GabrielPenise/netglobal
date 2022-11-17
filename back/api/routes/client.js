@@ -2,6 +2,9 @@ const express = require("express");
 const router = express.Router();
 const Client = require("../models/Client");
 const { generateToken } = require("../config/token");
+const { validateAuth } = require("../middlewares/auth");
+
+// REGISTER
 
 router.post("/register", (req, res, next) => {
   console.log(req.body);
@@ -24,25 +27,79 @@ router.post("/register", (req, res, next) => {
     });
 });
 
+// LOG IN
 router.post("/login", (req, res, next) => {
   const { email, password } = req.body;
-  Client.findOne({ where: { email: email } }).then((client) => {
-    if (!user) return res.sendStatus(401);
+  Client.findOne({ where: { email: email } })
+    .then((client) => {
+      if (!client) return res.sendStatus(401);
 
-    client.validatePassword(password).then((isValid) => {
-      if (!isValid) return res.sendStatus(401);
+      client.validatePassword(password).then((isValid) => {
+        if (!isValid) return res.sendStatus(401);
 
-      const payload = {
-        id: client.id,
-        email: client.email,
-        super_admin: client.super_admin,
-      };
-      const token = generateToken(payload);
+        const payload = {
+          id: client.id,
+          email: client.email,
+          super_admin: client.super_admin,
+        };
+        const token = generateToken(payload);
 
-      res.cookie("token", token);
+        res.cookie("token", token);
 
-      res.send(payload);
+        res.send(payload);
+      });
+    })
+    .catch((err) => {
+      console.error(err);
     });
+});
+
+// PERSISTENCIA
+router.get("/validate", validateAuth, (req, res) => {
+  res.send(req.client);
+});
+
+// LOG OUT
+router.post("/logout", (req, res) => {
+  res.clearCookie("token");
+  res.sendStatus(204);
+});
+
+//GET ALL CLIENTS
+router.get("/", (req, res) => {
+  Client.findAll()
+    .then((clients) => res.send(clients))
+    .catch((err) => res.status(404).send(err));
+});
+
+//GET ONE CLIENT
+router.get("/:id", (req, res) => {
+  Client.findByPk(req.params.id)
+    .then((client) => res.send(client))
+    .catch((err) => res.status(404).send(err));
+});
+
+//UPDATE CLIENT
+router.put("/:id", (req, res) => {
+  Client.findByPk(req.params.id).then((client) => {
+    return !client
+      ? res.sendStatus(404)
+      : client
+          .update(req.body)
+          .then((updateClient) => res.status(202).send(updateClient))
+          .catch((err) => res.status(500).send(err));
+  });
+});
+
+//DELETE CLIENT
+router.delete("/:id", (req, res) => {
+  Client.findByPk(req.params.id).then((client) => {
+    return !client
+      ? res.sendStatus(404)
+      : client
+          .destroy()
+          .then(() => res.status(204))
+          .catch((err) => res.status(500).send(err));
   });
 });
 
