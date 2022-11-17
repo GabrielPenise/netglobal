@@ -4,8 +4,10 @@ import moment from "moment";
 import "moment/locale/es";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { messages } from "../utils/calendar-messages-es";
-import { BsDisplay } from "react-icons/bs";
+
 import CalendarioEvent from "./CalendarioEvent";
+import { CalendarioModal } from "./CalendarioModal";
+import { useModalContext } from "../context/ModalContext";
 
 const localizer = momentLocalizer(moment);
 moment.locale("es");
@@ -22,6 +24,8 @@ export default function Calendario() {
   const [fijarVista, setFijarVista] = useState(
     localStorage.getItem("fijarVista") || "month"
   );
+
+  const { uiOpen, setUiOpen } = useModalContext();
 
   const handleOnview = (e) => {
     setFijarVista(e);
@@ -49,12 +53,13 @@ export default function Calendario() {
         endAccesor="end"
         messages={messages}
         eventPropGetter={eventStyleGetter}
-        onDoubleClickEvent={() => console.log("hola")}
+        onDoubleClickEvent={() => setUiOpen(true)}
         onSelectEvent={(e) => console.log(e)}
         onView={handleOnview}
         view={fijarVista}
         components={{ event: CalendarioEvent }}
       />
+      <CalendarioModal />
     </div>
   );
 }
