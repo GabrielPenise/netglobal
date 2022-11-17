@@ -21,7 +21,7 @@ const guards = [
     email: "vig@vig.com",
     password: "123456",
     salt: "",
-    cuil: 2,
+    cuil: 3,
     province: "Buenos Aires",
     localidad: "Buenos Aires",
     entry_time: "8:00",
