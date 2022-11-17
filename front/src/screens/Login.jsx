@@ -1,9 +1,14 @@
+
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import imagen from "../assets/styles/image/gris_cuadrado.png";
 import style from "../assets/styles/screens/Login.module.scss";
 import axios from "axios"
 import { useState } from "react";
+import { Container, Col, Row } from 'react-bootstrap';
+
+
+
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -18,6 +23,7 @@ function Login() {
   };
 
   return (
+
     <div className={style["login_container"]}>
       <Form className={style["registro"]} onSubmit={handleSubmit}>
         <img className={style["svg"]} src={imagen} />
@@ -50,6 +56,8 @@ function Login() {
         </Form.Text>
       </Form>
     </div>
+
+
   );
 }
 

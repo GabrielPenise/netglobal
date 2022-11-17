@@ -1,70 +1,84 @@
-import React from "react";
+import React from 'react';
+import { MDBFooter, MDBContainer, MDBRow, MDBCol, MDBIcon } from 'mdb-react-ui-kit';
 import { BsLinkedin, BsGithub } from "react-icons/bs";
 
-import style from "../assets/styles/components/Fotter.module.scss";
 
-function Fotter() {
+
+export default function Fotter() {
   return (
-    <div>
-      <div className={style["footer-container"]}>
-        <div className={style["footer_menu"]}>
-          <div className={style["footer_datos"]}>
-            <h3>Developer</h3>
-            <div>
+    <MDBFooter bgColor='light' className='text-center text-lg-start text-muted '>
+      <section className=''>
+        <MDBContainer className='text-center text-md-start mt-5 p-4 '>
+          <MDBRow className='mt-3'>
+            <MDBCol md="2" lg="2" xl="2" className='mx-auto mb-4'>
               <p>
-                <div>Gabriel Penise</div>
-                <a href="https://www.linkedin.com">
-                  <BsLinkedin />
+                <a >
+                Gabriel Penise
                 </a>
-                <a href="https://github.com">
-                  <BsGithub />
-                </a>
+                <MDBIcon icon="envelope" className="me-3 espacio" />
+                <a href="https://www.linkedin.com" className="me-2">
+                 <BsLinkedin />
+               </a> 
+               <a href="https://github.com">
+                 <BsGithub />
+                 </a>
               </p>
               <p>
-                <div>Carmela Cacabelos</div>
-                <a href="https://www.linkedin.com">
-                  <BsLinkedin />
+                <a >
+                  Carmela Cacabelos
                 </a>
-                <a href="https://github.com">
-                  <BsGithub />
-                </a>
+                <MDBIcon icon="envelope" className="me-3" />
+                <a href="https://www.linkedin.com" className="me-1">
+                 <BsLinkedin />
+               </a>
+               <a href="https://github.com">
+                 <BsGithub />
+                 </a>
               </p>
               <p>
-                <div>Gerardo Burgos</div>
-                <a href="https://www.linkedin.com">
-                  <BsLinkedin />
-                </a>
-                <a href="https://github.com">
-                  <BsGithub />
-                </a>
+                <a>
+                Gerardo Burgos
+                </a><MDBIcon icon="envelope" className="me-3" />
+                <a href="https://www.linkedin.com" className="me-2">
+                 <BsLinkedin />
+               </a>
+               <a href="https://github.com">
+                 <BsGithub />
+                 </a>
               </p>
               <p>
-                <div>Gisela Arroyo Galarce</div>
-                <a href="http://linkedin.com">
-                  <BsLinkedin />
+                <a>
+               Gisela Arroyo
                 </a>
-                <a href="https://github.com">
-                  <BsGithub />
-                </a>
+                <MDBIcon icon="envelope" className="me-3" />
+                <a href="https://www.linkedin.com" className="me-2">
+                 <BsLinkedin />
+               </a>
+               <a href="https://github.com">
+                 <BsGithub />
+                 </a>
               </p>
               <p>
-                <div>Alberto Carrillo de Comas</div>
-                <a href="https://www.linkedin.com">
-                  <BsLinkedin />
+                <a>
+                Alberto Carrillo
                 </a>
-                <a href="https://github.com">
-                  <BsGithub />
-                </a>
+                <MDBIcon icon="envelope" className="me-3" />
+                <a href="https://www.linkedin.com" className="me-2">
+                 <BsLinkedin />
+               </a>
+               <a href="https://github.com">
+                 <BsGithub />
+                 </a>
               </p>
-            </div>
-          </div>
-        </div>
-        <div>
-          <p>©Derechos Reservados - 2022</p>
-        </div>
+            </MDBCol>
+            
+          </MDBRow>
+        </MDBContainer>
+      </section>
+
+      <div className='text-center' style={{ backgroundColor: 'rgba(0, 0, 0, 0.00)' }}>
+        © 2022 Todos los derechos Reservados:
       </div>
-    </div>
+    </MDBFooter>
   );
 }
-
-export default Fotter;

@@ -1,0 +1,30 @@
+@import "../../base/global";
+$small: 768px;
+
+.conatinerHome{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @media screen and (max-width: $small){
+        flex-direction: column-reverse;
+        
+      }
+    
+}
+.imagenHome{
+    width: 500px;
+    height: 300px;
+    margin-top: 20px;
+    @media screen and (max-width: $small){
+        
+      }
+}
+.tituloHome{
+    color: $blueSpanish;
+    vertical-align: text-bottom;
+    @media screen and (max-width: $small){
+        width: 100%;
+        height: 200px;
+  
+      }
+}
