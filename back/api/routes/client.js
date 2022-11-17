@@ -1,0 +1,49 @@
+const express = require("express");
+const router = express.Router();
+const Client = require("../models/Client");
+const { generateToken } = require("../config/token");
+
+router.post("/register", (req, res, next) => {
+  console.log(req.body);
+  Client.create({
+    email: req.body.email,
+    password: req.body.password,
+    cuit: req.body.cuit,
+    razon_social: req.body.razon_social,
+    direccion: req.body.direccion,
+    // fecha_inicio_contrato: req.body.fecha_inicio_contrato,
+    // fecha_fin_contrato: req.body.fecha_fin_contrato,
+    super_admin: req.body.super_admin,
+  })
+    .then((client) => {
+      res.status(201).send(client);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.sendStatus(200);
+    });
+});
+
+router.post("/login", (req, res, next) => {
+  const { email, password } = req.body;
+  Client.findOne({ where: { email: email } }).then((client) => {
+    if (!user) return res.sendStatus(401);
+
+    client.validatePassword(password).then((isValid) => {
+      if (!isValid) return res.sendStatus(401);
+
+      const payload = {
+        id: client.id,
+        email: client.email,
+        super_admin: client.super_admin,
+      };
+      const token = generateToken(payload);
+
+      res.cookie("token", token);
+
+      res.send(payload);
+    });
+  });
+});
+
+module.exports = router;

@@ -4,9 +4,15 @@ import App from "./App";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter } from "react-router-dom";
+import { AuthContextProvider } from "./context/AuthContext";
+import { ModalContextProvider } from "./context/ModalContext";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
-    <App />
+    <ModalContextProvider>
+      <AuthContextProvider>
+        <App />
+      </AuthContextProvider>
+    </ModalContextProvider>
   </BrowserRouter>
 );

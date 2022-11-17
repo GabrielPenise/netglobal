@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   FaTh,
   FaBars,
@@ -59,20 +60,17 @@ const Sidebar = () => {
           </div>
         </div>
         {menuItem.map((item, index) => (
-          <div
-            to={item.path}
-            key={index}
-            className={style["link"]}
-            activeclassName="active"
-          >
-            <div className={style["icon"]}>{item.icon}</div>
-            <div
-              style={{ display: isOpen ? "block" : "none" }}
-              className={style["link_text"]}
-            >
-              {item.name}
+          <Link to={item.path}>
+            <div key={index} className={style["link"]} activeclassName="active">
+              <div className={style["icon"]}>{item.icon}</div>
+              <div
+                style={{ display: isOpen ? "block" : "none" }}
+                className={style["link_text"]}
+              >
+                {item.name}
+              </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
