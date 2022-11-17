@@ -1,4 +1,5 @@
 const express = require("express");
+const { validateClient } = require("../middlewares/auth");
 const { Branch, Client } = require("../models");
 const router = express.Router();
 
@@ -32,7 +33,7 @@ router.get("/byClient/:id", (req, res) => {
 });
 
 // CREATE A NEW BRANCH
-router.post("/", (req, res) => {
+router.post("/", validateClient, (req, res) => {
   // Control if any existing branch matches location
   Branch.findOne({
     where: { latitude: req.body.latitude, longitude: req.body.longitude },
@@ -48,7 +49,7 @@ router.post("/", (req, res) => {
 });
 
 // UPDATE A BRANCH
-router.put("/:id", (req, res) => {
+router.put("/:id", validateClient, (req, res) => {
   Branch.findByPk(req.params.id)
     .then((branch) => {
       return !branch
@@ -59,6 +60,13 @@ router.put("/:id", (req, res) => {
             .catch((err) => res.status(500).send(err));
     })
     .catch((err) => res.status(400).send(err));
+});
+
+// DELETE A BRANCH
+router.delete("/:id", (req, res) => {
+  Branch.destroy({ where: { id: req.params.id } })
+    .then(() => res.sendStatus(202))
+    .catch((err) => res.send(err));
 });
 
 module.exports = router;
