@@ -1,40 +1,69 @@
+const S = require("sequelize");
 const db = require("../config/db");
-const { Sequelize, DataTypes } = require("sequelize");
+const bcrypt = require("bcrypt");
 
-const Client = sequelize.define("Client", {
-  email: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-    validate: { isEmail: true },
-  },
-  password: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    validate: {
-      min: 6,
+class Client extends S.Model {
+  hash(password, salt) {
+    return bcrypt.hash(password, salt);
+  }
+
+  validatePassword(password) {
+    return this.hash(password, this.salt).then(
+      (newHash) => newHash === this.password
+    );
+  }
+}
+
+Client.init(
+  {
+    email: {
+      type: S.STRING,
+      allowNull: false,
+      unique: true,
+      validate: { isEmail: true },
+    },
+    password: {
+      type: S.STRING,
+      allowNull: false,
+      validate: {
+        min: 6,
+      },
+    },
+    salt: {
+      type: S.STRING,
+    },
+    cuit: {
+      type: S.INTEGER,
+      allowNull: false,
+    },
+    razon_social: {
+      type: S.STRING,
+    },
+    direccion: {
+      type: S.STRING,
+    },
+    // fecha_inicio_contrato: {
+    //   type: S.DATE,
+    //   allowNull: true,
+    // },
+    // fecha_fin_contrato: {
+    //   type: S.DATE,
+    //   allowNull: true,
+    // },
+    super_admin: {
+      type: S.BOOLEAN,
+      defaultValue: false,
     },
   },
-  cuit: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  razon_social: {
-    type: DataTypes.INTEGER,
-  },
-  direccion: {
-    type: DataTypes.STRING,
-  },
-  fecha_inicio_contrato: {
-    type: DataTypes.DATE,
-  },
-  fecha_fin_contrato: {
-    type: DataTypes.DATE,
-  },
-  super_admin: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: false,
-  },
+  { sequelize: db, modelName: "client" }
+);
+
+Client.beforeCreate((client) => {
+  const salt = bcrypt.genSaltSync();
+  client.salt = salt;
+  return client
+    .hash(client.password, salt)
+    .then((hash) => (client.password = hash));
 });
 
 module.exports = Client;
