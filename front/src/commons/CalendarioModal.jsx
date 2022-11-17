@@ -7,6 +7,7 @@ import DateTimePicker from "react-datetime-picker";
 
 import { Button } from "react-bootstrap";
 import { useModalContext } from "../context/ModalContext";
+import "../assets/styles/commons/CalendarioModal.css";
 
 const customStyles = {
   content: {
