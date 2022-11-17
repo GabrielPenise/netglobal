@@ -17,12 +17,12 @@ const Sidebar = () => {
   
   const menuItem = [
     {
-      path: "/",
+      path: "/superadmin",
       name: "Super Admin",
       icon: <FaTh />,
     },
     {
-      path: "/guards",
+      path: "/vigiladores",
       name: "Vigiladores",
       icon: <FaUserAlt />,
     },
@@ -61,7 +61,7 @@ const Sidebar = () => {
           </div>
         </div>
         {menuItem.map((item, index) => (
-          <Link to={item.path}>
+          <Link to={item.path} key={index}>
             <div key={index} className={style["link"]} activeclassName="active">
               <div className={style["icon"]}>{item.icon}</div>
               <div

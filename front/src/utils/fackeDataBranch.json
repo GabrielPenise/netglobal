@@ -1,4 +1,6 @@
-[{
+[
+  {
+    "id": 1,
     "email": "jose@gmail.com",
     "street": "san juan 365",
     "number": "01",
@@ -6,9 +8,11 @@
     "province": "buenos aires",
     "latitude": " 34° 36' de latitud sur",
     "longitude": "58° 26' de longitud oeste",
-    "fullAdress":"san juan 365, buenos aires, buenos aires",
-    "coordinates":"34° 36' de latitud sur y 58° 26' de longitud oeste"
-},{
+    "fullAdress": "san juan 365, buenos aires, buenos aires",
+    "coordinates": "34° 36' de latitud sur y 58° 26' de longitud oeste"
+  },
+  {
+    "id": 2,
     "email": "julian@gmail.com",
     "street": "san juan 365",
     "number": "02",
@@ -16,9 +20,11 @@
     "province": "buenos aires",
     "latitude": " 34° 36' de latitud sur",
     "longitude": "58° 26' de longitud oeste",
-    "fullAdress":"san juan 365, buenos aires, buenos aires",
-    "coordinates":"34° 36' de latitud sur y 58° 26' de longitud oeste"
-},{
+    "fullAdress": "san juan 365, buenos aires, buenos aires",
+    "coordinates": "34° 36' de latitud sur y 58° 26' de longitud oeste"
+  },
+  {
+    "id": 3,
     "email": "martin@gmail.com",
     "street": "san juan 365",
     "number": "03",
@@ -26,6 +32,7 @@
     "province": "buenos aires",
     "latitude": " 34° 36' de latitud sur",
     "longitude": "58° 26' de longitud oeste",
-    "fullAdress":"san juan 365, buenos aires, buenos aires",
-    "coordinates":"34° 36' de latitud sur y 58° 26' de longitud oeste"
-}]
+    "fullAdress": "san juan 365, buenos aires, buenos aires",
+    "coordinates": "34° 36' de latitud sur y 58° 26' de longitud oeste"
+  }
+]

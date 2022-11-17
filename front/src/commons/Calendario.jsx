@@ -8,29 +8,48 @@ import { messages } from "../utils/calendar-messages-es";
 import CalendarioEvent from "./CalendarioEvent";
 import { CalendarioModal } from "./CalendarioModal";
 import { useModalContext } from "../context/ModalContext";
+import { fakeDataEvent } from "../utils/fakeDataEvent";
+import { BtnAddEvent } from "./BtnAddEvent";
 
 const localizer = momentLocalizer(moment);
 moment.locale("es");
 const myEventList = [
   {
-    title: "Saludo",
-    start: moment().toDate(),
-    end: moment().add(2, "hours").toDate(),
+    id: 1,
+    title: "Guardia",
+    start: moment().add(2, "day").toDate(),
+    end: moment().add(3, "day").toDate(),
+    branchId: 1,
+    guardId: 1,
+    nota: "Cubrir Puesto de trabajo",
+    guard: {
+      id: 1,
+      name: "Juan Carlos",
+      lastname: "Lopez",
+      CUIL: 1231232,
+      Provincia: "Buenos Aires",
+      Localidad: "Mar del Plata",
+    },
+  },
+  {
+    title: "Chau",
+    start: moment().add(1, "day").toDate(),
+    end: moment().add(2, "day").toDate(),
     autor: "Trabajo Juan",
     notes: "Nota descriptiva",
   },
 ];
+
 export default function Calendario() {
   const [fijarVista, setFijarVista] = useState(
     localStorage.getItem("fijarVista") || "month"
   );
 
   const { uiOpen, setUiOpen } = useModalContext();
-
   const handleOnview = (e) => {
     setFijarVista(e);
     localStorage.setItem("fijarVista", e);
-  }
+  };
 
   const eventStyleGetter = (event, start, end, isSelected) => {
     const style = {
@@ -45,21 +64,24 @@ export default function Calendario() {
   };
 
   return (
-    <div style={{ height: "100vh" }}>
-      <Calendar
-        localizer={localizer}
-        events={myEventList}
-        startAccesor="start"
-        endAccesor="end"
-        messages={messages}
-        eventPropGetter={eventStyleGetter}
-        onDoubleClickEvent={() => setUiOpen(true)}
-        onSelectEvent={(e) => console.log(e)}
-        onView={handleOnview}
-        view={fijarVista}
-        components={{ event: CalendarioEvent }}
-      />
-      <CalendarioModal />
-    </div>
+    <>
+      <div style={{ height: "100vh" }}>
+        <Calendar
+          localizer={localizer}
+          events={fakeDataEvent}
+          startAccesor="start"
+          endAccesor="end"
+          messages={messages}
+          eventPropGetter={eventStyleGetter}
+          // onDoubleClickEvent={() => setUiOpen(true)}
+          onSelectEvent={(e) => console.log(e)}
+          onView={handleOnview}
+          view={fijarVista}
+          components={{ event: CalendarioEvent }}
+        />
+        <BtnAddEvent />
+        <CalendarioModal />
+      </div>
+    </>
   );
 }
