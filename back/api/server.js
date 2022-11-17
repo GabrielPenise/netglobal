@@ -6,20 +6,20 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const db = require("./config/db");
 const routes = require("./routes");
+const models = require("./models");
+const PORT = process.env.SERVER_PORT;
 
 const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(morgan("tiny"));
+app.use(morgan("dev"));
 app.use(cors());
 
 app.use("/api", routes);
 
-const port = process.env.PORT || 3001;
-
 db.sync({ force: false }).then(() => {
-  app.listen(port, () => {
-    console.log("Escuchando en el puerto ", port);
+  app.listen(PORT, () => {
+    console.log("Escuchando en el puerto ", PORT);
   });
 });

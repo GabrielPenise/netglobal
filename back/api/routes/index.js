@@ -1,13 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const routerGuards = require("./guards")
+const routerGuards = require("./guards");
 const clientRoutes = require("./client");
+const branchesRoutes = require("./branches");
+
 router.use("/client", clientRoutes);
-
-
-router.get("/", (req, res) => res.send("Hola mundo"));
-
-router.use("/guards", routerGuards)
-
+router.use("/guards", routerGuards);
+router.use("/branches", branchesRoutes);
 
 module.exports = router;

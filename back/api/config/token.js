@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const SECRET = "patovica";
+const SECRET = process.env.SECRET;
 
 const generateToken = (payload) => {
   return jwt.sign({ client: payload }, SECRET, { expiresIn: "2d" });
