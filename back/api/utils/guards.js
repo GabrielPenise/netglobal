@@ -12,7 +12,7 @@ const guards = [
     province: "Santa Fe",
     localidad: "Rosario",
     entry_time: "8:00",
-    hours_per_day: "8:00",
+    hours_per_day: 8,
     clientId: 2,
   },
   {
@@ -25,7 +25,7 @@ const guards = [
     province: "Buenos Aires",
     localidad: "Buenos Aires",
     entry_time: "8:00",
-    hours_per_day: "8:00",
+    hours_per_day: 8,
     clientId: 2,
   },
 ];
