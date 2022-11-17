@@ -11,7 +11,7 @@ const guards = [
     cuil: 2,
     province: "Santa Fe",
     localidad: "Rosario",
-    entry_time: "16:00",
+    entry_time: "8:00",
     hours_per_day: 8,
     clientId: 2,
   },
