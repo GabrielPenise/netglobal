@@ -63,7 +63,7 @@ router.put("/:id", validateClient, (req, res) => {
 });
 
 // DELETE A BRANCH
-router.delete("/:id", (req, res) => {
+router.delete("/:id", validateClient, (req, res) => {
   Branch.destroy({ where: { id: req.params.id } })
     .then(() => res.sendStatus(202))
     .catch((err) => res.send(err));
