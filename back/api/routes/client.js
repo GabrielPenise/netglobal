@@ -81,7 +81,7 @@ router.get("/:id", (req, res) => {
 });
 
 //UPDATE CLIENT
-router.put("/:id", (req, res) => {
+router.put("/:id", validateSuperAdmin, (req, res) => {
   Client.findByPk(req.params.id).then((client) => {
     return !client
       ? res.sendStatus(404)
