@@ -6,23 +6,23 @@ const { Branch } = require("../models");
 const { generateToken } = require("../config/token");
 const { validateAuth } = require("../middlewares/auth");
 
-//Ruta para solicitar todos los guardias
+//GET ALL GUARDS
 routerGuards.get("/", (req, res) => {
   Guards.findAll().then((vigiladores) => res.send(vigiladores));
 });
 
-//Ruta para solicitar guardia por cliente
+//GET GUARDS BY CLIENT
 routerGuards.get("/guardsbyclient/:id", (req, res) => {
     console.log(req.params.id);
     Guards.findAll({where: {clientId: req.params.id}}).then((vigiladores) => res.send(vigiladores));
   });
 
-//Ruta para solicitar un guardia por ID
+//GET GUARD BY ID
 routerGuards.get("/:id", (req, res) => {
   Guards.findByPk(req.params.id).then((guard) => res.send(guard));
 });
 
-//Ruta para crear un guardia
+//CREATE GUARD
 routerGuards.post("/create", (req, res) => {
   const {client,name,lastname,email,cuil,password,province,localidad,entry_time,hours_per_day,} = req.body;
   Client.findByPk(client).then((currentClient) => {
@@ -34,7 +34,7 @@ routerGuards.post("/create", (req, res) => {
     .then(() => res.status(202).send("Guard added correctly"));
 });
 
-//Ruta para el login de un guardia
+//LOG IN GUARD
 routerGuards.post("/login", (req, res, next) => {
     const { email, password } = req.body;
     Guards.findOne({ where: { email: email } })
@@ -45,6 +45,7 @@ routerGuards.post("/login", (req, res, next) => {
             const payload = {
             id: guard.id,
             email: guard.email,
+            rol: "guard"
           };
           const token = generateToken(payload);
             res.cookie("token", token);
@@ -56,22 +57,38 @@ routerGuards.post("/login", (req, res, next) => {
       });
   });
 
-//Ruta para persistencia
+//PERSISTENCIA
 routerGuards.get("/validate", validateAuth, (req, res) => {
-    res.send(req.guard);
+    res.send(req.user);
   });
   
-// Ruta para logout
+//LOG OUT GUARD
   routerGuards.post("/logout", (req, res) => {
     res.clearCookie("token");
     res.sendStatus(204);
   });
 
-//Ruta para eliminar un guardia
+
+//UPDATE GUARD
+routerGuards.put("/:id", (req, res) => {
+  const id = req.params.id 
+  Guards.update(req.body, {
+    where: {id},
+    returning: true,
+    plain: true,
+  }).then((result) => {
+    let obj = {
+      updateGuard: result[1]
+    }
+    res.send(obj)
+  })
+})  
+
+//DELETE GUARD
 routerGuards.delete("/deleteGuard/:id", (req, res) => {
   const id = req.params.id;
   Guards.destroy({ where: { id: id } })
-    .then(() => res.status(202).send("Guardia Eliminado"))
+    .then(() => res.status(202).send("Guard deleted"))
     .catch((err) => console.log(err));
 });
 
