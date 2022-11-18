@@ -41,6 +41,7 @@ router.post("/login", (req, res, next) => {
           id: client.id,
           email: client.email,
           super_admin: client.super_admin,
+          rol: "client",
         };
         const token = generateToken(payload);
 
@@ -56,7 +57,7 @@ router.post("/login", (req, res, next) => {
 
 // PERSISTENCIA
 router.get("/validate", validateAuth, (req, res) => {
-  res.send(req.client);
+  res.send(req.user);
 });
 
 // LOG OUT
