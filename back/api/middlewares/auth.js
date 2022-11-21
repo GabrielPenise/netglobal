@@ -18,7 +18,7 @@ function validateClient(req, res, next) {
 
   const { user } = validateToken(token);
   if (!user) return res.sendStatus(401);
-  if (user.rol !== "client") return res.sendStatus(401);
+  if (user.rol !== "client" || user.super_admin) return res.sendStatus(401);
 
   req.user = user;
 
