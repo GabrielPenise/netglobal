@@ -3,10 +3,9 @@ const { Branch, Client } = require("../models");
 class BranchesService {
   static async getAll() {
     try {
-      const resp = await Branch.findAll();
-      return { error: false, data: resp };
-    } catch ({ response }) {
-      const { error } = response.data;
+      const response = await Branch.findAll();
+      return { error: false, data: response };
+    } catch (error) {
       console.error(error);
       return { error: true, data: error };
     }
@@ -14,13 +13,9 @@ class BranchesService {
 
   static async getSingle(id) {
     try {
-      console.log("id", id);
-      const resp = await Branch.findByPk(id);
-      return resp
-        ? { error: false, data: resp }
-        : { error: true, data: `No existe el cliente con id ${id}` };
-    } catch ({ response }) {
-      const { error } = response.data;
+      const response = await Branch.findByPk(id);
+      return { error: false, data: response };
+    } catch (error) {
       console.error(error);
       return { error: true, data: error };
     }
@@ -28,10 +23,23 @@ class BranchesService {
 
   static async getClientBranches(clientId) {
     try {
-      const resp = await Branch.findAll({ where: { clientId } });
-      return { error: false, data: resp.data };
-    } catch (response) {
-      const { error } = response.data;
+      // comprobamos que el cliente existe
+      const resp = await Client.findByPk(clientId);
+
+      if (!resp) {
+        return {
+          error: true,
+          data: {
+            status: 405,
+            message: `No existe cliente con id ${clientId}`,
+          },
+        };
+      }
+
+      // traemos las sucursales del cliente
+      const response = await Branch.findAll({ where: { clientId } });
+      return { error: false, data: response };
+    } catch (error) {
       console.error(error);
       return { error: true, data: error };
     }
@@ -39,20 +47,27 @@ class BranchesService {
 
   static async createBranch(body) {
     try {
-      const latitude = body.latitude;
-      const longitude = body.longitude;
-      const branch = await Branch.findOne({
+      const { latitude, longitude } = body;
+
+      // comprobamos que no exista una sucursal con la misma geolocalización
+      const resp = await Branch.findOne({
         where: { latitude, longitude },
       });
-      if (exist) {
-        branch.data.message("Esta localización ya contiene una sucursal");
-        return { error: true, data: branch.data };
-      } else {
-        const resp = await Branch.create(body);
-        return { error: false, data: resp.data };
+
+      if (resp) {
+        return {
+          error: true,
+          data: {
+            status: 405,
+            message: `Ya existe una sucursal con la misma localización (Coordenadas: ${latitude}, ${longitude})`,
+          },
+        };
       }
-    } catch ({ response }) {
-      const { error } = response.data;
+
+      // creamos la sucursal
+      const response = await Branch.create(body);
+      return { error: false, data: response };
+    } catch (error) {
       console.error(error);
       return { error: true, data: error };
     }
@@ -60,25 +75,50 @@ class BranchesService {
 
   static async updateBranch(id, body) {
     try {
-      const resp = await Branch.update(body, { where: { id } });
-      return { error: false, data: resp.data };
-    } catch ({ response }) {
-      const { error } = response.data;
+      // comprobamos si existe la sucursal
+      const resp = await Branch.findByPk(id);
+
+      if (!resp) {
+        return {
+          error: true,
+          data: {
+            status: 405,
+            message: `No existe la sucursal con id ${id}`,
+          },
+        };
+      }
+
+      // actualizamos la sucursal
+      const [affectedRows, updatedPage] = await Branch.update(body, {
+        where: { id },
+        returning: true, //para que devuelva algo el update
+      });
+      return { error: false, data: updatedPage[0] };
+    } catch (error) {
       console.error(error);
       return { error: true, data: error };
     }
   }
 
-  static async checkLocation(lat, long) {
+  static async deleteBranch(id) {
     try {
-      const resp = await Branch.findOne({
-        where: { latitude, longitude },
-      });
-      return resp
-        ? { error: true, data: "Esta localización ya contiene una sucursal" }
-        : { error: false };
-    } catch (response) {
-      const { error } = response.data;
+      // comprobamos si existe la sucursal
+      const resp = await Branch.findByPk(id);
+
+      if (!resp) {
+        return {
+          error: true,
+          data: {
+            status: 405,
+            message: `No existe la sucursal con id ${id}`,
+          },
+        };
+      }
+
+      // eliminamos la sucursal
+      const response = await Branch.destroy({ where: { id } });
+      return { error: false, data: response };
+    } catch (error) {
       console.error(error);
       return { error: true, data: error };
     }
