@@ -24,9 +24,9 @@ class BranchesService {
   static async getClientBranches(clientId) {
     try {
       // comprobamos que el cliente existe
-      const resp = await Client.findByPk(clientId);
+      const client = await Client.findByPk(clientId);
 
-      if (!resp) {
+      if (!client) {
         return {
           error: true,
           data: {
@@ -50,11 +50,11 @@ class BranchesService {
       const { latitude, longitude } = body;
 
       // comprobamos que no exista una sucursal con la misma geolocalización
-      const resp = await Branch.findOne({
+      const branch = await Branch.findOne({
         where: { latitude, longitude },
       });
 
-      if (resp) {
+      if (branch) {
         return {
           error: true,
           data: {
@@ -76,9 +76,9 @@ class BranchesService {
   static async updateBranch(id, body) {
     try {
       // comprobamos si existe la sucursal
-      const resp = await Branch.findByPk(id);
+      const branch = await Branch.findByPk(id);
 
-      if (!resp) {
+      if (!branch) {
         return {
           error: true,
           data: {
@@ -89,11 +89,11 @@ class BranchesService {
       }
 
       // actualizamos la sucursal
-      const [affectedRows, updatedPage] = await Branch.update(body, {
+      const [affectedRows, updatedBranch] = await Branch.update(body, {
         where: { id },
         returning: true, //para que devuelva algo el update
       });
-      return { error: false, data: updatedPage[0] };
+      return { error: false, data: updatedBranch[0] };
     } catch (error) {
       console.error(error);
       return { error: true, data: error };
@@ -103,9 +103,9 @@ class BranchesService {
   static async deleteBranch(id) {
     try {
       // comprobamos si existe la sucursal
-      const resp = await Branch.findByPk(id);
+      const branch = await Branch.findByPk(id);
 
-      if (!resp) {
+      if (!branch) {
         return {
           error: true,
           data: {
