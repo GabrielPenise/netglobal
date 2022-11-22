@@ -4,15 +4,17 @@ import App from "./App";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter } from "react-router-dom";
-import { AuthContextProvider } from "./context/AuthContext";
+
 import { ModalContextProvider } from "./context/ModalContext";
+import { Provider } from "react-redux";
+import { store } from "./store";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
-    <ModalContextProvider>
-      <AuthContextProvider>
+    <Provider store={store}>
+      <ModalContextProvider>
         <App />
-      </AuthContextProvider>
-    </ModalContextProvider>
+      </ModalContextProvider>
+    </Provider>
   </BrowserRouter>
 );
