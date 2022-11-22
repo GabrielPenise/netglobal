@@ -11,11 +11,11 @@ Shift.init(
       allowNull: false,
     },
     start: {
-      type: S.VARCHAR,
+      type: S.STRING,
       allowNull: false,
     },
     end: {
-      type: S.VARCHAR,
+      type: S.STRING,
       allowNull: false,
     },
   },
