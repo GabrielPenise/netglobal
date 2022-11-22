@@ -2,23 +2,22 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import imagen from "../assets/styles/image/gris_cuadrado.png";
 import style from "../assets/styles/screens/Login.module.scss";
-import axios from "axios";
+import { Axios } from "../utils/AxiosWithCredentials";
 import { useState } from "react";
 import { Container, Col, Row } from "react-bootstrap";
-import { useAuthContext } from "../context/AuthContext";
+import { setUser } from "../store/slices/userSlices";
 import { useNavigate } from "react-router-dom";
-
+import { useDispatch } from "react-redux";
 
 function Login() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const initialState = {
     email: "",
     password: "",
   };
 
   const [input, setInput] = useState(initialState);
-
-  const { user, setUser } = useAuthContext();
 
   const handleInput = (e) => {
     const name = e.target.name;
@@ -29,12 +28,9 @@ function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios
-      .post("http://localhost:3001/api/client/login", input, {
-        withCredentials: true,
-      })
+    Axios.post("/client/login", input)
       .then((res) => {
-        setUser(res.data);
+        dispatch(setUser(res.data));
         navigate("/home");
       })
       .catch(() => {

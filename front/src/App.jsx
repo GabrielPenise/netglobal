@@ -7,22 +7,21 @@ import Home from "./screens/Home";
 
 import { Route, Routes } from "react-router-dom";
 import DropDownSelect from "./commons/DropDownSelect";
-import axios from "axios";
-import { useAuthContext } from "./context/AuthContext";
+import { Axios } from "./utils/AxiosWithCredentials";
+
 import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "./store/slices/userSlices";
 
 function App() {
-  const { user, setUser } = useAuthContext();
+  const { user } = useSelector((state) => state.user);
+
+  const dispatch = useDispatch();
 
   const userAuth = async () => {
     try {
-      const usuario = await axios.get(
-        "http://localhost:3001/api/client/validate",
-        {
-          withCredentials: true,
-        }
-      );
-      setUser(usuario.data);
+      const { data } = await Axios.get("/client/validate");
+      dispatch(setUser(data));
     } catch (err) {
       console.log(err, "cookie no encontrada");
     }
