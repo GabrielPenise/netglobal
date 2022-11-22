@@ -12,14 +12,14 @@ const shifts = [
     end: "00:00",
   },
   {
-    type: "nightmorning",
+    type: "night",
     start: "00:00",
     end: "08:00",
   },
 ];
 
 async function createShifts() {
-  Shift.bulkcreate(shifts).then(() => {
+  Shift.bulkCreate(shifts).then(() => {
     console.log("SHIFTS created ok");
   });
 }
