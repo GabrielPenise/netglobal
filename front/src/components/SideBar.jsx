@@ -28,7 +28,7 @@ const Sidebar = () => {
 
   const menuItemClients = [
     {
-      path: "/guards",
+      path: `/guards/${user.id}`,
       name: "Vigiladores",
       icon: <FaUserAlt />,
     },

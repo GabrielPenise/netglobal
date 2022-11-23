@@ -54,7 +54,10 @@ function App() {
                   element={<DropDownSelect />}
                 />
 
-                <Route path="/vigiladores" element={<DropDownSelect />} />
+                <Route
+                  path={`/guards/${user.id}`}
+                  element={<DropDownSelect />}
+                />
                 <Route path="/home" element={<Home />} />
               </>
             )}

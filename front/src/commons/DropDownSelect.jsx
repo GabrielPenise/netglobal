@@ -15,7 +15,7 @@ export default function DropDownSelect() {
 
   const fecthGuards = async () => {
     try {
-      const { data } = await Axios.get("/guards/guardsbyclient/2");
+      const { data } = await Axios.get(`/guards/guardsbyclient/${user.id}`);
 
       setSelect(data);
     } catch (err) {
@@ -46,7 +46,7 @@ export default function DropDownSelect() {
   useEffect(() => {
     if (pathname === `/branch/${user.id}`) fetchBranchs();
     if (pathname === "/superadmin") fetchClients();
-    if (pathname === "/guards/2") fecthGuards();
+    if (pathname === `/guards/${user.id}`) fecthGuards();
   }, []);
 
   const options = select.map((element) => {
@@ -57,7 +57,7 @@ export default function DropDownSelect() {
       };
     }
 
-    if (pathname === "/guards/2") {
+    if (pathname === `/guards/${user.id}`) {
       return {
         label: `Guardia: ${element.name} ${element.lastname}`,
         value: element,

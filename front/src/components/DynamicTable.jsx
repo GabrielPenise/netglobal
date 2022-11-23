@@ -69,15 +69,14 @@ export default function DynamicTable({ object }) {
               return <TableHeadItem item={item.heading} />;
             })}
             <th>Editar</th>
-            <th>Modificar</th>
+            <th>Borrar</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <TableRowItem item={row.current} column={column.current} />;
-            <td>Boton Mod</td>
+            <TableRowItem item={row.current} column={column.current} />
+            <td>Boton Modificar</td>
             <td>Boton Delete</td>
-            <td> Boton</td>
           </tr>
         </tbody>
       </Table>
