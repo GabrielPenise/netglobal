@@ -58,6 +58,10 @@ Guards.init(
         type: S.STRING,
         allowNull: false,
     },
+    codigo_postal: {
+      type: S.INTEGER,
+      allowNull:false,
+    },
     latitude: {
       type: S.FLOAT,
       allowNull: false,
@@ -86,6 +90,12 @@ Guards.init(
         type:S.INTEGER,
         allowNull:false
     },
+    status: {
+      type: S.ENUM,
+      values: ["activo", "inactivo", "licencia"],
+      allowNull: false,
+      defaultValue: "activo"
+    }
   },
   { sequelize: db, modelName: "guards" }
 );

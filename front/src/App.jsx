@@ -4,6 +4,7 @@ import Sidebar from "./components/SideBar";
 import Calendario from "./commons/Calendario";
 import Login from "./screens/Login";
 import Home from "./screens/Home";
+import Geolocalizacion from "./geolocalizacion/Geolocalizacion"
 
 import { Route, Routes } from "react-router-dom";
 
@@ -52,9 +53,15 @@ function App() {
             ) : (
               <>
                 <Route path="/calendar" element={<Calendario />} />
+
                 <Route path={`/branch/${user.id}`} element={<Branchs />} />
 
                 <Route path={`/guards/${user.id}`} element={<Guards />} />
+
+                
+                <Route path="/geo" element={<Geolocalizacion />} />
+               
+
                 <Route path="/home" element={<Home />} />
               </>
             )}
