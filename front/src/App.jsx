@@ -12,6 +12,8 @@ import { Axios } from "./utils/AxiosWithCredentials";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "./store/slices/index.js";
+import Guards from "./components/Guards";
+import Branchs from "./components/Branchs";
 
 function App() {
   const { user } = useSelector((state) => state.user);
@@ -49,15 +51,9 @@ function App() {
             ) : (
               <>
                 <Route path="/calendar" element={<Calendario />} />
-                <Route
-                  path={`/branch/${user.id}`}
-                  element={<DropDownSelect />}
-                />
+                <Route path={`/branch/${user.id}`} element={<Branchs />} />
 
-                <Route
-                  path={`/guards/${user.id}`}
-                  element={<DropDownSelect />}
-                />
+                <Route path={`/guards/${user.id}`} element={<Guards />} />
                 <Route path="/home" element={<Home />} />
               </>
             )}

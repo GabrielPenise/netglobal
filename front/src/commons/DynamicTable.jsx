@@ -19,10 +19,11 @@ export default function DynamicTable({ object }) {
   ];
 
   const headingColumnsGuards = [
-    { heading: "id" },
-    { heading: "Razon Social" },
-    { heading: "Direccion" },
-    { heading: "Email" },
+    { heading: "id", value: "id" },
+    { heading: "Nombre", value: "name" },
+    { heading: "Apellido", value: "lastname" },
+    { heading: "Email", value: "email" },
+    { heading: "Ciudad", value: "city" },
   ];
 
   const headingColumnsBranchs = [
@@ -56,6 +57,20 @@ export default function DynamicTable({ object }) {
         city: element.city,
         street: element.street,
         number: element.number,
+      };
+    });
+  }
+
+  if (pathname === `/guards/${user.id}`) {
+    column.current = headingColumnsGuards;
+    //esto me crea un nuevo arr con el obj con los datos que quiero mostrar
+    row.current = object.map((element) => {
+      return {
+        id: element.id,
+        name: element.name,
+        lastname: element.lastname,
+        email: element.email,
+        city: element.city,
       };
     });
   }
