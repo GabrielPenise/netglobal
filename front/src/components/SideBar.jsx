@@ -33,7 +33,7 @@ const Sidebar = () => {
       icon: <FaUserAlt />,
     },
     {
-      path: "/branch",
+      path: `/branch/${user.id}`,
       name: "Sucursales",
       icon: <FaStoreAlt />,
     },

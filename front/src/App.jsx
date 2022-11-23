@@ -49,7 +49,10 @@ function App() {
             ) : (
               <>
                 <Route path="/calendar" element={<Calendario />} />
-                <Route path="/sucursales" element={<DropDownSelect />} />
+                <Route
+                  path={`/branch/${user.id}`}
+                  element={<DropDownSelect />}
+                />
 
                 <Route path="/vigiladores" element={<DropDownSelect />} />
                 <Route path="/home" element={<Home />} />

@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
 import Select from "react-select";
 
-import fakeBranch from "../utils/fackeDataBranch.json";
-import fakeClient from "../utils/fackeDataClient.json";
 import { Axios } from "../utils/AxiosWithCredentials.js";
 import { useLocation } from "react-router-dom";
 import DynamicTable from "../components/DynamicTable";
+import { useSelector } from "react-redux";
 
 export default function DropDownSelect() {
   const [select, setSelect] = useState([]);
   const [input, setInput] = useState({});
-  // const [options, setOptions] = useState({});
+  const { user } = useSelector((state) => state.user);
 
   const { pathname } = useLocation();
 
@@ -26,26 +25,34 @@ export default function DropDownSelect() {
 
   const fetchBranchs = async () => {
     try {
-      const { data } = await Axios.get("/branches/byClient");
-      console.log("data es ", data);
+      const { data } = await Axios.get(`/branches/byClient/${user.id}`);
+
       setSelect(data);
     } catch (err) {
       console.error(err, "failed to get branches");
     }
   };
 
-  useEffect(() => {
-    if (pathname === "/branch") fetchBranchs();
-    if (pathname === "/superadmin") setSelect(fakeClient);
-    if (pathname === "/guards/2") {
-      fecthGuards();
+  const fetchClients = async () => {
+    try {
+      const { data } = await Axios.get("/client");
+
+      setSelect(data);
+    } catch (err) {
+      console.error(err, "failed to get all clients");
     }
+  };
+
+  useEffect(() => {
+    if (pathname === `/branch/${user.id}`) fetchBranchs();
+    if (pathname === "/superadmin") fetchClients();
+    if (pathname === "/guards/2") fecthGuards();
   }, []);
 
   const options = select.map((element) => {
-    if (pathname === "/branch/1") {
+    if (pathname === `/branch/${user.id}`) {
       return {
-        label: `Sucursal Nro: ${element.name}`,
+        label: `${element.name}`,
         value: element,
       };
     }
@@ -53,6 +60,13 @@ export default function DropDownSelect() {
     if (pathname === "/guards/2") {
       return {
         label: `Guardia: ${element.name} ${element.lastname}`,
+        value: element,
+      };
+    }
+
+    if (pathname === "/superadmin") {
+      return {
+        label: `Cliente: ${element.razon_social}`,
         value: element,
       };
     }
@@ -65,7 +79,7 @@ export default function DropDownSelect() {
   return (
     <>
       <Select value={input} options={options} onChange={handleSelect} />
-      <DynamicTable object={input.value} />
+      <DynamicTable object={Array(input.value)} />
     </>
   );
 }
