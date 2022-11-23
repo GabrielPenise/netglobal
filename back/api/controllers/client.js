@@ -60,9 +60,20 @@ class ClientController {
   // UPDATE CLIENT
 
   static async updateClient(req, res) {
-    const id = req.params;
+    const id = req.params.id;
     const body = req.body;
     const { error, data } = await ClientService.updateClient(id, body);
+    if (error) {
+      return res.status(data.status || 500).send({ message: data.message });
+    }
+    res.status(202).send("Se ha actualizado con éxito");
+  }
+
+  // UPDATE ACTIVE O INACTIVE
+
+  static async updateActive(req, res) {
+    const id = req.params.id;
+    const { error, data } = await ClientService.updateClient(id);
     if (error) {
       return res.status(data.status || 500).send({ message: data.message });
     }

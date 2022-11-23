@@ -67,7 +67,7 @@ class ClientService {
           },
         };
       }
-
+      console.log(cliente);
       // actualizamos el cliente
       const [affectedRows, updatedClient] = await Client.update(body, {
         where: { id },
