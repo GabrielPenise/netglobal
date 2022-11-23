@@ -42,13 +42,45 @@ Guards.init(
     salt: {
       type: S.STRING
     },
+    street: {
+      type: S.STRING,
+      allowNull: false,
+    },
+    number: {
+      type: S.INTEGER,
+      allowNull: false,
+    },
+    city: {
+      type: S.STRING,
+      allowNull: false,
+    },
     province: {
         type: S.STRING,
         allowNull: false,
     },
-    localidad:{
-        type:S.STRING,
-        allowNull:false
+    codigo_postal: {
+      type: S.INTEGER,
+      allowNull:false,
+    },
+    latitude: {
+      type: S.FLOAT,
+      allowNull: false,
+    },
+    longitude: {
+      type: S.FLOAT,
+      allowNull: false,
+    },
+    fullAddress: {
+      type: S.VIRTUAL,
+      get() {
+        return `${this.street}, ${this.number}, ${this.number}, ${this.province}`
+      },
+    },
+    coordinates: {
+      type: S.VIRTUAL,
+      get() {
+        return `${this.latitude}, ${this.longitude}`
+      },
     },
     entry_time:{
         type:S.TIME,
@@ -58,6 +90,12 @@ Guards.init(
         type:S.INTEGER,
         allowNull:false
     },
+    status: {
+      type: S.ENUM,
+      values: ["activo", "inactivo", "licencia"],
+      allowNull: false,
+      defaultValue: "activo"
+    }
   },
   { sequelize: db, modelName: "guards" }
 );
