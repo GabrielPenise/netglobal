@@ -54,6 +54,10 @@ Client.init(
       type: S.BOOLEAN,
       defaultValue: false,
     },
+    active: {
+      type: S.BOOLEAN,
+      defaultValue: true,
+    },
   },
   { sequelize: db, modelName: "client" }
 );
@@ -67,4 +71,3 @@ Client.beforeCreate((client) => {
 });
 
 module.exports = Client;
-

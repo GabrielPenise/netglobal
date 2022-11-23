@@ -11,6 +11,7 @@ const clients = [
     /* fecha_inicio_contrato: "01/01/1900",
     fecha_fin_contrato: "01/01/1900", */
     super_admin: true,
+    active: true,
     salt: "",
   },
   {
@@ -22,6 +23,19 @@ const clients = [
     /* fecha_inicio_contrato: "01/01/1900",
     fecha_fin_contrato: "01/01/1900", */
     super_admin: false,
+    active: true,
+    salt: "",
+  },
+  {
+    email: "fravega@fravega.com",
+    password: "123456",
+    cuit: 1,
+    razon_social: "Frávega S.A.",
+    direccion: "Belgrano, 234, CABA, Buenos Aires",
+    /* fecha_inicio_contrato: "01/01/1900",
+    fecha_fin_contrato: "01/01/1900", */
+    super_admin: false,
+    active: false,
     salt: "",
   },
 ];
