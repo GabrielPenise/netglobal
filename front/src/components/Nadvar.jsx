@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "react-bootstrap";
 import { Axios } from "../utils/AxiosWithCredentials";
-import { unSet } from "../store/slices/userSlices";
+import { unSet } from "../store/slices";
 
 function Nadvar() {
   const { user } = useSelector((state) => state.user);
