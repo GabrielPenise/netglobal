@@ -73,7 +73,7 @@ const Sidebar = () => {
                 <div
                   key={index}
                   className={style["link"]}
-                  activeclassName="active"
+                  activeClassName="active"
                 >
                   <div className={style["icon"]}>{item.icon}</div>
                   <div
@@ -90,7 +90,7 @@ const Sidebar = () => {
                 <div
                   key={index}
                   className={style["link"]}
-                  activeclassName="active"
+                  activeClassName="active"
                 >
                   <div className={style["icon"]}>{item.icon}</div>
                   <div

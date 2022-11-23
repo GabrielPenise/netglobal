@@ -7,7 +7,7 @@ import { messages } from "../utils/calendar-messages-es";
 
 import CalendarioEvent from "./CalendarioEvent";
 import { CalendarioModal } from "./CalendarioModal";
-import { useModalContext } from "../context/ModalContext";
+
 import { fakeDataEvent } from "../utils/fakeDataEvent";
 import { BtnAddEvent } from "./BtnAddEvent";
 
@@ -45,7 +45,6 @@ export default function Calendario() {
     localStorage.getItem("fijarVista") || "month"
   );
 
-  const { uiOpen, setUiOpen } = useModalContext();
   const handleOnview = (e) => {
     setFijarVista(e);
     localStorage.setItem("fijarVista", e);
