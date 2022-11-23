@@ -42,13 +42,41 @@ Guards.init(
     salt: {
       type: S.STRING
     },
+    street: {
+      type: S.STRING,
+      allowNull: false,
+    },
+    number: {
+      type: S.INTEGER,
+      allowNull: false,
+    },
+    city: {
+      type: S.STRING,
+      allowNull: false,
+    },
     province: {
         type: S.STRING,
         allowNull: false,
     },
-    localidad:{
-        type:S.STRING,
-        allowNull:false
+    latitude: {
+      type: S.FLOAT,
+      allowNull: false,
+    },
+    longitude: {
+      type: S.FLOAT,
+      allowNull: false,
+    },
+    fullAddress: {
+      type: S.VIRTUAL,
+      get() {
+        return `${this.street}, ${this.number}, ${this.number}, ${this.province}`
+      },
+    },
+    coordinates: {
+      type: S.VIRTUAL,
+      get() {
+        return `${this.latitude}, ${this.longitude}`
+      },
     },
     entry_time:{
         type:S.TIME,
