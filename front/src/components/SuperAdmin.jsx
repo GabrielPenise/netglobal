@@ -2,22 +2,20 @@ import { useEffect, useRef, useState } from "react";
 
 import { Axios } from "../utils/AxiosWithCredentials.js";
 
-import { useSelector } from "react-redux";
 import DropDownSelect from "../commons/DropDownSelect.jsx";
 
-export default function Branchs() {
+export default function SuperAdmin() {
   const [select, setSelect] = useState([]);
   const [input, setInput] = useState({});
   const options = useRef([]);
-  const { user } = useSelector((state) => state.user);
 
-  const fetchBranchs = async () => {
+  const fetchClients = async () => {
     try {
-      const { data } = await Axios.get(`/branches/byClient/${user.id}`);
+      const { data } = await Axios.get("/client");
 
       setSelect(data);
     } catch (err) {
-      console.error(err, "failed to get branches");
+      console.error(err, "failed to get all clients");
     }
   };
 
@@ -26,12 +24,12 @@ export default function Branchs() {
   };
 
   useEffect(() => {
-    fetchBranchs();
+    fetchClients();
   }, []);
 
   options.current = select.map((element) => {
     return {
-      label: `${element.name}`,
+      label: `${element.razon_social}`,
       value: element,
     };
   });

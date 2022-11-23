@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import Select from "react-select";
 
 import { Axios } from "../utils/AxiosWithCredentials.js";
 
