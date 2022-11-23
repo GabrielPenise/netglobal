@@ -4,9 +4,10 @@ import ReactDOM from "react-dom";
 import moment from "moment";
 import Modal from "react-modal";
 import DateTimePicker from "react-datetime-picker";
-import style from "../assets/styles/commons/CalendarioModal.css";
+
 import { Button } from "react-bootstrap";
 import { useModalContext } from "../context/ModalContext";
+import "../assets/styles/commons/CalendarioModal.css";
 
 const customStyles = {
   content: {
@@ -42,11 +43,9 @@ export const CalendarioModal = () => {
     <>
       <Modal
         isOpen={uiOpen}
-        // onAfterOpen={afterOpenModal}
         onRequestClose={closeModal}
         style={customStyles}
         closeTimeoutMS={200}
-        // className="modal"
         overlayClassName="modal-fondo"
       >
         <form>

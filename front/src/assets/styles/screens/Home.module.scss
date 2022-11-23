@@ -1,0 +1,20 @@
+@import "../../base/global";
+$small: 768px;
+
+.divGeneral{
+  @media screen and (max-width: $small){
+  img{width: 200px;}
+  
+  }}
+
+.tituloHome{
+    color: $blueSpanish;
+    text-align: center;
+    vertical-align: text-bottom;
+    @media screen and (max-width: $small){
+        .h3{
+          text-align: center;
+        }
+  
+      }
+}

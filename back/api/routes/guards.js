@@ -1,26 +1,35 @@
-const express = require("express")
-const routerGuards = express.Router()
-const {Guards} = require("../models")
-const { Client } = require("../models")
+const express = require("express");
+const routerGuards = express.Router();
+const { Guards } = require("../models");
+const { validateAuth, validateClient } = require("../middlewares/auth");
+const GuardsController = require("../controllers/guards");
 
-//Ruta para solicitar todos los guardias 
-routerGuards.get("/", (req, res) => {
-    Guards.findAll().then((vigiladores) => res.send(vigiladores))
-})
+//GET ALL GUARDS api/guards
+routerGuards.get("/", GuardsController.getAll);
 
-//Ruta para solicitar un guardia por ID 
-routerGuards.get("/:id", (req, res) => {
-    Guards.findByPk(req.params.id).then((guard) => res.send(guard))
-})
+//GET GUARDS BY CLIENT api/guardsbyclient/:id
+routerGuards.get("/guardsbyclient/:id", GuardsController.getGuardsByClient)
 
-routerGuards.post("/create", (req, res) => {
-    const { client } = req.body
-    Client.findByPk(client).then((currentClient) => {
-        const newGuard = { name, lastname, cuil, province, localidad, entry_time, hours_per_day }
-        Guards.create(newGuard).then((addGuard) => addGuard.setClient(currentClient))
-    }).then(() => res.status(202).send("Guards added correctly"))
-})
+//GET GUARD BY ID api/guards/:id
+routerGuards.get("/:id", GuardsController.getSingle)
 
+//CREATE GUARD api/guards/create
+routerGuards.post("/create", GuardsController.createGuard)
 
+//LOG IN GUARD api/guards/login
+routerGuards.post("/login", GuardsController.loginGuard)
 
-module.exports = routerGuards
+//PERSISTENCIA api/guards/validate
+routerGuards.get("/validate", validateAuth, (req, res) => {res.send(req.user)});
+
+//LOG OUT GUARD api/guards/logout
+routerGuards.post("/logout", (req, res) => {  res.clearCookie("token") 
+res.sendStatus(204)});
+
+//UPDATE GUARD api/guards/:id
+routerGuards.put("/:id", GuardsController.updateGuard)
+
+//DELETE GUARD api/guards/deleteGuard/:id
+routerGuards.delete("/deleteGuard/:id", GuardsController.deleteGuard)
+
+module.exports = routerGuards;
