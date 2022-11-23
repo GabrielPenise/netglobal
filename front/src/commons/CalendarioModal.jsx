@@ -6,8 +6,10 @@ import Modal from "react-modal";
 import DateTimePicker from "react-datetime-picker";
 
 import { Button } from "react-bootstrap";
-import { useModalContext } from "../context/ModalContext";
+
 import "../assets/styles/commons/CalendarioModal.css";
+import { useDispatch, useSelector } from "react-redux";
+import { setUiOpen } from "../store/slices/index.js";
 
 const customStyles = {
   content: {
@@ -23,11 +25,14 @@ const customStyles = {
 Modal.setAppElement("#root");
 const startDate = moment().minutes(0).seconds(0);
 export const CalendarioModal = () => {
-  const { uiOpen, setUiOpen } = useModalContext();
+  const dispatch = useDispatch();
+  const { uiOpen } = useSelector((state) => state.modal);
+
   const [date, setDate] = useState(startDate.toDate());
 
   const closeModal = () => {
-    setUiOpen(false);
+    dispatch(setUiOpen(false));
+
     //Todo: Cerrar el modal, esta fn la voy a usar al final del handleSubmit
   };
 

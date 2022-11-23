@@ -4,7 +4,11 @@ dotenv.config();
 const createClients = require("./clients");
 const createBranches = require("./branches");
 const createGuards = require("./guards");
+const createShifts = require("./shifts");
+const createGuardShifts = require("./guardshifts");
 
 createClients()
   .then(() => createBranches())
-  .then(() => createGuards());
+  .then(() => createGuards())
+  .then(() => createShifts())
+  .then(() => createGuardShifts());

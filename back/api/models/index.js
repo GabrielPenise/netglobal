@@ -1,11 +1,18 @@
 const Client = require("./Client");
 const Branch = require("./Branch");
 const Guards = require("./Guards");
+const Shift = require("./Shift");
+const GuardShift = require("./GuardShift");
 
 Client.hasMany(Branch);
 Branch.belongsTo(Client);
 
-Guards.belongsTo(Client)
-Client.hasMany(Guards)
+Client.hasMany(Guards);
+Guards.belongsTo(Client);
 
-module.exports = { Branch, Guards, Client };
+Guards.hasMany(GuardShift);
+Shift.hasMany(GuardShift);
+GuardShift.belongsTo(Guards);
+GuardShift.belongsTo(Shift);
+
+module.exports = { Branch, Guards, Client, Shift, GuardShift };
