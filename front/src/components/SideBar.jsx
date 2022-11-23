@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 import {
   FaTh,
   FaBars,
@@ -12,15 +14,19 @@ import {
 import style from "../assets/styles/components/SideBar.module.scss";
 
 const Sidebar = () => {
+  const { user } = useSelector((state) => state.user);
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
 
-  const menuItem = [
+  const menuItemAdmin = [
     {
       path: "/superadmin",
       name: "Super Admin",
       icon: <FaTh />,
     },
+  ];
+
+  const menuItemClients = [
     {
       path: "/guards",
       name: "Vigiladores",
@@ -60,19 +66,42 @@ const Sidebar = () => {
             <FaBars onClick={toggle} />
           </div>
         </div>
-        {menuItem.map((item, index) => (
-          <Link to={item.path} key={index}>
-            <div key={index} className={style["link"]} activeclassName="active">
-              <div className={style["icon"]}>{item.icon}</div>
-              <div
-                style={{ display: isOpen ? "block" : "none" }}
-                className={style["link_text"]}
-              >
-                {item.name}
-              </div>
-            </div>
-          </Link>
-        ))}
+
+        {!user.super_admin
+          ? menuItemClients.map((item, index) => (
+              <Link to={item.path} key={index}>
+                <div
+                  key={index}
+                  className={style["link"]}
+                  activeclassname="active"
+                >
+                  <div className={style["icon"]}>{item.icon}</div>
+                  <div
+                    style={{ display: isOpen ? "block" : "none" }}
+                    className={style["link_text"]}
+                  >
+                    {item.name}
+                  </div>
+                </div>
+              </Link>
+            ))
+          : menuItemAdmin.map((item, index) => (
+              <Link to={item.path} key={index}>
+                <div
+                  key={index}
+                  className={style["link"]}
+                  activeclassname="active"
+                >
+                  <div className={style["icon"]}>{item.icon}</div>
+                  <div
+                    style={{ display: isOpen ? "block" : "none" }}
+                    className={style["link_text"]}
+                  >
+                    {item.name}
+                  </div>
+                </div>
+              </Link>
+            ))}
       </div>
     </div>
   );

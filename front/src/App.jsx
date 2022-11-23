@@ -11,7 +11,7 @@ import { Axios } from "./utils/AxiosWithCredentials";
 
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setUser } from "./store/slices/userSlices";
+import { setUser } from "./store/slices/index.js";
 
 function App() {
   const { user } = useSelector((state) => state.user);

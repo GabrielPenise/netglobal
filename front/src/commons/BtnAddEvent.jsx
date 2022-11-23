@@ -1,13 +1,15 @@
 import React from "react";
 import { FaPlus } from "react-icons/fa";
+import { useDispatch } from "react-redux";
 import style from "../assets/styles/commons/BtnAddEvent.module.scss";
-import { useModalContext } from "../context/ModalContext";
+
+import { setUiOpen } from "../store/slices";
 
 export const BtnAddEvent = () => {
-  const { uiOpen, setUiOpen } = useModalContext();
+  const dispatch = useDispatch();
 
   const handleClickBtnEvent = () => {
-    setUiOpen(true);
+    dispatch(setUiOpen(true));
   };
   return (
     <button

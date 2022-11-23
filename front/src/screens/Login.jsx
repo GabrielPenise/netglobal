@@ -5,7 +5,7 @@ import style from "../assets/styles/screens/Login.module.scss";
 import { Axios } from "../utils/AxiosWithCredentials";
 import { useState } from "react";
 import { Container, Col, Row } from "react-bootstrap";
-import { setUser } from "../store/slices/userSlices";
+import { setUser } from "../store/slices";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
