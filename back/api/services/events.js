@@ -12,7 +12,7 @@ class eventsService {
     }
   }
 
-  // UPDATE A EVENT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  // UPDATE A EVENT
 
   static async updateEvent(id, body) {
     try {
@@ -29,12 +29,12 @@ class eventsService {
         };
       }
 
-      // actualizamos el evento CHEQUEAR CON ALBERT!!!
-      const nuevaData = await Events.update(body, {
+      // actualizamos el evento
+      const [affectedRows, updatedEvent] = await Events.update(body, {
         where: { id },
         returning: true, //para que devuelva algo el update
       });
-      return { error: false, data: nuevaData }; // esto de updatedPage no lo entiendo!!!
+      return { error: false, data: updatedEvent[0] };
     } catch (error) {
       console.error(error);
       return { error: true, data: error };
