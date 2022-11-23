@@ -1,4 +1,4 @@
-const { Guards } = require("../models");
+const { Guard } = require("../../models");
 const bcrypt = require("bcrypt");
 
 const guards = [
@@ -13,9 +13,7 @@ const guards = [
     number: 587,
     city: "Rosario",
     province: "Santa Fe",
-    codigo_postal: 1629,
-    latitude: -34.602793,
-    longitude: -58.369226,
+    postalcode: "S2000",
     entry_time: "8:00",
     hours_per_day: 8,
     clientId: 2,
@@ -27,13 +25,11 @@ const guards = [
     cuil: 5,
     password: "123456",
     salt: "",
-    street: "Belgrano",
+    street: "General Belgrano",
     number: 1004,
     city: "Campana",
     province: "Buenos Aires",
-    codigo_postal: 1629,
-    latitude: -27.602793,
-    longitude: -31.369226,
+    postalcode: "B2804",
     entry_time: "8:00",
     hours_per_day: 8,
     clientId: 2,
@@ -45,32 +41,24 @@ const guards = [
     cuil: 8,
     password: "123456",
     salt: "",
-    street: "Bolivar",
-    number: 1874,
+    street: "Ituzaingó",
+    number: 232,
     city: "Lujan",
     province: "Buenos Aires",
-    codigo_postal: 1629,
-    latitude: -27.602793,
-    longitude: -31.369226,
+    postalcode: "B6700",
     entry_time: "8:00",
     hours_per_day: 8,
-    clientId: 1,
+    active: false,
+    clientId: 2,
   },
 ];
 
 async function createGuards() {
-  guards[0].salt = bcrypt.genSaltSync();
-  guards[1].salt = bcrypt.genSaltSync();
-  return bcrypt
-    .hash(guards[0].password, guards[0].salt)
-    .then((hashed) => (guards[0].password = hashed))
-    .then(() => bcrypt.hash(guards[1].password, guards[1].salt))
-    .then((hashed) => (guards[1].password = hashed))
-    .then(() =>
-      Guards.bulkCreate(guards).then(() => {
-        console.log("GUARDS created ok");
-      })
-    );
+  for (let i = 0; i < guards.length; i++) {
+    let guard = guards[i];
+    await Guard.create(guard);
+  }
+  console.log("GUARDS created ok");
 }
 
 module.exports = createGuards;

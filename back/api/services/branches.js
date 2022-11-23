@@ -115,8 +115,9 @@ class BranchesService {
         };
       }
 
-      // eliminamos la sucursal
-      const response = await Branch.destroy({ where: { id } });
+      // eliminamos ("soft delete") la sucursal
+      const body = { active: false };
+      const response = await Branch.update(body, { where: { id } });
       return { error: false, data: response };
     } catch (error) {
       console.error(error);

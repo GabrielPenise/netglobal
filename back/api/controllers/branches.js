@@ -58,7 +58,7 @@ class BranchesController {
     if (error) {
       return res.status(data.status || 500).send({ message: data.message });
     }
-    res.status(202).send(data);
+    res.sendStatus(202);
   }
 
   static async deleteBranch(req, res) {
