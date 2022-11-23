@@ -39,20 +39,6 @@ function App() {
         <>
           <Routes>
             <Route path="/login" element={<Login />} />
-
-            
-          </>
-        ) : (
-          <>
-            <Route path="/calendar" element={<Calendario />} />
-            <Route path="/sucursales" element={<DropDownSelect />} />
-            <Route path="/superadmin" element={<DropDownSelect />} />
-            <Route path="/vigiladores" element={<Geolocalizacion />} />
-            <Route path="/home" element={<Home />} />
-          </>
-        )}
-      </Routes>
-
           </Routes>
         </>
       ) : (
@@ -65,14 +51,15 @@ function App() {
               <>
                 <Route path="/calendar" element={<Calendario />} />
                 <Route path="/sucursales" element={<DropDownSelect />} />
-
-                <Route path="/vigiladores" element={<Geolocalizacion />} />
+                <Route path="/geo" element={<Geolocalizacion />} />
+                <Route path="/vigiladores" element={<DropDownSelect />} />
                 <Route path="/home" element={<Home />} />
               </>
             )}
           </Routes>
         </>
       )}
+
       <Fotter />
     </div>
   );
