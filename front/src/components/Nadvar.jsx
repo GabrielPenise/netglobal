@@ -19,7 +19,6 @@ function Nadvar() {
     navigate("/login");
   };
 
-  console.log("user es ", user);
   return (
     <Nav className={`${style["nav"]}  justify-content-between`}>
       <img className={style["logoNav"]} src={logo} />
