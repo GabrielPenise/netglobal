@@ -15,25 +15,22 @@ Events.init(
     time_out: {
       type: S.DATE,
     },
-    position_in: {
-      latitude: {
-        type: S.FLOAT,
-        allowNull: false,
-      },
-      longitude: {
-        type: S.FLOAT,
-        allowNull: false,
-      },
+    position_in_latitude: {
+      type: S.FLOAT,
+      allowNull: false,
     },
-    position_out: {
-      latitude: {
-        type: S.FLOAT,
-        allowNull: false,
-      },
-      longitude: {
-        type: S.FLOAT,
-        allowNull: false,
-      },
+    position_in_longitude: {
+      type: S.FLOAT,
+      allowNull: false,
+    },
+
+    position_out_latitude: {
+      type: S.FLOAT,
+      allowNull: false,
+    },
+    position_out_longitude: {
+      type: S.FLOAT,
+      allowNull: false,
     },
   },
   { sequelize: db, modelName: "events" }
