@@ -2,7 +2,9 @@ const express = require("express");
 const router = express.Router();
 const routerGuards = require("./guards");
 const clientRoutes = require("./client");
-const branchRoutes = require("./branches");
+
+const branchesRoutes = require("./branches");
+const eventsRoutes = require("./events");
 const shiftRoutes = require("./shifts");
 const guardShiftRoutes = require("./guardShifts");
 
@@ -11,5 +13,7 @@ router.use("/guards", routerGuards);
 router.use("/branches", branchRoutes);
 router.use("/shifts", shiftRoutes);
 router.use("/guardShifts", guardShiftRoutes);
+router.use("/events", eventsRoutes);
+
 
 module.exports = router;
