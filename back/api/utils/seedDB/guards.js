@@ -1,4 +1,4 @@
-const { Guard } = require("../models");
+const { Guard } = require("../../models");
 const bcrypt = require("bcrypt");
 
 const guards = [
@@ -58,7 +58,7 @@ async function createGuards() {
     let guard = guards[i];
     await Guard.create(guard);
   }
-  console.log("BRANCHES created ok");
+  console.log("GUARDS created ok");
 }
 
 module.exports = createGuards;

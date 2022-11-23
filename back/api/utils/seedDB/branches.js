@@ -1,4 +1,4 @@
-const { Branch } = require("../models");
+const { Branch } = require("../../models");
 
 const branches = [
   {

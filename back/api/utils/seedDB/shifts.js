@@ -1,4 +1,4 @@
-const { Shift } = require("../models");
+const { Shift } = require("../../models");
 
 const shifts = [
   {

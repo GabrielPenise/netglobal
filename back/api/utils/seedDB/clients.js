@@ -1,4 +1,4 @@
-const { Client } = require("../models");
+const { Client } = require("../../models");
 const bcrypt = require("bcrypt");
 
 const clients = [

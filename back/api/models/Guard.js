@@ -1,7 +1,7 @@
 const S = require("sequelize");
 const db = require("../config/db");
 const bcrypt = require("bcrypt");
-const Nominatim = require("nominatim-geocoder");
+const { getCoordinates } = require("../utils/coordinates");
 
 class Guard extends S.Model {
   hash(password, salt) {
@@ -97,28 +97,20 @@ Guard.init(
   { sequelize: db, modelName: "guards" }
 );
 
-Guard.beforeCreate((guard) => {
+Guard.beforeCreate(async (guard) => {
   const salt = bcrypt.genSaltSync();
   guard.salt = salt;
   guard.hash(guard.password, salt).then((hash) => (guard.password = hash));
 
-  const geocoder = new Nominatim();
+  const [latitude, longitude] = await getCoordinates(
+    `${guard.street} ${guard.number}`,
+    guard.city,
+    guard.province,
+    guard.postalcode
+  );
 
-  return geocoder
-    .search({
-      street: `${guard.street} ${guard.number}`,
-      city: guard.city,
-      country: "Argentina",
-      state: guard.province,
-      postalcode: guard.postalcode,
-    })
-    .then((res) => {
-      guard.latitude = res[0].lat;
-      guard.longitude = res[0].lon;
-    })
-    .catch((error) => {
-      console.error("ERROR nominatim", error);
-    });
+  guard.latitude = latitude;
+  guard.longitude = longitude;
 });
 
 module.exports = Guard;

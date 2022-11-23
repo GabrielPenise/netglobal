@@ -1,6 +1,6 @@
 const S = require("sequelize");
 const db = require("../config/db");
-const Nominatim = require("nominatim-geocoder");
+const { getCoordinates } = require("../utils/coordinates");
 
 class Branch extends S.Model {}
 
@@ -56,24 +56,16 @@ Branch.init(
   { sequelize: db, modelName: "branch" }
 );
 
-Branch.beforeCreate((branch) => {
-  const geocoder = new Nominatim();
+Branch.beforeCreate(async (branch) => {
+  const [latitude, longitude] = await getCoordinates(
+    `${branch.street} ${branch.number}`,
+    branch.city,
+    branch.province,
+    branch.postalcode
+  );
 
-  return geocoder
-    .search({
-      street: `${branch.street} ${branch.number}`,
-      city: branch.city,
-      country: "Argentina",
-      state: branch.province,
-      postalcode: branch.postalcode,
-    })
-    .then((res) => {
-      branch.latitude = res[0].lat;
-      branch.longitude = res[0].lon;
-    })
-    .catch((error) => {
-      console.error("ERROR nominatim", error);
-    });
+  branch.latitude = latitude;
+  branch.longitude = longitude;
 });
 
 module.exports = Branch;
