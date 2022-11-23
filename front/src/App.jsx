@@ -7,12 +7,15 @@ import Home from "./screens/Home";
 import Geolocalizacion from "./geolocalizacion/Geolocalizacion"
 
 import { Route, Routes } from "react-router-dom";
-import DropDownSelect from "./commons/DropDownSelect";
+
 import { Axios } from "./utils/AxiosWithCredentials";
 
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "./store/slices/index.js";
+import Guards from "./components/Guards";
+import Branchs from "./components/Branchs";
+import SuperAdmin from "./components/SuperAdmin";
 
 function App() {
   const { user } = useSelector((state) => state.user);
@@ -46,13 +49,19 @@ function App() {
           <Sidebar />
           <Routes>
             {user["super_admin"] ? (
-              <Route path="/superadmin" element={<DropDownSelect />} />
+              <Route path="/superadmin" element={<SuperAdmin />} />
             ) : (
               <>
                 <Route path="/calendar" element={<Calendario />} />
-                <Route path="/sucursales" element={<DropDownSelect />} />
+
+                <Route path={`/branch/${user.id}`} element={<Branchs />} />
+
+                <Route path={`/guards/${user.id}`} element={<Guards />} />
+
+                
                 <Route path="/geo" element={<Geolocalizacion />} />
-                <Route path="/vigiladores" element={<DropDownSelect />} />
+               
+
                 <Route path="/home" element={<Home />} />
               </>
             )}

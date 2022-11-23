@@ -28,12 +28,12 @@ const Sidebar = () => {
 
   const menuItemClients = [
     {
-      path: "/guards",
+      path: `/guards/${user.id}`,
       name: "Vigiladores",
       icon: <FaUserAlt />,
     },
     {
-      path: "/branch",
+      path: `/branch/${user.id}`,
       name: "Sucursales",
       icon: <FaStoreAlt />,
     },

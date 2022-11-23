@@ -58,7 +58,7 @@ class eventsController {
   // GET ALL EVENTS BY BRANCH
 
   static async allEventsByBranch(req, res) {
-    const branchId = req.params;
+    const branchId = req.params.branchId;
 
     const { error, data } = await eventsService.allEventsByBranch(branchId);
 
@@ -77,7 +77,7 @@ class eventsController {
   // GET ALL EVENTS BY GUARD
 
   static async allEventsByGuard(req, res) {
-    const guardId = req.params;
+    const guardId = req.params.guardId;
 
     const { error, data } = await eventsService.allEventsByGuard(guardId);
 
