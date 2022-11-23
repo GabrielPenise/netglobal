@@ -16,7 +16,7 @@ router.get("/:id", validateAuth, GuardsController.getSingle);
 router.post("/create", validateClient, GuardsController.createGuard);
 
 //LOG IN GUARD api/guards/login
-router.post("/login", validateClient, GuardsController.loginGuard);
+router.post("/login", GuardsController.loginGuard);
 
 //PERSISTENCIA api/guards/validate
 router.get("/validate", validateAuth, (req, res) => {
