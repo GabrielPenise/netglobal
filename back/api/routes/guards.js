@@ -7,7 +7,7 @@ const GuardsController = require("../controllers/guards");
 //GET ALL GUARDS api/guards
 routerGuards.get("/", GuardsController.getAll);
 
-//GET GUARDS BY CLIENT api/guardsbyclient/:id
+//GET GUARDS BY CLIENT api/guards/guardsbyclient/:id
 routerGuards.get("/guardsbyclient/:id", GuardsController.getGuardsByClient)
 
 //GET GUARD BY ID api/guards/:id
