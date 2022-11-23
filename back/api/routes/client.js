@@ -30,7 +30,10 @@ router.get("/", validateSuperAdmin, ClientController.allClients);
 router.get("/:id", ClientController.getOneClient);
 
 //UPDATE CLIENT api/client/:id
-router.put("/:id", validateSuperAdmin, ClientController.updateClient);
+router.put("/:id", ClientController.updateClient);
+
+// ACTIVE - INACTIVE  api/client/active/:id
+router.put("/active/:id", ClientController.updateActive);
 
 // //DELETE CLIENT
 // router.delete("/:id", validateSuperAdmin, (req, res) => {

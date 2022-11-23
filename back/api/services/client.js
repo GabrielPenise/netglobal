@@ -67,13 +67,47 @@ class ClientService {
           },
         };
       }
-
+      console.log(cliente);
       // actualizamos el cliente
       const [affectedRows, updatedClient] = await Client.update(body, {
         where: { id },
         returning: true, //para que devuelva algo el update
       });
       return { error: false, data: updatedClient[0] };
+    } catch (error) {
+      console.error(error);
+      return { error: true, data: error };
+    }
+  }
+
+  // UPDATE ACTIVE - INACTIVE
+  static async updateActive(id) {
+    try {
+      const cliente = await Client.findByPk(id);
+      if (!cliente) {
+        return {
+          error: true,
+          data: {
+            status: 405,
+            message: `No existe el cliente ${id}`,
+          },
+        };
+      }
+
+      const booleano = false;
+      if (cliente.dataValues.active == false) {
+        return (booleano = true);
+      }
+
+      // actualizamos el cliente
+      const [affectedRows, updatedClient] = await Client.update(
+        { active: booleano },
+        {
+          where: { id },
+          returning: true, //para que devuelva algo el update
+        }
+      );
+      return { error: false, data: updatedClient };
     } catch (error) {
       console.error(error);
       return { error: true, data: error };
