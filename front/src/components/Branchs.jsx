@@ -10,7 +10,6 @@ import { setUiOpen } from "../store/slices/index.js";
 import BranchModalNew from "./BranchModalNew.jsx";
 import { Container } from "react-bootstrap";
 
-
 export default function Branchs() {
   const dispatch = useDispatch();
   const [select, setSelect] = useState([]);
@@ -47,10 +46,6 @@ export default function Branchs() {
     Axios.delete(`/branches/delete/${input.value.id}`);
   };
 
-  const handleModify = () => {
-    dispatch(setUiOpen(true));
-  };
-
   return (
     <Container style={{ minHeight: "100vh" }}>
       <DropDownSelect
@@ -58,14 +53,10 @@ export default function Branchs() {
         options={options.current}
         handleSelect={handleSelect}
         handleDelete={handleDelete}
-        handleModify={handleModify}
-      
-
+      />
 
       <BranchModalEdit branch={input} />
       <BranchModalNew />
-    
     </Container>
-
   );
 }
