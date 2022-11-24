@@ -35,11 +35,13 @@ Client.init(
     cuit: {
       type: S.INTEGER,
       allowNull: false,
+      unique: true,
     },
-    razon_social: {
+    name: {
       type: S.STRING,
+      allowNull: false,
     },
-    direccion: {
+    address: {
       type: S.STRING,
     },
     // fecha_inicio_contrato: {

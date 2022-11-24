@@ -79,5 +79,56 @@ class ClientService {
       return { error: true, data: error };
     }
   }
+
+  // UNSUSCRIBE - DELETE
+
+  static async deleteClient(id) {
+    try {
+      // comprobamos si existe la sucursal
+      const client = await Client.findByPk(id);
+
+      if (!client) {
+        return {
+          error: true,
+          data: {
+            status: 405,
+            message: `No existe el cliente con id ${id}`,
+          },
+        };
+      }
+
+      const body = { active: false };
+      const response = await Branch.update(body, { where: { id } });
+      return { error: false, data: response };
+    } catch (error) {
+      console.error(error);
+      return { error: true, data: error };
+    }
+  }
+
+  // SUSCRIBE - RESTORE
+  static async restoreClient(id) {
+    try {
+      // comprobamos si existe la sucursal
+      const client = await Client.findByPk(id);
+
+      if (!client) {
+        return {
+          error: true,
+          data: {
+            status: 405,
+            message: `No existe el cliente con id ${id}`,
+          },
+        };
+      }
+
+      const body = { active: true };
+      const response = await Branch.update(body, { where: { id } });
+      return { error: false, data: response };
+    } catch (error) {
+      console.error(error);
+      return { error: true, data: error };
+    }
+  }
 }
 module.exports = ClientService;
