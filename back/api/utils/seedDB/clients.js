@@ -6,8 +6,8 @@ const clients = [
     email: "admin@admin.com",
     password: "123456",
     cuit: 0,
-    razon_social: "",
-    direccion: "",
+    name: "SUPER ADMINISTRADOR",
+    address: "",
     /* fecha_inicio_contrato: "01/01/1900",
     fecha_fin_contrato: "01/01/1900", */
     super_admin: true,
@@ -18,8 +18,8 @@ const clients = [
     email: "cliente@cliente.com",
     password: "123456",
     cuit: 1,
-    razon_social: "Empresa S.A.",
-    direccion: "Mitre, 1555, Rosario, Santa Fe",
+    name: "Empresa S.A.",
+    address: "Mitre, 1555, Rosario, Santa Fe",
     /* fecha_inicio_contrato: "01/01/1900",
     fecha_fin_contrato: "01/01/1900", */
     super_admin: false,
@@ -29,9 +29,9 @@ const clients = [
   {
     email: "fravega@fravega.com",
     password: "123456",
-    cuit: 1,
-    razon_social: "Frávega S.A.",
-    direccion: "Belgrano, 234, CABA, Buenos Aires",
+    cuit: 3,
+    name: "Fravega S.A.",
+    address: "Belgrano, 234, CABA, Buenos Aires",
     /* fecha_inicio_contrato: "01/01/1900",
     fecha_fin_contrato: "01/01/1900", */
     super_admin: false,
@@ -41,18 +41,27 @@ const clients = [
 ];
 
 async function createClients() {
-  clients[0].salt = bcrypt.genSaltSync();
-  clients[1].salt = bcrypt.genSaltSync();
-  return bcrypt
-    .hash(clients[0].password, clients[0].salt)
-    .then((hashed) => (clients[0].password = hashed))
-    .then(() => bcrypt.hash(clients[1].password, clients[1].salt))
-    .then((hashed) => (clients[1].password = hashed))
-    .then(() =>
-      Client.bulkCreate(clients).then(() => {
-        console.log("CLIENTS created ok");
-      })
-    );
+  for (let i = 0; i < clients.length; i++) {
+    let client = clients[i];
+    await Client.create(client);
+  }
+  console.log("CLIENTS created ok");
 }
+
+// async function createClients() {
+//   clients[0].salt = bcrypt.genSaltSync();
+//   clients[1].salt = bcrypt.genSaltSync();
+//   clients[3].salt = bcrypt.genSaltSync();
+//   return bcrypt
+//     .hash(clients[0].password, clients[0].salt)
+//     .then((hashed) => (clients[0].password = hashed))
+//     .then(() => bcrypt.hash(clients[1].password, clients[1].salt))
+//     .then((hashed) => (clients[1].password = hashed))
+//     .then(() =>
+//       Client.bulkCreate(clients).then(() => {
+//         console.log("CLIENTS created ok");
+//       })
+//     );
+// }
 
 module.exports = createClients;

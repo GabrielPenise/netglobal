@@ -5,9 +5,9 @@ const { generateToken } = require("../config/token");
 const { validateAuth, validateSuperAdmin } = require("../middlewares/auth");
 const ClientController = require("../controllers/client");
 
-// REGISTER api/client/register
+// REGISTER api/client/create
 
-router.post("/register", validateSuperAdmin, ClientController.createClient);
+router.post("/create", validateSuperAdmin, ClientController.createClient);
 
 // LOG IN api/client/login
 router.post("/login", ClientController.loginClient);
@@ -29,22 +29,13 @@ router.get("/", validateSuperAdmin, ClientController.allClients);
 //GET ONE CLIENT api/client/:id ------> acá debería agregar validación superAdmin?
 router.get("/:id", ClientController.getOneClient);
 
-//UPDATE CLIENT api/client/:id
-router.put("/:id", ClientController.updateClient);
+//UPDATE CLIENT api/client/edit/:id
+router.put("/edit/:id", ClientController.updateClient);
 
-// ACTIVE - INACTIVE  api/client/active/:id
-router.put("/active/:id", ClientController.updateActive);
+//UNSUSCRIBE - DELETE  api/client/delete/:id
+router.delete("/delete/:id", validateSuperAdmin, ClientController.delete);
 
-// //DELETE CLIENT
-// router.delete("/:id", validateSuperAdmin, (req, res) => {
-//   Client.findByPk(req.params.id).then((client) => {
-//     return !client
-//       ? res.sendStatus(404)
-//       : client
-//           .destroy()
-//           .then(() => res.status(204))
-//           .catch((err) => res.status(500).send(err));
-//   });
-// });
+//SUSCRIBE CLIENT - RESTORE api/client/restore/:id
+router.delete("/restore/:id", validateSuperAdmin, ClientController.restore);
 
 module.exports = router;

@@ -18,9 +18,10 @@ class ClientController {
     const { email, password } = req.body;
     const { error, data } = await ClientService.loginClient(email, password);
     const payload = {
-      id: data.dataValues.id,
-      email: data.dataValues.email,
-      super_admin: data.dataValues.super_admin,
+      id: data.id,
+      name: data.name,
+      email: data.email,
+      super_admin: data.super_admin,
       rol: "client",
     };
     const token = generateToken(payload);
@@ -69,15 +70,25 @@ class ClientController {
     res.status(202).send("Se ha actualizado con éxito");
   }
 
-  // UPDATE ACTIVE O INACTIVE
+  // UNSUSCRIBE - DELETE
 
-  static async updateActive(req, res) {
+  static async delete(req, res) {
     const id = req.params.id;
-    const { error, data } = await ClientService.updateClient(id);
+    const { error, data } = await ClientService.deleteClient(id);
     if (error) {
       return res.status(data.status || 500).send({ message: data.message });
     }
-    res.status(202).send("Se ha actualizado con éxito");
+    res.status(202).send("Se ha dado de baja al cliente");
+  }
+
+  // SUSCRIBE - RESTORE
+  static async restore(req, res) {
+    const id = req.params.id;
+    const { error, data } = await ClientService.restoreClient(id);
+    if (error) {
+      return res.status(data.status || 500).send({ message: data.message });
+    }
+    res.status(202).send("Se ha dado de alta al cliente");
   }
 }
 
