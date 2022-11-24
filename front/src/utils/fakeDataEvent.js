@@ -27,7 +27,7 @@ export const fakeDataEvent = [
     nota: "Cubrir Puesto de trabajo",
     guard: {
       id: 3,
-      name: "JJuan Buatista",
+      name: "Juan Bautista",
       lastname: "Alberdi",
       CUIL: 1231232,
       Provincia: "Buenos Aires",
