@@ -74,6 +74,15 @@ class GuardsController {
     }
     res.status(202).send("Eliminado correctamente");
   }
+
+  static async restoreGuard(req, res) {
+    const { id } = req.params;
+    const { error, data } = await GuardsService.restoreGuard(id);
+    if (error) {
+      return res.status(data.status || 500).send({ message: data.message });
+    }
+    res.status(202).send("Eliminado correctamente");
+  }
 }
 
 module.exports = GuardsController;

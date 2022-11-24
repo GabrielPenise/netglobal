@@ -57,15 +57,15 @@ Branch.init(
 );
 
 Branch.beforeCreate(async (branch) => {
-  const [latitude, longitude] = await getCoordinates(
+  const [lat, long] = await getCoordinates(
     `${branch.street} ${branch.number}`,
     branch.city,
     branch.province,
     branch.postalcode
   );
 
-  branch.latitude = latitude;
-  branch.longitude = longitude;
+  branch.latitude = lat;
+  branch.longitude = long;
 });
 
 module.exports = Branch;

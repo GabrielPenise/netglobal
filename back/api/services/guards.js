@@ -123,6 +123,27 @@ class GuardsService {
       return { error: true, data: error };
     }
   }
+
+  static async restoreGuard(id) {
+    try {
+      const resp = await Guard.findByPk(id);
+      if (!resp) {
+        return {
+          error: true,
+          data: {
+            status: 405,
+            message: `No existe el guardia con el id ${id}`,
+          },
+        };
+      }
+      const body = { active: true };
+      const response = await Guard.update(body, { where: { id } });
+      return { error: false, data: response };
+    } catch (error) {
+      console.log(error);
+      return { error: true, data: error };
+    }
+  }
 }
 
 module.exports = GuardsService;
