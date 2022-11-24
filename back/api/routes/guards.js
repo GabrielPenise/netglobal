@@ -6,11 +6,17 @@ const GuardsController = require("../controllers/guards");
 //GET ALL GUARDS api/guards
 router.get("/", GuardsController.getAll);
 
-//GET GUARDS BY CLIENT api/guards/byClient/:id
-router.get("/byClient/:id", validateClient, GuardsController.getGuardsByClient);
+//PERSISTENCE api/guards/validate
+router.get("/validate", validateAuth, (req, res) => {
+  console.log("hola", req.user);
+  res.send(req.user);
+});
 
 //GET GUARD BY ID api/guards/:id
 router.get("/:id", validateAuth, GuardsController.getSingle);
+
+//GET GUARDS BY CLIENT api/guards/byClient/:id
+router.get("/byClient/:id", validateClient, GuardsController.getGuardsByClient);
 
 //CREATE GUARD api/guards/create
 router.post("/create", validateClient, GuardsController.createGuard);
@@ -18,21 +24,19 @@ router.post("/create", validateClient, GuardsController.createGuard);
 //LOG IN GUARD api/guards/login
 router.post("/login", GuardsController.loginGuard);
 
-//PERSISTENCIA api/guards/validate
-router.get("/validate", validateAuth, (req, res) => {
-  res.send(req.user);
-});
-
 //LOG OUT GUARD api/guards/logout
 router.post("/logout", (req, res) => {
   res.clearCookie("token");
   res.sendStatus(204);
 });
 
-//UPDATE GUARD api/guards/:id
-router.put("/:id", validateAuth, GuardsController.updateGuard);
+//UPDATE GUARD api/guards/edit/:id
+router.put("/edit/:id", validateAuth, GuardsController.updateGuard);
 
-//DELETE GUARD api/guards/deleteGuard/:id
-router.delete("/delete/:id", validateClient, GuardsController.deleteGuard);
+//DELETE GUARD api/guards/delete/:id
+router.put("/delete/:id", validateClient, GuardsController.deleteGuard);
+
+//RESTORE GUARD api/guards/restore/:id
+router.put("/restore/:id", validateClient, GuardsController.restoreGuard);
 
 module.exports = router;
