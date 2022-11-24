@@ -1,6 +1,7 @@
-import Nadvar from "./components/Nadvar";
-import Fotter from "./components/Fotter";
+import Navbar from "./components/Nadvar";
+import Footer from "./components/Footer";
 import Sidebar from "./components/SideBar";
+import Reports from "./components/Reports";
 import Calendario from "./commons/Calendario";
 import Login from "./screens/Login";
 import Home from "./screens/Home";
@@ -37,7 +38,7 @@ function App() {
 
   return (
     <div className="App">
-      <Nadvar />
+      <Navbar />
       {!user ? (
         <>
           <Routes>
@@ -62,13 +63,14 @@ function App() {
                 <Route path="/geo" element={<Geolocalizacion />} />
 
                 <Route path="/home" element={<Home />} />
+                <Route path="/reports" element={<Reports />} />
               </>
             )}
           </Routes>
         </>
       )}
 
-      <Fotter />
+      <Footer />
     </div>
   );
 }

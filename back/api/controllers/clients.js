@@ -19,6 +19,7 @@ class ClientController {
     const payload = {
       id: data.id,
       name: data.name,
+      cuit: data.cuit,
       email: data.email,
       super_admin: data.super_admin,
       rol: "client",

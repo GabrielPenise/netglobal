@@ -5,22 +5,20 @@ import { setUiOpen } from "../store/slices/index.js";
 import { Form, Button, Modal } from "react-bootstrap";
 import { Axios } from "../utils/AxiosWithCredentials.js";
 
-export default function BranchModal({ branch }) {
-  const initialState = { ...branch.value };
+export default function ClientModal({ client }) {
+  const initialState = { ...client.value };
   const [input, setInput] = useState(initialState);
   const dispatch = useDispatch();
   const { uiOpen } = useSelector((state) => state.modal);
 
-  const headingBranchModal = [
+  const headingClientModal = [
+    { heading: "Email", key: "email", type: "email" },
+    { heading: "Cuit", key: "cuit", type: "number" },
     { heading: "Nombre", key: "name", type: "text" },
-    { heading: "Provincia", key: "province", type: "text" },
-    { heading: "Ciudad", key: "city", type: "text" },
-    { heading: "Calle", key: "street", type: "text" },
-    { heading: "Altura", key: "number", type: "number" },
-    { heading: "Codigo Postal", key: "postalcode", type: "text" },
+    { heading: "Dirección", key: "address", type: "text" },
   ];
 
-  if (!Object.keys(branch).length) {
+  if (!Object.keys(client).length) {
     return null;
   }
 
@@ -43,10 +41,10 @@ export default function BranchModal({ branch }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     try {
-      Axios.put(`branches/${branch.value.id}`, input);
+      Axios.put(`clients/edit/${client.value.id}`, input);
       closeModal();
     } catch (err) {
-      console.error(err, "failed to update branches");
+      console.error(err, "failed to update client");
       closeModal();
     }
   };
@@ -63,12 +61,12 @@ export default function BranchModal({ branch }) {
       </Modal.Header>
       <Modal.Body>
         <Form>
-          {headingBranchModal.map((element, index) => {
+          {headingClientModal.map((element, index) => {
             return (
               <div className="mb-3" key={index}>
                 <label className="form-label">{element.heading}</label>
                 <InputModal
-                  item={branch.value}
+                  item={client.value}
                   inputKey={element.key}
                   type={element.type}
                   handleInputChange={handleInputChange}

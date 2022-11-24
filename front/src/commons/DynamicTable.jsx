@@ -16,9 +16,10 @@ export default function DynamicTable({ object, handleDelete, handleModify }) {
 
   const headingColumnsAdm = [
     { heading: "id", value: "id" },
-    { heading: "Razon Social", value: "name" },
-    { heading: "Direccion", value: "direccion" },
+    { heading: "Nombre", value: "name" },
+    { heading: "Cuit", value: "cuit" },
     { heading: "Email", value: "email" },
+    { heading: "Direccion", value: "direccion" },
   ];
 
   const headingColumnsGuards = [
@@ -43,8 +44,9 @@ export default function DynamicTable({ object, handleDelete, handleModify }) {
     row.current = object.map((element) => {
       return {
         id: element.id,
-        name: element.razon_social,
-        direccion: element.direccion,
+        cuit: element.cuit,
+        name: element.name,
+        direccion: element.address,
         email: element.email,
       };
     });
@@ -100,12 +102,12 @@ export default function DynamicTable({ object, handleDelete, handleModify }) {
             <td>
               <Button onClick={handleDelete}>Baja</Button>
             </td>
-            <td>
-              <Button>Crear Nuevo</Button>
-            </td>
           </tr>
         </tbody>
       </Table>
+      <div class="text-center">
+        <Button>Crear nuevo</Button>
+      </div>
     </>
   );
 }
