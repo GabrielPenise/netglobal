@@ -30,13 +30,18 @@ export default function Guards() {
   }, []);
 
   options.current = select.map((element) => {
+    let setTrue = null;
+    element.active ? (setTrue = "Si") : (setTrue = "No");
+
     return {
-      label: `Guardia: ${element.name} ${element.lastname} Activo: ${element.active}`,
+      label: `Guardia: ${element.name} ${element.lastname} Activo: ${setTrue}`,
       value: element,
     };
   });
 
-  const handleDelete = () => {};
+  const handleDelete = () => {
+    Axios.delete(`/guards/delete/${input.value.id}`);
+  };
 
   const handleModify = () => {};
 
@@ -45,6 +50,7 @@ export default function Guards() {
       value={input}
       options={options.current}
       handleSelect={handleSelect}
+      handleDelete={handleDelete}
     />
   );
 }

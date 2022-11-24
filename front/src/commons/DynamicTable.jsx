@@ -1,8 +1,11 @@
 import React, { useRef } from "react";
 import Table from "react-bootstrap/Table";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
-export default function DynamicTable({ object }) {
+import { Button } from "react-bootstrap";
+
+import { setUiOpen } from "../store/slices/index.js";
+export default function DynamicTable({ object, handleDelete, handleModify }) {
   const { user } = useSelector((state) => state.user);
   const column = useRef([]);
   const row = useRef([]);
@@ -83,15 +86,23 @@ export default function DynamicTable({ object }) {
             {column.current.map((item, index) => {
               return <TableHeadItem item={item.heading} />;
             })}
-            <th>Editar</th>
-            <th>Borrar</th>
+            <th></th>
+            <th></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <TableRowItem item={row.current} column={column.current} />
-            <td>Boton Modificar</td>
-            <td>Boton Delete</td>
+            <td>
+              <Button onClick={handleModify}>Editar</Button>
+            </td>
+            <td>
+              <Button onClick={handleDelete}>Baja</Button>
+            </td>
+            <td>
+              <Button>Crear Nuevo</Button>
+            </td>
           </tr>
         </tbody>
       </Table>

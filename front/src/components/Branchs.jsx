@@ -2,10 +2,13 @@ import { useEffect, useRef, useState } from "react";
 
 import { Axios } from "../utils/AxiosWithCredentials.js";
 
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import DropDownSelect from "../commons/DropDownSelect.jsx";
+import BranchModal from "./BranchModal.jsx";
+import { setUiOpen } from "../store/slices/index.js";
 
 export default function Branchs() {
+  const dispatch = useDispatch();
   const [select, setSelect] = useState([]);
   const [input, setInput] = useState({});
   const options = useRef([]);
@@ -36,11 +39,25 @@ export default function Branchs() {
     };
   });
 
+  const handleDelete = () => {
+    Axios.delete(`/${input.value.id}`);
+  };
+
+  const handleModify = () => {
+    dispatch(setUiOpen(true));
+  };
+
   return (
-    <DropDownSelect
-      value={input}
-      options={options.current}
-      handleSelect={handleSelect}
-    />
+    <>
+      <DropDownSelect
+        value={input}
+        options={options.current}
+        handleSelect={handleSelect}
+        handleDelete={handleDelete}
+        handleModify={handleModify}
+      />
+
+      <BranchModal branch={input} />
+    </>
   );
 }
