@@ -9,14 +9,14 @@ function Home() {
 
   return (
     <div>
-      <Container>
+      <Container style={{ minHeight: "100vh" }}>
         <Row className="justify-content-md-center">
           <Col xs={12} md={6} className="rounded-5 p-4 mt-4 ">
             <div className={style["divGeneral"]}>
               <img className={style["imagenLog"]} src={imagen} />
             </div>
             <div className={style["tituloHome"]}>
-              <h3>Bienvenido Fravega!</h3>
+              <h3>Bienvenid@, {user.name}!</h3>
             </div>
           </Col>
         </Row>

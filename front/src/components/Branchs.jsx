@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import DropDownSelect from "../commons/DropDownSelect.jsx";
 import BranchModal from "./BranchModal.jsx";
 import { setUiOpen } from "../store/slices/index.js";
+import { Container } from "react-bootstrap";
 
 export default function Branchs() {
   const dispatch = useDispatch();
@@ -48,7 +49,7 @@ export default function Branchs() {
   };
 
   return (
-    <>
+    <Container style={{ minHeight: "100vh" }}>
       <DropDownSelect
         value={input}
         options={options.current}
@@ -58,6 +59,6 @@ export default function Branchs() {
       />
 
       <BranchModal branch={input} />
-    </>
+    </Container>
   );
 }

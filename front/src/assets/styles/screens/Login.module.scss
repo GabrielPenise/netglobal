@@ -1,11 +1,12 @@
 @import "../../base/global";
-$small: 600px;
+$small: 576px;
 
-.divGeneral{
-    @media screen and (max-width: $small){
-    img{width: 200px;}
-    
-    }}
-
-
-
+.divGeneral {
+  text-align: center;
+  @media screen and (max-width: $small) {
+    img {
+      height: 200px;
+      width: auto;
+    }
+  }
+}

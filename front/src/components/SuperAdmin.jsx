@@ -6,6 +6,7 @@ import { Axios } from "../utils/AxiosWithCredentials.js";
 
 import DropDownSelect from "../commons/DropDownSelect.jsx";
 import ClientModal from "./ClientModal.jsx";
+import { Container } from "react-bootstrap";
 
 export default function SuperAdmin() {
   const dispatch = useDispatch();
@@ -47,7 +48,7 @@ export default function SuperAdmin() {
   };
 
   return (
-    <>
+    <Container style={{ minHeight: "100vh" }}>
       <DropDownSelect
         value={input}
         options={options.current}
@@ -56,6 +57,6 @@ export default function SuperAdmin() {
         handleModify={handleModify}
       />
       <ClientModal client={input} />
-    </>
+    </Container>
   );
 }
