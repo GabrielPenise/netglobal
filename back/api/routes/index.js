@@ -1,17 +1,17 @@
 const express = require("express");
 const router = express.Router();
-const routerGuards = require("./guards");
-const clientRoutes = require("./client");
-const branchesRoutes = require("./branches");
-const eventsRoutes = require("./events");
+const clientRoutes = require("./clients");
+const guardRoutes = require("./guards");
+const branchRoutes = require("./branches");
 const shiftRoutes = require("./shifts");
 const guardShiftRoutes = require("./guardShifts");
+const eventRoutes = require("./events");
 
-router.use("/client", clientRoutes);
-router.use("/guards", routerGuards);
-router.use("/branches", branchesRoutes);
+router.use("/clients", clientRoutes);
+router.use("/guards", guardRoutes);
+router.use("/branches", branchRoutes);
 router.use("/shifts", shiftRoutes);
 router.use("/guardShifts", guardShiftRoutes);
-router.use("/events", eventsRoutes);
+router.use("/events", eventRoutes);
 
 module.exports = router;

@@ -1,5 +1,4 @@
 const { Guard } = require("../../models");
-const bcrypt = require("bcrypt");
 
 const guards = [
   {
@@ -8,14 +7,11 @@ const guards = [
     email: "antonio@guard.com",
     cuil: 2,
     password: "123456",
-    salt: "",
     street: "San Martin",
     number: 587,
     city: "Rosario",
     province: "Santa Fe",
     postalcode: "S2000",
-    entry_time: "8:00",
-    hours_per_day: 8,
     clientId: 2,
   },
   {
@@ -24,14 +20,11 @@ const guards = [
     email: "juan@guard.com",
     cuil: 5,
     password: "123456",
-    salt: "",
     street: "General Belgrano",
     number: 1004,
     city: "Campana",
     province: "Buenos Aires",
     postalcode: "B2804",
-    entry_time: "8:00",
-    hours_per_day: 8,
     clientId: 2,
   },
   {
@@ -40,14 +33,11 @@ const guards = [
     email: "martin@guard.com",
     cuil: 8,
     password: "123456",
-    salt: "",
     street: "Ituzaingó",
     number: 232,
     city: "Lujan",
     province: "Buenos Aires",
     postalcode: "B6700",
-    entry_time: "8:00",
-    hours_per_day: 8,
     active: false,
     clientId: 2,
   },
