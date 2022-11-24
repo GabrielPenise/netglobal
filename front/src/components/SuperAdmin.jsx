@@ -1,10 +1,14 @@
 import { useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
+import { setUiOpen } from "../store/slices/index.js";
 
 import { Axios } from "../utils/AxiosWithCredentials.js";
 
 import DropDownSelect from "../commons/DropDownSelect.jsx";
+import ClientModal from "./ClientModal.jsx";
 
 export default function SuperAdmin() {
+  const dispatch = useDispatch();
   const [select, setSelect] = useState([]);
   const [input, setInput] = useState({});
   const options = useRef([]);
@@ -29,16 +33,29 @@ export default function SuperAdmin() {
 
   options.current = select.map((element) => {
     return {
-      label: `${element.razon_social}`,
+      label: `${element.name}`,
       value: element,
     };
   });
 
+  const handleDelete = () => {
+    Axios.delete(`/client/delete/${input.value.id}`);
+  };
+
+  const handleModify = () => {
+    dispatch(setUiOpen(true));
+  };
+
   return (
-    <DropDownSelect
-      value={input}
-      options={options.current}
-      handleSelect={handleSelect}
-    />
+    <>
+      <DropDownSelect
+        value={input}
+        options={options.current}
+        handleSelect={handleSelect}
+        handleDelete={handleDelete}
+        handleModify={handleModify}
+      />
+      <ClientModal client={input} />
+    </>
   );
 }
