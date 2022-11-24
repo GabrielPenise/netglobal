@@ -62,7 +62,7 @@ export default function BranchModalEdit({ branch }) {
         <Modal.Title>Editar</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form>
+        <Form onSubmit={handleSubmit}>
           {headingBranchModal.map((element, index) => {
             return (
               <div className="mb-3" key={index}>
@@ -76,16 +76,16 @@ export default function BranchModalEdit({ branch }) {
               </div>
             );
           })}
+          <Modal.Footer>
+            <Button variant="secondary" onClick={closeModal}>
+              Cerrar
+            </Button>
+            <Button variant="primary" type="submit">
+              Guardar Cambios
+            </Button>
+          </Modal.Footer>
         </Form>
       </Modal.Body>
-      <Modal.Footer>
-        <Button variant="secondary" onClick={closeModal}>
-          Cerrar
-        </Button>
-        <Button variant="primary" type="submit" onClick={handleSubmit}>
-          Guardar Cambios
-        </Button>
-      </Modal.Footer>
     </Modal>
   );
 }
