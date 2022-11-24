@@ -41,7 +41,7 @@ export default function ClientModal({ client }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     try {
-      Axios.put(`client/edit/${client.value.id}`, input);
+      Axios.put(`clients/edit/${client.value.id}`, input);
       closeModal();
     } catch (err) {
       console.error(err, "failed to update client");
