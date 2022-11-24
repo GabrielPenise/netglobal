@@ -14,7 +14,7 @@ function Nadvar() {
   const dispatch = useDispatch();
 
   const handleLogOut = async () => {
-    await Axios.post("/client/logout");
+    await Axios.post("/clients/logout");
     dispatch(unSet());
     navigate("/");
   };

@@ -24,7 +24,7 @@ function App() {
 
   const userAuth = async () => {
     try {
-      const { data } = await Axios.get("/client/validate");
+      const { data } = await Axios.get("/clients/validate");
       dispatch(setUser(data));
     } catch (err) {
       console.log(err, "cookie no encontrada");

@@ -28,7 +28,7 @@ function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    Axios.post("/client/login", input)
+    Axios.post("/clients/login", input)
       .then((res) => {
         dispatch(setUser(res.data));
         navigate("/home");

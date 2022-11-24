@@ -11,7 +11,7 @@ export default function SuperAdmin() {
 
   const fetchClients = async () => {
     try {
-      const { data } = await Axios.get("/client");
+      const { data } = await Axios.get("/clients");
 
       setSelect(data);
     } catch (err) {
