@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { Axios } from "../utils/AxiosWithCredentials.js";
 
 import DropDownSelect from "../commons/DropDownSelect.jsx";
+import { Container } from "react-bootstrap";
 
 export default function SuperAdmin() {
   const [select, setSelect] = useState([]);
@@ -35,10 +36,12 @@ export default function SuperAdmin() {
   });
 
   return (
-    <DropDownSelect
-      value={input}
-      options={options.current}
-      handleSelect={handleSelect}
-    />
+    <Container style={{ minHeight: "100vh" }}>
+      <DropDownSelect
+        value={input}
+        options={options.current}
+        handleSelect={handleSelect}
+      />
+    </Container>
   );
 }

@@ -28,7 +28,7 @@ function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    Axios.post("/client/login", input)
+    Axios.post("/clients/login", input)
       .then((res) => {
         dispatch(setUser(res.data));
         navigate("/home");
@@ -40,9 +40,9 @@ function Login() {
   };
 
   return (
-    <Container>
+    <Container style={{ minHeight: "100vh" }}>
       <Row className="justify-content-md-center">
-        <Col xs={12} md={6} className="rounded-5 p-4 mt-4 ">
+        <Col xs={12} md={6} className="rounded-5 p-2">
           <div className={style["divGeneral"]}>
             <img className={style["imagenLog"]} src={imagen} />
           </div>
