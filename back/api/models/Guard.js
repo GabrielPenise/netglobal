@@ -69,13 +69,9 @@ Guard.init(
     longitude: {
       type: S.FLOAT,
     },
-    entry_time: {
-      type: S.TIME,
-      allowNull: false,
-    },
     hours_per_day: {
       type: S.INTEGER,
-      allowNull: false,
+      default: 8,
     },
     active: {
       type: S.BOOLEAN,
@@ -102,15 +98,15 @@ Guard.beforeCreate(async (guard) => {
   guard.salt = salt;
   guard.hash(guard.password, salt).then((hash) => (guard.password = hash));
 
-  const [latitude, longitude] = await getCoordinates(
+  const [lat, long] = await getCoordinates(
     `${guard.street} ${guard.number}`,
     guard.city,
     guard.province,
     guard.postalcode
   );
 
-  guard.latitude = latitude;
-  guard.longitude = longitude;
+  guard.latitude = lat;
+  guard.longitude = long;
 });
 
 module.exports = Guard;

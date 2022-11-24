@@ -8,9 +8,6 @@ const GuardShift = require("./GuardShift");
 Client.hasMany(Branch);
 Branch.belongsTo(Client);
 
-Guard.belongsTo(Client);
-Client.hasMany(Guard);
-
 Events.belongsTo(Branch);
 Client.hasMany(Events);
 Events.belongsTo(Guard);
