@@ -86,7 +86,7 @@ class ClientService {
     try {
       // comprobamos si existe la sucursal
       const client = await Client.findByPk(id);
-
+      console.log(client);
       if (!client) {
         return {
           error: true,
@@ -98,7 +98,7 @@ class ClientService {
       }
 
       const body = { active: false };
-      const response = await Branch.update(body, { where: { id } });
+      const response = await Client.update(body, { where: { id } });
       return { error: false, data: response };
     } catch (error) {
       console.error(error);
@@ -123,7 +123,7 @@ class ClientService {
       }
 
       const body = { active: true };
-      const response = await Branch.update(body, { where: { id } });
+      const response = await Client.update(body, { where: { id } });
       return { error: false, data: response };
     } catch (error) {
       console.error(error);
