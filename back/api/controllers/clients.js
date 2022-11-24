@@ -16,21 +16,13 @@ class ClientController {
   static async loginClient(req, res) {
     const { email, password } = req.body;
     const { error, data } = await ClientService.loginClient(email, password);
-    const payload = {
-      id: data.id,
-      name: data.name,
-      cuit: data.cuit,
-      email: data.email,
-      super_admin: data.super_admin,
-      rol: "client",
-    };
-    const token = generateToken(payload);
-    res.cookie("token", token);
-    res.send(payload);
+
     if (error) {
       return res.status(data.status || 500).send({ message: data.message });
     }
-    res.status(201);
+    const token = generateToken(data);
+    res.cookie("token", token);
+    res.send(data);
   }
 
   // GET ALL CLIENTS

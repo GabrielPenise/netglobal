@@ -16,12 +16,34 @@ class ClientService {
   // LOG IN
   static async loginClient(email, password) {
     try {
-      const cliente = await Client.findOne({ where: { email: email } });
-      if (!cliente) return { error: true, data: error };
+      const client = await Client.findOne({ where: { email: email } });
+      if (!client)
+        return {
+          error: true,
+          data: {
+            status: 400,
+            message: `No existe el cliente con email ${email}`,
+          },
+        };
 
-      const validate = await cliente.validatePassword(password);
-      if (!validate) return { error: true, data: error };
-      return { error: false, data: cliente };
+      const validate = await client.validatePassword(password);
+      if (!validate)
+        return {
+          error: true,
+          data: {
+            status: 400,
+            message: `Contraseña incorrecta`,
+          },
+        };
+      const payload = {
+        id: client.id,
+        name: client.name,
+        cuit: client.cuit,
+        email: client.email,
+        super_admin: client.super_admin,
+        rol: "client",
+      };
+      return { error: false, data: payload };
     } catch (error) {
       console.error(error);
       return { error: true, data: error };
@@ -32,6 +54,7 @@ class ClientService {
   static async allClients() {
     try {
       const response = await Client.findAll({
+        where: { super_admin: false, active: true },
         attributes: { exclude: ["password", "salt"] },
       });
       return { error: false, data: response };
