@@ -5,7 +5,8 @@ import { useLocation } from "react-router-dom";
 import { Button } from "react-bootstrap";
 
 import { setUiOpen } from "../store/slices/index.js";
-export default function DynamicTable({ object, handleDelete, handleModify }) {
+export default function DynamicTable({ object, handleDelete }) {
+  const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   const column = useRef([]);
   const row = useRef([]);
@@ -80,6 +81,10 @@ export default function DynamicTable({ object, handleDelete, handleModify }) {
     });
   }
 
+  const handleModify = () => {
+    dispatch(setUiOpen(true));
+  };
+
   return (
     <>
       <Table responsive striped bordered hover style={{ display: "block" }}>
@@ -88,7 +93,6 @@ export default function DynamicTable({ object, handleDelete, handleModify }) {
             {column.current.map((item, index) => {
               return <TableHeadItem item={item.heading} />;
             })}
-            <th></th>
             <th></th>
             <th></th>
           </tr>
@@ -105,9 +109,6 @@ export default function DynamicTable({ object, handleDelete, handleModify }) {
           </tr>
         </tbody>
       </Table>
-      <div class="text-center">
-        <Button>Crear nuevo</Button>
-      </div>
     </>
   );
 }

@@ -41,10 +41,8 @@ export default function Guards() {
   });
 
   const handleDelete = () => {
-    Axios.delete(`/guards/delete/${input.value.id}`);
+    Axios.put(`/guards/delete/${input.value.id}`);
   };
-
-  const handleModify = () => {};
 
   return (
     <Container style={{ minHeight: "100vh" }}>

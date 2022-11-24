@@ -54,7 +54,6 @@ export default function SuperAdmin() {
         options={options.current}
         handleSelect={handleSelect}
         handleDelete={handleDelete}
-        handleModify={handleModify}
       />
       <ClientModal client={input} />
     </Container>
