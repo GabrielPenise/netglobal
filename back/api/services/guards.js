@@ -4,6 +4,7 @@ class GuardsService {
   static async getAll() {
     try {
       const response = await Guard.findAll({
+        where: { active: true },
         attributes: { exclude: ["password", "salt"] },
       });
       return { error: false, data: response };
