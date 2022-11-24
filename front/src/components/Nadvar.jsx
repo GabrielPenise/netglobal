@@ -16,25 +16,25 @@ function Nadvar() {
   const handleLogOut = async () => {
     await Axios.post("/client/logout");
     dispatch(unSet());
-    navigate("/login");
+    navigate("/");
   };
 
   return (
     <Nav className={`${style["nav"]}  justify-content-between`}>
       <img className={style["logoNav"]} src={logo} />
 
-      {user ? (
-        <CiLogin className={style["logOut"]} onClick={handleLogOut} />
-      ) : (
-        <Button
-          onClick={() => {
-            navigate("/login");
-          }}
-        >
-          Login
-        </Button>
-      )}
-
+      {
+        user ? (
+          <CiLogin className={style["logOut"]} onClick={handleLogOut} />
+        ) : null
+        // <Button
+        //   onClick={() => {
+        //     navigate("/login");
+        //   }}
+        // >
+        //   Login
+        // </Button>
+      }
     </Nav>
   );
 }
