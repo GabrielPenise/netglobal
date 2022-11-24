@@ -13,7 +13,7 @@ export default function Guards() {
 
   const fecthGuards = async () => {
     try {
-      const { data } = await Axios.get(`/guards/guardsbyclient/${user.id}`);
+      const { data } = await Axios.get(`/guards/byclient/${user.id}`);
 
       setSelect(data);
     } catch (err) {
@@ -31,10 +31,14 @@ export default function Guards() {
 
   options.current = select.map((element) => {
     return {
-      label: `Guardia: ${element.name} ${element.lastname}`,
+      label: `Guardia: ${element.name} ${element.lastname} Activo: ${element.active}`,
       value: element,
     };
   });
+
+  const handleDelete = () => {};
+
+  const handleModify = () => {};
 
   return (
     <DropDownSelect

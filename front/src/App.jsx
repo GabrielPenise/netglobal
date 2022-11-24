@@ -4,9 +4,9 @@ import Sidebar from "./components/SideBar";
 import Calendario from "./commons/Calendario";
 import Login from "./screens/Login";
 import Home from "./screens/Home";
-import Geolocalizacion from "./geolocalizacion/Geolocalizacion"
+import Geolocalizacion from "./geolocalizacion/Geolocalizacion";
 
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 
 import { Axios } from "./utils/AxiosWithCredentials";
 
@@ -41,6 +41,7 @@ function App() {
       {!user ? (
         <>
           <Routes>
+            <Route path="/" element={<Navigate to={"/login"} />} />
             <Route path="/login" element={<Login />} />
           </Routes>
         </>
@@ -52,15 +53,14 @@ function App() {
               <Route path="/superadmin" element={<SuperAdmin />} />
             ) : (
               <>
+                <Route path="/" element={<Navigate to={"/home"} />} />
                 <Route path="/calendar" element={<Calendario />} />
 
                 <Route path={`/branch/${user.id}`} element={<Branchs />} />
 
                 <Route path={`/guards/${user.id}`} element={<Guards />} />
 
-                
                 <Route path="/geo" element={<Geolocalizacion />} />
-               
 
                 <Route path="/home" element={<Home />} />
               </>

@@ -2,8 +2,11 @@ import React from "react";
 import style from "../assets/styles/screens/Home.module.scss";
 import imagen from "../assets/styles/image/gris_cuadrado.png";
 import { Container, Col, Row } from "react-bootstrap";
+import { useSelector } from "react-redux";
 
 function Home() {
+  const { user } = useSelector((state) => state.user);
+
   return (
     <div>
       <Container>
