@@ -1,9 +1,9 @@
 const S = require("sequelize");
 const db = require("../config/db");
 
-class Events extends S.Model {}
+class Event extends S.Model {}
 
-Events.init(
+Event.init(
   {
     date: {
       type: S.DATE,
@@ -17,23 +17,18 @@ Events.init(
     },
     position_in_latitude: {
       type: S.FLOAT,
-      allowNull: false,
     },
     position_in_longitude: {
       type: S.FLOAT,
-      allowNull: false,
     },
-
     position_out_latitude: {
       type: S.FLOAT,
-      allowNull: false,
     },
     position_out_longitude: {
       type: S.FLOAT,
-      allowNull: false,
     },
   },
   { sequelize: db, modelName: "events" }
 );
 
-module.exports = Events;
+module.exports = Event;

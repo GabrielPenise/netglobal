@@ -1,6 +1,5 @@
-const ClientService = require("../services/client");
+const ClientService = require("../services/clients");
 const { generateToken } = require("../config/token");
-const { Client } = require("../models");
 
 class ClientController {
   // CREATE CLIENT - REGISTER

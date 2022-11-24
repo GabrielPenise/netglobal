@@ -43,6 +43,7 @@ Client.init(
     },
     address: {
       type: S.STRING,
+      allowNull: false,
     },
     // fecha_inicio_contrato: {
     //   type: S.DATE,
