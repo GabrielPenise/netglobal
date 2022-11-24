@@ -15,6 +15,10 @@ Events.belongsTo(Branch);
 Client.hasMany(Events);
 Events.belongsTo(Guard);
 Guard.hasMany(Events);
+Shift.hasMany(Events);
+GuardShift.hasMany(Events);
+Events.belongsTo(Shift);
+Events.belongsTo(GuardShift);
 
 Client.hasMany(Guard);
 Guard.belongsTo(Client);
