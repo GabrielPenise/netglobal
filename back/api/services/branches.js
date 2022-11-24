@@ -37,7 +37,9 @@ class BranchesService {
       }
 
       // traemos las sucursales del cliente
-      const response = await Branch.findAll({ where: { clientId } });
+      const response = await Branch.findAll({
+        where: { clientId, active: true },
+      });
       return { error: false, data: response };
     } catch (error) {
       console.error(error);

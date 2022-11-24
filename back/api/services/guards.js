@@ -17,7 +17,7 @@ class GuardsService {
   static async getGuardsByClient(clientId) {
     try {
       const response = await Guard.findAll({
-        where: { clientId },
+        where: { clientId, active: true },
         attributes: { exclude: ["password", "salt"] },
       });
       return { error: false, data: response };
