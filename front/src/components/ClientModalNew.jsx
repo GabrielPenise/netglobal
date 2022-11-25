@@ -26,7 +26,7 @@ export default function ClientModalNew() {
     { heading: "Password", key: "password", type: "password" },
     { heading: "Nombre", key: "name", type: "text" },
 
-    { heading: "Calle", key: "address", type: "text" },
+    { heading: "Dirección", key: "address", type: "text" },
 
     { heading: "Cuit", key: "cuit", type: "text" },
   ];
