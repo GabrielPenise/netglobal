@@ -8,7 +8,7 @@ export default StyleSheet.create({
     },
     image:{
         width: 410,
-        height: 250,
+        height: 240,
         marginBottom: 50,
     }, 
     textInput: {
