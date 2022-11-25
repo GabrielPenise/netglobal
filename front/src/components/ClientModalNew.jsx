@@ -5,36 +5,30 @@ import { setUiOpenNew } from "../store/slices/index.js";
 import { Form, Button, Modal } from "react-bootstrap";
 import { Axios } from "../utils/AxiosWithCredentials.js";
 
-export default function GuardModalNew() {
+export default function ClientModalNew() {
   const { user } = useSelector((state) => state.user);
   const initialState = {
-    name: "",
-    lastname: "",
     email: "",
-    password: null,
-    cuit: null,
-    street: "",
-    number: null,
-    city: "",
-    province: "",
-    postalcode: "",
+    password: "",
+    name: "",
+    address: "",
+    cuit: "",
     clientId: user.id,
   };
   const [input, setInput] = useState(initialState);
   const dispatch = useDispatch();
   const { uiOpenNew } = useSelector((state) => state.modalCreate);
 
-  const headingGuardNew = [
-    { heading: "Nombre", key: "name", type: "text" },
-    { heading: "Apellido", key: "lastname", type: "text" },
+  //Crea los nombres de los campos que necesito para crear un nuevo branch
+  //heading es lo que voy a ver en el formulario, la key es el nombre de la prop de obj, y el type es para usar en el input de html
+  const headingClientNew = [
     { heading: "Email", key: "email", type: "email" },
     { heading: "Password", key: "password", type: "password" },
-    { heading: "Cuil", key: "cuil", type: "text" },
-    { heading: "Calle", key: "street", type: "text" },
-    { heading: "Altura", key: "number", type: "number" },
-    { heading: "Ciudad", key: "city", type: "text" },
-    { heading: "Provincia", key: "province", type: "text" },
-    { heading: "Codigo Postal", key: "postalcode", type: "text" },
+    { heading: "Nombre", key: "name", type: "text" },
+
+    { heading: "Calle", key: "address", type: "text" },
+
+    { heading: "Cuit", key: "cuit", type: "text" },
   ];
 
   const closeModal = () => {
@@ -55,17 +49,12 @@ export default function GuardModalNew() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      Axios.post("/guards/create", input);
-      setInput(initialState);
-      closeModal();
-      window.location.reload();
-    } catch (err) {
-      console.error(err, "failed to create guard");
-      closeModal();
-      window.location.reload();
-    }
+    Axios.post("/clients/create", input);
+    setInput(initialState);
+    closeModal();
+    window.location.reload();
   };
+
   return (
     <Modal
       size="sm"
@@ -75,17 +64,17 @@ export default function GuardModalNew() {
       aria-labelledby="contained-moda-tittle-vcenter"
     >
       <Modal.Header closeButton>
-        <Modal.Title>Nuevo Guardia</Modal.Title>
+        <Modal.Title>Nueva Cliente</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
-          {headingGuardNew.map((element, index) => {
+          {headingClientNew.map((element, index) => {
             return (
               <div className="mb-3" key={index}>
                 <label className="form-label">{element.heading}</label>
                 <Form.Control
-                  value={input[element.key]}
                   type={element.type}
+                  value={input[element.key]}
                   name={element.key}
                   onChange={handleInputChange}
                   required

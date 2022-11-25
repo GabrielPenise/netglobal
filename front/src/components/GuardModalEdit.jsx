@@ -48,9 +48,11 @@ export default function GuardModalEdit({ guard }) {
     try {
       Axios.put(`guards/edit/${guard.value.id}`, input);
       closeModal();
+      window.location.reload();
     } catch (err) {
       console.error(err, "failed to update guard");
       closeModal();
+      window.location.reload();
     }
   };
   return (

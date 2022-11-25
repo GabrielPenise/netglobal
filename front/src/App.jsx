@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "./store/slices/index.js";
 import Guards from "./components/Guards";
 import Branchs from "./components/Branchs";
-import SuperAdmin from "./components/SuperAdmin";
+import ClientOrSu from "./components/ClientOrSu";
 
 function App() {
   const { user } = useSelector((state) => state.user);
@@ -51,7 +51,7 @@ function App() {
           <Routes>
             {user["super_admin"] ? (
               <>
-                <Route path="/superadmin" element={<SuperAdmin />} />
+                <Route path="/superadmin" element={<ClientOrSu />} />
                 <Route path="/home" element={<Home />} />
               </>
             ) : (

@@ -45,9 +45,11 @@ export default function BranchModalEdit({ branch }) {
     try {
       Axios.put(`branches/edit/${branch.value.id}`, input);
       closeModal();
+      window.location.reload();
     } catch (err) {
       console.error(err, "failed to update branches");
       closeModal();
+      window.location.reload();
     }
   };
   return (

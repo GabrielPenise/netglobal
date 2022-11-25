@@ -28,7 +28,10 @@ export default function DynamicTable({ object, handleDelete }) {
     { heading: "Nombre", value: "name" },
     { heading: "Apellido", value: "lastname" },
     { heading: "Email", value: "email" },
+    { heading: "Provincia", value: "province" },
     { heading: "Ciudad", value: "city" },
+    { heading: "Calle", value: "street" },
+    { heading: "Altura", value: "number" },
   ];
 
   const headingColumnsBranchs = [
@@ -77,6 +80,9 @@ export default function DynamicTable({ object, handleDelete }) {
         lastname: element.lastname,
         email: element.email,
         city: element.city,
+        province: element.province,
+        street: element.street,
+        number: element.number,
       };
     });
   }

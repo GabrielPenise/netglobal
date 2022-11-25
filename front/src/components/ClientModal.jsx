@@ -43,9 +43,11 @@ export default function ClientModal({ client }) {
     try {
       Axios.put(`clients/edit/${client.value.id}`, input);
       closeModal();
+      window.location.reload();
     } catch (err) {
       console.error(err, "failed to update client");
       closeModal();
+      window.location.reload();
     }
   };
   return (
