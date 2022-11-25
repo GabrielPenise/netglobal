@@ -70,16 +70,26 @@ El sistema dispone de dos aplicaciones bien diferenciadas:
 - Bcrypt
 - JWT
 - Dotenv
+- Cors
+- Nominatim
 
 #### Front
 
 - Axios
 - React
+- React Calendar
+- React Leaflet
 - Redux
+- Moment
 - React-Bootstrap
 - Bootstrap
 - SASS
 - CSS
+
+#### APP MOBILE
+
+- React Native
+- Expo
 
 <p align="right">(<a href="#readme-top">volver a arriba</a>)</p>
 
@@ -142,9 +152,9 @@ Puedes ver todos los metodos de la API descargando la [colección de POSTMAN](ht
 - [ ] Aplicación Web
   - [x] Login/Logout
   - [x] Persistencia de usuario
-  - [ ] Panel alta clientes
-  - [ ] Panel alta sucursales de un cliente
-  - [ ] Panel alta vigiladores
+  - [x] Panel alta clientes
+  - [x] Panel alta sucursales de un cliente
+  - [x] Panel alta vigiladores
   - [ ] Calendario y asignación de turnos
   - [ ] Calendarios por vigilador
   - [ ] Calendarios por sucursal
@@ -156,7 +166,7 @@ Puedes ver todos los metodos de la API descargando la [colección de POSTMAN](ht
 <!-- MOBILE -->
 
 - [ ] Aplicación Móvil
-  - [ ] Login/Logout
+  - [x] Login/Logout
   - [ ] Persistencia de usuario
   - [ ] Fichaje horario entrada y salida
   - [ ] Registrar geoposicionamiento entrada y salida
