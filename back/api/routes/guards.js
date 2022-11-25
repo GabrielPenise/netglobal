@@ -1,35 +1,42 @@
 const express = require("express");
-const routerGuards = express.Router();
-const { Guards } = require("../models");
+const router = express.Router();
 const { validateAuth, validateClient } = require("../middlewares/auth");
 const GuardsController = require("../controllers/guards");
 
 //GET ALL GUARDS api/guards
-routerGuards.get("/", GuardsController.getAll);
+router.get("/", GuardsController.getAll);
 
-//GET GUARDS BY CLIENT api/guardsbyclient/:id
-routerGuards.get("/guardsbyclient/:id", GuardsController.getGuardsByClient)
+//PERSISTENCE api/guards/validate
+router.get("/validate", validateAuth, (req, res) => {
+  console.log("hola", req.user);
+  res.send(req.user);
+});
 
 //GET GUARD BY ID api/guards/:id
-routerGuards.get("/:id", GuardsController.getSingle)
+router.get("/:id", validateAuth, GuardsController.getSingle);
+
+//GET GUARDS BY CLIENT api/guards/byClient/:id
+router.get("/byClient/:id", validateClient, GuardsController.getGuardsByClient);
 
 //CREATE GUARD api/guards/create
-routerGuards.post("/create", GuardsController.createGuard)
+router.post("/create", validateClient, GuardsController.createGuard);
 
 //LOG IN GUARD api/guards/login
-routerGuards.post("/login", GuardsController.loginGuard)
-
-//PERSISTENCIA api/guards/validate
-routerGuards.get("/validate", validateAuth, (req, res) => {res.send(req.user)});
+router.post("/login", GuardsController.loginGuard);
 
 //LOG OUT GUARD api/guards/logout
-routerGuards.post("/logout", (req, res) => {  res.clearCookie("token") 
-res.sendStatus(204)});
+router.post("/logout", (req, res) => {
+  res.clearCookie("token");
+  res.sendStatus(204);
+});
 
-//UPDATE GUARD api/guards/:id
-routerGuards.put("/:id", GuardsController.updateGuard)
+//UPDATE GUARD api/guards/edit/:id
+router.put("/edit/:id", validateAuth, GuardsController.updateGuard);
 
-//DELETE GUARD api/guards/deleteGuard/:id
-routerGuards.delete("/deleteGuard/:id", GuardsController.deleteGuard)
+//DELETE GUARD api/guards/delete/:id
+router.put("/delete/:id", validateClient, GuardsController.deleteGuard);
 
-module.exports = routerGuards;
+//RESTORE GUARD api/guards/restore/:id
+router.put("/restore/:id", validateClient, GuardsController.restoreGuard);
+
+module.exports = router;

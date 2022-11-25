@@ -16,13 +16,16 @@ router.get(
   BranchesController.getClientBranches
 );
 
-// CREATE A NEW BRANCH /api/branches
-router.post("/", validateClient, BranchesController.createBranch);
+// CREATE BRANCH /api/branches/create
+router.post("/create", validateClient, BranchesController.createBranch);
 
-// UPDATE A BRANCH /api/branches/:id
-router.put("/:id", validateClient, BranchesController.updateBranch);
+// UPDATE BRANCH /api/branches/edit/:id
+router.put("/edit/:id", validateClient, BranchesController.updateBranch);
 
-// DELETE A BRANCH /api/branches/:id
-router.delete("/:id", validateClient, BranchesController.deleteBranch);
+// DELETE BRANCH (soft delete) /api/branches/delete/:id
+router.put("/delete/:id", validateClient, BranchesController.deleteBranch);
+
+// RESTORE BRANCH (soft delete) /api/branches/restore/:id
+router.put("/restore/:id", validateClient, BranchesController.restoreBranch);
 
 module.exports = router;

@@ -1,8 +1,9 @@
 const S = require("sequelize");
 const db = require("../config/db");
 const bcrypt = require("bcrypt");
+const { getCoordinates } = require("../utils/coordinates");
 
-class Guards extends S.Model {
+class Guard extends S.Model {
   hash(password, salt) {
     return bcrypt.hash(password, salt);
   }
@@ -11,9 +12,9 @@ class Guards extends S.Model {
       (newHash) => newHash === this.password
     );
   }
-} 
+}
 
-Guards.init(
+Guard.init(
   {
     name: {
       type: S.STRING,
@@ -36,11 +37,11 @@ Guards.init(
     },
     password: {
       type: S.STRING,
-      allowNull: false, 
-      validate: { min: 6},
+      allowNull: false,
+      validate: { min: 6 },
     },
     salt: {
-      type: S.STRING
+      type: S.STRING,
     },
     street: {
       type: S.STRING,
@@ -55,47 +56,64 @@ Guards.init(
       allowNull: false,
     },
     province: {
-        type: S.STRING,
-        allowNull: false,
+      type: S.STRING,
+      allowNull: false,
+    },
+    postalcode: {
+      type: S.STRING,
+      allowNull: false,
     },
     latitude: {
       type: S.FLOAT,
-      allowNull: false,
     },
     longitude: {
       type: S.FLOAT,
-      allowNull: false,
+    },
+    hours_per_day: {
+      type: S.INTEGER,
+      default: 8,
+    },
+    active: {
+      type: S.BOOLEAN,
+      defaultValue: true,
     },
     fullAddress: {
       type: S.VIRTUAL,
       get() {
-        return `${this.street}, ${this.number}, ${this.number}, ${this.province}`
+        return `${this.street}, ${this.number}, ${this.number}, ${this.province}`;
       },
     },
     coordinates: {
       type: S.VIRTUAL,
       get() {
-        return `${this.latitude}, ${this.longitude}`
+        return `${this.latitude}, ${this.longitude}`;
       },
-    },
-    entry_time:{
-        type:S.TIME,
-        allowNull:false
-    },
-    hours_per_day:{
-        type:S.INTEGER,
-        allowNull:false
     },
   },
   { sequelize: db, modelName: "guards" }
 );
 
-Guards.beforeCreate((guard) => {
+Guard.beforeCreate(async (guard) => {
   const salt = bcrypt.genSaltSync();
   guard.salt = salt;
-  return guard
-    .hash(guard.password, salt)
-    .then((hash) => (guard.password = hash));
+  guard.hash(guard.password, salt).then((hash) => (guard.password = hash));
+
+  const [lat, long] = await getCoordinates(
+    `${guard.street} ${guard.number}`,
+    guard.city,
+    guard.province,
+    guard.postalcode
+  );
+
+  guard.latitude = lat;
+  guard.longitude = long;
 });
 
-module.exports=Guards
+module.exports = Guard;
+
+/* status: {
+  type: S.ENUM,
+  values: ["activo", "inactivo", "licencia"],
+  allowNull: false,
+  defaultValue: "activo",
+}, */

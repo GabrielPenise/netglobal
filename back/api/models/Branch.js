@@ -1,5 +1,6 @@
 const S = require("sequelize");
 const db = require("../config/db");
+const { getCoordinates } = require("../utils/coordinates");
 
 class Branch extends S.Model {}
 
@@ -25,15 +26,21 @@ Branch.init(
       type: S.STRING,
       allowNull: false,
     },
-    latitude: {
-      type: S.FLOAT /* La database NO toma tipo de dato GEOMETRY: PostGIS */,
+    postalcode: {
+      type: S.STRING,
       allowNull: false,
+    },
+    latitude: {
+      type: S.FLOAT,
     },
     longitude: {
       type: S.FLOAT,
-      allowNull: false,
     },
-    fullAddress: {
+    active: {
+      type: S.BOOLEAN,
+      defaultValue: true,
+    },
+    full_address: {
       type: S.VIRTUAL,
       get() {
         return `${this.street}, ${this.number}, ${this.city}, ${this.province}`;
@@ -48,5 +55,17 @@ Branch.init(
   },
   { sequelize: db, modelName: "branch" }
 );
+
+Branch.beforeCreate(async (branch) => {
+  const [lat, long] = await getCoordinates(
+    `${branch.street} ${branch.number}`,
+    branch.city,
+    branch.province,
+    branch.postalcode
+  );
+
+  branch.latitude = lat;
+  branch.longitude = long;
+});
 
 module.exports = Branch;

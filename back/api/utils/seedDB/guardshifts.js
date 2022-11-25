@@ -1,4 +1,4 @@
-const { GuardShift } = require("../models");
+const { GuardShift } = require("../../models");
 
 const guardshifts = [
   {

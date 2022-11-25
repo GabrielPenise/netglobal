@@ -35,12 +35,15 @@ Client.init(
     cuit: {
       type: S.INTEGER,
       allowNull: false,
+      unique: true,
     },
-    razon_social: {
+    name: {
       type: S.STRING,
+      allowNull: false,
     },
-    direccion: {
+    address: {
       type: S.STRING,
+      allowNull: false,
     },
     // fecha_inicio_contrato: {
     //   type: S.DATE,
@@ -53,6 +56,10 @@ Client.init(
     super_admin: {
       type: S.BOOLEAN,
       defaultValue: false,
+    },
+    active: {
+      type: S.BOOLEAN,
+      defaultValue: true,
     },
   },
   { sequelize: db, modelName: "client" }
@@ -67,4 +74,3 @@ Client.beforeCreate((client) => {
 });
 
 module.exports = Client;
-
