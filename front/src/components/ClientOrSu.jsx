@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { setUiOpen } from "../store/slices/index.js";
 
 import { Axios } from "../utils/AxiosWithCredentials.js";
 
 import DropDownSelect from "../commons/DropDownSelect.jsx";
 import ClientModal from "./ClientModal.jsx";
+import ClientModalNew from "./ClientModalNew.jsx";
 import { Container } from "react-bootstrap";
 
-export default function SuperAdmin() {
+export default function ClientOrSu() {
   const dispatch = useDispatch();
   const [select, setSelect] = useState([]);
   const [input, setInput] = useState({});
@@ -40,11 +40,8 @@ export default function SuperAdmin() {
   });
 
   const handleDelete = () => {
-    Axios.delete(`/client/delete/${input.value.id}`);
-  };
-
-  const handleModify = () => {
-    dispatch(setUiOpen(true));
+    Axios.put(`/clients/delete/${input.value.id}`);
+    window.location.reload();
   };
 
   return (
@@ -56,6 +53,7 @@ export default function SuperAdmin() {
         handleDelete={handleDelete}
       />
       <ClientModal client={input} />
+      <ClientModalNew />
     </Container>
   );
 }

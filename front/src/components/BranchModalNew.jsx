@@ -52,6 +52,7 @@ export default function BranchModalNew() {
     Axios.post("/branches/create", input);
     setInput(initialState);
     closeModal();
+    window.location.reload();
   };
 
   return (
@@ -72,7 +73,8 @@ export default function BranchModalNew() {
               <div className="mb-3" key={index}>
                 <label className="form-label">{element.heading}</label>
                 <Form.Control
-                  value={input.key}
+                  type={element.type}
+                  value={input[element.key]}
                   name={element.key}
                   onChange={handleInputChange}
                   required

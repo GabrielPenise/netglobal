@@ -5,7 +5,6 @@ import { Axios } from "../utils/AxiosWithCredentials.js";
 import { useSelector, useDispatch } from "react-redux";
 import DropDownSelect from "../commons/DropDownSelect.jsx";
 import BranchModalEdit from "./BranchModalEdit.jsx";
-import { setUiOpen } from "../store/slices/index.js";
 
 import BranchModalNew from "./BranchModalNew.jsx";
 import { Container } from "react-bootstrap";
@@ -43,7 +42,8 @@ export default function Branchs() {
   });
 
   const handleDelete = () => {
-    Axios.delete(`/branches/delete/${input.value.id}`);
+    Axios.put(`/branches/delete/${input.value.id}`);
+    window.location.reload();
   };
 
   return (

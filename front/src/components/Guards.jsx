@@ -44,6 +44,7 @@ export default function Guards() {
 
   const handleDelete = () => {
     Axios.put(`/guards/delete/${input.value.id}`);
+    window.location.reload();
   };
 
   return (
