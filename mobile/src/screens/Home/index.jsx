@@ -1,4 +1,3 @@
-import { useNavigation } from '@react-navigation/native';
 import { Text, View, TouchableOpacity } from 'react-native';
 
 function HomeScreen({route, navigation}) {
