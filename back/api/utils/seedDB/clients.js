@@ -30,6 +30,16 @@ const clients = [
     fecha_fin_contrato: "01/01/1900", */
     active: false,
   },
+  {
+    email: "musimundo@musimundo.com",
+    password: "123456",
+    cuit: 74,
+    name: "Musimundo",
+    address: "Santa Fe 123, CABA, Buenos Aires",
+    /* fecha_inicio_contrato: "01/01/1900",
+    fecha_fin_contrato: "01/01/1900", */
+    active: true,
+  },
 ];
 
 async function createClients() {
