@@ -91,7 +91,7 @@ export default function DynamicTable({ object, handleDelete }) {
         <thead>
           <tr>
             {column.current.map((item, index) => {
-              return <TableHeadItem item={item.heading} />;
+              return <TableHeadItem key={index} item={item.heading} />;
             })}
             <th></th>
             <th></th>
@@ -117,7 +117,7 @@ const TableHeadItem = ({ item }) => <th>{item}</th>;
 const TableRowItem = ({ item, column }) => (
   <>
     {column.map((columnItem, index) => {
-      return <td>{item[0][`${columnItem.value}`]}</td>;
+      return <td key={index}>{item[0][`${columnItem.value}`]}</td>;
     })}
   </>
 );

@@ -5,6 +5,8 @@ import { Axios } from "../utils/AxiosWithCredentials.js";
 import { useSelector } from "react-redux";
 import DropDownSelect from "../commons/DropDownSelect.jsx";
 import { Container } from "react-bootstrap";
+import GuardModalEdit from "./GuardModalEdit.jsx";
+import GuardModalNew from "./GuardModalNew.jsx";
 
 export default function Guards() {
   const [select, setSelect] = useState([]);
@@ -52,6 +54,8 @@ export default function Guards() {
         handleSelect={handleSelect}
         handleDelete={handleDelete}
       />
+      <GuardModalEdit guard={input} />
+      <GuardModalNew />
     </Container>
   );
 }
