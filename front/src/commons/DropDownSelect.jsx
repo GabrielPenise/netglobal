@@ -19,7 +19,7 @@ export default function DropDownSelect({
     <>
       <Select value={value} options={options} onChange={handleSelect} />
       <DynamicTable object={Array(value.value)} handleDelete={handleDelete} />
-      <div class="text-center">
+      <div className="text-center">
         <Button onClick={handleNew}>Crear nuevo</Button>
       </div>
     </>

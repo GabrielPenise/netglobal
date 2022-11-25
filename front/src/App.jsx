@@ -50,7 +50,10 @@ function App() {
           <Sidebar />
           <Routes>
             {user["super_admin"] ? (
-              <Route path="/superadmin" element={<SuperAdmin />} />
+              <>
+                <Route path="/superadmin" element={<SuperAdmin />} />
+                <Route path="/home" element={<Home />} />
+              </>
             ) : (
               <>
                 <Route path="/" element={<Navigate to={"/home"} />} />
