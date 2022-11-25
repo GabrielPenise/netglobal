@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { Axios } from "../utils/AxiosWithCredentials.js";
 
 import DropDownSelect from "../commons/DropDownSelect.jsx";
-import ClientModal from "./ClientModal.jsx";
+import ClientModal from "./ClientModalEdit.jsx";
 import ClientModalNew from "./ClientModalNew.jsx";
 import { Container } from "react-bootstrap";
 
