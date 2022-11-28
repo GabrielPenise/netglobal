@@ -4,10 +4,15 @@ import images from '../../assets/images'
 import styles from './styles';
 import axios from 'axios';
 import { Button } from '@rneui/themed';
+import AsyncStorage from '@react-native-async-storage/async-storage'
+
+
+
 
 function LoginScreen({route, navigation}) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("")
+    const [user, setUser] = useState("")  
 
     const onChangeTextEmail = (text)=>{
         setEmail(text)
@@ -16,14 +21,30 @@ function LoginScreen({route, navigation}) {
     const onChangeTextContrasena = (text)=>{
         setPassword(text)
     }
-
-   console.log({email, password});
-
+   
     const onButtonPress = () => {
-        axios.post("http://192.168.1.85:3001/api/guards/login", {email, password}).then((res) => console.log(res))
+        axios.post("http://192.168.1.85:3001/api/guards/login", {email, password}).then((res) => setUser(res.data.email))
+        AsyncStorage.setItem("users", user)
+        if(user !== null) {
+          navigation.navigate("Perfil")
+        }
     }
-// falta completar el login === > in progress
 
+    const getData = async () => {
+      try {
+        const value = await AsyncStorage.getItem('users')
+        if(value !== null) {
+          console.log(value);
+        }
+      } catch(e) {
+        console.log(error);
+      }
+    }
+console.log(new Date());
+
+
+
+getData()
   return (
     <View style={styles.container}>
       <View>
