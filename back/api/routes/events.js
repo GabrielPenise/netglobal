@@ -36,7 +36,6 @@ router.get(
 );
 
 // GET EVENT BY GUARD ID AND DATE api/events/byDate/:guardId/:date
-// esta ruta todavia no funciona, tengo que corregirla
-router.get("/byDate/:guardId/:date", eventsController.eventByDateYGuard);
+router.get("/byDate/:date/:guardId", eventsController.eventByDateYGuard);
 
 module.exports = router;
