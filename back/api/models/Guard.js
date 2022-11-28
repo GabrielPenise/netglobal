@@ -71,16 +71,22 @@ Guard.init(
     },
     hours_per_day: {
       type: S.INTEGER,
-      default: 8,
+      defaultValue: 8,
     },
     active: {
       type: S.BOOLEAN,
       defaultValue: true,
     },
-    fullAddress: {
+    fulladdress: {
       type: S.VIRTUAL,
       get() {
-        return `${this.street}, ${this.number}, ${this.number}, ${this.province}`;
+        return `${this.street}, ${this.number}, ${this.city}, ${this.province}, ${this.postalcode}`;
+      },
+    },
+    fullname: {
+      type: S.VIRTUAL,
+      get() {
+        return `${this.name} ${this.lastname}`;
       },
     },
     coordinates: {

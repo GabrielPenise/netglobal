@@ -72,6 +72,7 @@ class GuardsService {
       const payload = {
         id: guard.id,
         email: guard.email,
+        fullname: guard.fullname,
         rol: "guard",
       };
       return { error: false, data: payload };
