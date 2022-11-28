@@ -121,8 +121,7 @@ class eventsController {
 
   //GET EVENT BY GUARD ID AND DATE
   static async eventByDateYGuard(req, res) {
-    const { guardId } = req.params;
-    const date = req.body;
+    const { date, guardId } = req.params;
 
     const { error, data } = await eventsService.eventByDateYGuard(
       guardId,
