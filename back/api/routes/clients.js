@@ -1,11 +1,17 @@
 const express = require("express");
 const router = express.Router();
 const { validateAuth, validateSuperAdmin } = require("../middlewares/auth");
+const { validateCuix } = require("../middlewares/cuix");
 const ClientController = require("../controllers/clients");
 
 // REGISTER api/clients/create
 
-router.post("/create", validateSuperAdmin, ClientController.createClient);
+router.post(
+  "/create",
+  validateSuperAdmin,
+  validateCuix,
+  ClientController.createClient
+);
 
 // LOG IN api/clients/login
 router.post("/login", ClientController.loginClient);
@@ -28,7 +34,12 @@ router.get("/", validateSuperAdmin, ClientController.allClients);
 router.get("/:id", validateAuth, ClientController.getOneClient);
 
 //UPDATE CLIENT api/clients/edit/:id
-router.put("/edit/:id", validateSuperAdmin, ClientController.updateClient);
+router.put(
+  "/edit/:id",
+  validateSuperAdmin,
+  validateCuix,
+  ClientController.updateClient
+);
 
 //UNSUSCRIBE - DELETE  api/clients/delete/:id
 router.put("/delete/:id", validateSuperAdmin, ClientController.delete);
