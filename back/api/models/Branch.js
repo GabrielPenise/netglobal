@@ -64,8 +64,24 @@ Branch.beforeCreate(async (branch) => {
     branch.postalcode
   );
 
-  branch.latitude = lat;
-  branch.longitude = long;
+  if (lat && long) {
+    branch.latitude = lat;
+    branch.longitude = long;
+  } else throw new Error("No se encuentran coordenadas para esa dirección");
+});
+
+Branch.beforeUpdate(async (branch) => {
+  const [lat, long] = await getCoordinates(
+    `${branch.street} ${branch.number}`,
+    branch.city,
+    branch.province,
+    branch.postalcode
+  );
+
+  if (lat && long) {
+    branch.latitude = lat;
+    branch.longitude = long;
+  } else throw new Error("No se encuentran coordenadas para esa dirección");
 });
 
 module.exports = Branch;

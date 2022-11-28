@@ -3,7 +3,7 @@ const { Branch, Client } = require("../models");
 class BranchesService {
   static async getAll() {
     try {
-      const response = await Branch.findAll({ where: { active: true } });
+      const response = await Branch.findAll();
       return { error: false, data: response };
     } catch (error) {
       console.error(error);
@@ -91,11 +91,8 @@ class BranchesService {
       }
 
       // actualizamos la sucursal
-      const [affectedRows, updatedBranch] = await Branch.update(body, {
-        where: { id },
-        returning: true, //para que devuelva algo el update
-      });
-      return { error: false, data: updatedBranch[0] };
+      const updatedBranch = await branch.update(body);
+      return { error: false, data: updatedBranch };
     } catch (error) {
       console.error(error);
       return { error: true, data: error };
