@@ -23,7 +23,7 @@ const clients = [
   {
     email: "fravega@fravega.com",
     password: "123456",
-    cuit: 3,
+    cuit: 2,
     name: "Fravega S.A.",
     address: "Belgrano, 234, CABA, Buenos Aires",
     /* fecha_inicio_contrato: "01/01/1900",

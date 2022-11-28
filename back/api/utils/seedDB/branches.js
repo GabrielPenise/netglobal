@@ -19,6 +19,24 @@ const branches = [
     postalcode: "C1043AAB",
     clientId: 2,
   },
+  {
+    name: "Suc. Cabildo",
+    street: "Av. Cabildo",
+    number: 2349,
+    city: "CABA",
+    province: "Buenos Aires",
+    postalcode: "C1428",
+    clientId: 3,
+  },
+  {
+    name: "Suc. Santa Fe",
+    street: "Av. Santa Fe",
+    number: 1860,
+    city: "CABA",
+    province: "Buenos Aires",
+    postalcode: "C1123",
+    clientId: 3,
+  },
 ];
 
 async function createBranches() {
