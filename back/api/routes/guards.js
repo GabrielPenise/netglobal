@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { validateAuth, validateClient } = require("../middlewares/auth");
+const { validateCuix } = require("../middlewares/cuix");
 const GuardsController = require("../controllers/guards");
 
 //GET ALL GUARDS api/guards
@@ -19,7 +20,12 @@ router.get("/:id", validateAuth, GuardsController.getSingle);
 router.get("/byClient/:id", validateClient, GuardsController.getGuardsByClient);
 
 //CREATE GUARD api/guards/create
-router.post("/create", validateClient, GuardsController.createGuard);
+router.post(
+  "/create",
+  validateClient,
+  validateCuix,
+  GuardsController.createGuard
+);
 
 //LOG IN GUARD api/guards/login
 router.post("/login", GuardsController.loginGuard);
@@ -31,7 +37,12 @@ router.post("/logout", (req, res) => {
 });
 
 //UPDATE GUARD api/guards/edit/:id
-router.put("/edit/:id", validateAuth, GuardsController.updateGuard);
+router.put(
+  "/edit/:id",
+  validateAuth,
+  validateCuix,
+  GuardsController.updateGuard
+);
 
 //DELETE GUARD api/guards/delete/:id
 router.put("/delete/:id", validateClient, GuardsController.deleteGuard);
