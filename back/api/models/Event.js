@@ -6,13 +6,10 @@ class Event extends S.Model {}
 Event.init(
   {
     date: {
-      type: S.DATE,
+      type: S.DATEONLY,
       allowNull: false,
     },
     time_in: {
-      type: S.DATE,
-    },
-    time_out: {
       type: S.DATE,
     },
     position_in_latitude: {
@@ -20,6 +17,9 @@ Event.init(
     },
     position_in_longitude: {
       type: S.FLOAT,
+    },
+    time_out: {
+      type: S.DATE,
     },
     position_out_latitude: {
       type: S.FLOAT,
