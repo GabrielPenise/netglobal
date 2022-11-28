@@ -1,10 +1,10 @@
-const { Events } = require("../models");
+const { Event } = require("../models");
 
 class eventsService {
   // CREATE EVENT
   static async createEvent(body) {
     try {
-      const response = await Events.create(body);
+      const response = await Event.create(body);
       return { error: false, data: response };
     } catch (error) {
       console.error(error);
@@ -16,8 +16,8 @@ class eventsService {
 
   static async updateEvent(id, body) {
     try {
-      // comprobamos si existe el evento
-      const evento = await Events.findByPk(id);
+      // check if the event exists
+      const evento = await Event.findByPk(id);
 
       if (!evento) {
         return {
@@ -29,8 +29,8 @@ class eventsService {
         };
       }
 
-      // actualizamos el evento
-      const [affectedRows, updatedEvent] = await Events.update(body, {
+      // update the event
+      const [affectedRows, updatedEvent] = await Event.update(body, {
         where: { id },
         returning: true, //para que devuelva algo el update
       });
@@ -41,11 +41,13 @@ class eventsService {
     }
   }
 
-  // DELETE A EVENT
-  static async deleteEvent(id) {
+  // CHECKIN GUARD
+
+  static async checkIn(id, body) {
     try {
-      // comprobamos si existe el evento
-      const evento = await Events.findByPk(id);
+      const { time_in, position_in_latitude, position_in_longitude } = body;
+      // check if the event exists
+      const evento = await Event.findByPk(id);
 
       if (!evento) {
         return {
@@ -57,8 +59,74 @@ class eventsService {
         };
       }
 
-      // eliminamos el evento
-      const response = await Events.destroy({
+      // update the event
+
+      const [affectedRows, updatedEvent] = await Event.update(
+        { time_in, position_in_latitude, position_in_longitude },
+        {
+          where: { id },
+          returning: true, //para que devuelva algo el update
+        }
+      );
+      return { error: false, data: updatedEvent[0] };
+    } catch (error) {
+      console.error(error);
+      return { error: true, data: error };
+    }
+  }
+
+  // CHECKOUT GUARD
+
+  static async checkOut(id, body) {
+    try {
+      const { time_out, position_out_latitude, position_out_longitude } = body;
+      // check if the event exists
+      const evento = await Event.findByPk(id);
+
+      if (!evento) {
+        return {
+          error: true,
+          data: {
+            status: 405,
+            message: `No existe el evento ${id}`,
+          },
+        };
+      }
+
+      // update the event
+
+      const [affectedRows, updatedEvent] = await Event.update(
+        { time_out, position_out_latitude, position_out_longitude },
+        {
+          where: { id },
+          returning: true, //para que devuelva algo el update
+        }
+      );
+      return { error: false, data: updatedEvent[0] };
+    } catch (error) {
+      console.error(error);
+      return { error: true, data: error };
+    }
+  }
+
+  // DELETE A EVENT
+  static async deleteEvent(id) {
+    try {
+      // check if the event exists
+      const evento = await Event.findByPk(id);
+
+      if (!evento) {
+        return {
+          error: true,
+          data: {
+            status: 405,
+            message: `No existe el evento ${id}`,
+          },
+        };
+      }
+
+      // delete the event
+      const response = await Event.destroy({
         where: { id },
       });
       return { error: false, data: response };
@@ -72,7 +140,7 @@ class eventsService {
 
   static async getOneEvent(id) {
     try {
-      const evento = await Events.findByPk(id);
+      const evento = await Event.findByPk(id);
       return { error: false, data: evento };
     } catch (error) {
       console.error(error);
@@ -84,7 +152,7 @@ class eventsService {
 
   static async allEventsByBranch(branchId) {
     try {
-      const eventos = await Events.findAll({
+      const eventos = await Event.findAll({
         where: { branchId },
       });
       return { error: false, data: eventos };
@@ -98,7 +166,18 @@ class eventsService {
 
   static async allEventsByGuard(guardId) {
     try {
-      const eventos = await Events.findAll({ where: { guardId } });
+      const eventos = await Event.findAll({ where: { guardId } });
+      return { error: false, data: eventos };
+    } catch (error) {
+      console.error(error);
+      return { error: true, data: error };
+    }
+  }
+
+  //GET EVENT BY GUARD ID AND DATE
+  static async eventByDateYGuard(guardId, date) {
+    try {
+      const eventos = await Event.findAll({ where: { guardId, date } });
       return { error: false, data: eventos };
     } catch (error) {
       console.error(error);

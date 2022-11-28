@@ -26,6 +26,32 @@ class eventsController {
     res.status(202).send(data);
   }
 
+  // CHECKIN GUARD
+  static async checkIn(req, res) {
+    const { id } = req.params;
+    const body = req.body;
+
+    const { error, data } = await eventsService.checkIn(id, body);
+
+    if (error) {
+      return res.status(data.status || 500).send({ message: data.message });
+    }
+    res.status(202).send(data);
+  }
+
+  // CHECKOUT GUARD
+  static async checkOut(req, res) {
+    const { id } = req.params;
+    const body = req.body;
+
+    const { error, data } = await eventsService.checkOut(id, body);
+
+    if (error) {
+      return res.status(data.status || 500).send({ message: data.message });
+    }
+    res.status(202).send(data);
+  }
+
   // DELETE A EVENT
 
   static async deleteEvent(req, res) {
@@ -89,6 +115,27 @@ class eventsController {
       return res
         .status(404)
         .send({ message: `No existe el guardia con id ${guardId}` });
+    }
+    res.send(data);
+  }
+
+  //GET EVENT BY GUARD ID AND DATE
+  static async eventByDateYGuard(req, res) {
+    const { date, guardId } = req.params;
+
+    const { error, data } = await eventsService.eventByDateYGuard(
+      guardId,
+      date
+    );
+
+    if (error) {
+      return res.status(data.status || 500).send({ message: data.message });
+    }
+
+    if (!data) {
+      return res.status(404).send({
+        message: `No existe el guardia con id ${guardId} o el día es erroneo`,
+      });
     }
     res.send(data);
   }

@@ -4,7 +4,6 @@ class GuardsService {
   static async getAll() {
     try {
       const response = await Guard.findAll({
-        where: { active: true },
         attributes: { exclude: ["password", "salt"] },
       });
       return { error: false, data: response };
@@ -72,6 +71,7 @@ class GuardsService {
       const payload = {
         id: guard.id,
         email: guard.email,
+        fullname: guard.fullname,
         rol: "guard",
       };
       return { error: false, data: payload };
@@ -83,8 +83,8 @@ class GuardsService {
 
   static async updateGuard(id, body) {
     try {
-      const resp = await Guard.findByPk(id);
-      if (!resp) {
+      const guard = await Guard.findByPk(id);
+      if (!guard) {
         return {
           error: true,
           data: {
@@ -93,11 +93,10 @@ class GuardsService {
           },
         };
       }
-      const [affectedRows, updatedGuard] = await Guard.update(body, {
-        where: { id },
-        returning: true,
-      });
-      return { error: false, data: updatedGuard[0] };
+      console.log("before update", guard);
+      const updatedGuard = await guard.update(body);
+      console.log("after update", updatedGuard);
+      return { error: false, data: updatedGuard };
     } catch (error) {
       console.log(error);
       return { error: true, data: error };

@@ -71,16 +71,22 @@ Guard.init(
     },
     hours_per_day: {
       type: S.INTEGER,
-      default: 8,
+      defaultValue: 8,
     },
     active: {
       type: S.BOOLEAN,
       defaultValue: true,
     },
-    fullAddress: {
+    fulladdress: {
       type: S.VIRTUAL,
       get() {
-        return `${this.street}, ${this.number}, ${this.number}, ${this.province}`;
+        return `${this.street}, ${this.number}, ${this.city}, ${this.province}, ${this.postalcode}`;
+      },
+    },
+    fullname: {
+      type: S.VIRTUAL,
+      get() {
+        return `${this.name} ${this.lastname}`;
       },
     },
     coordinates: {
@@ -96,7 +102,9 @@ Guard.init(
 Guard.beforeCreate(async (guard) => {
   const salt = bcrypt.genSaltSync();
   guard.salt = salt;
-  guard.hash(guard.password, salt).then((hash) => (guard.password = hash));
+  await guard
+    .hash(guard.password, salt)
+    .then((hash) => (guard.password = hash));
 
   const [lat, long] = await getCoordinates(
     `${guard.street} ${guard.number}`,
@@ -105,15 +113,24 @@ Guard.beforeCreate(async (guard) => {
     guard.postalcode
   );
 
-  guard.latitude = lat;
-  guard.longitude = long;
+  if (lat && long) {
+    guard.latitude = lat;
+    guard.longitude = long;
+  } else throw new Error("No se encuentran coordenadas para esa dirección");
+});
+
+Guard.beforeUpdate(async (guard) => {
+  const [lat, long] = await getCoordinates(
+    `${guard.street} ${guard.number}`,
+    guard.city,
+    guard.province,
+    guard.postalcode
+  );
+
+  if (lat && long) {
+    guard.latitude = lat;
+    guard.longitude = long;
+  } else throw new Error("No se encuentran coordenadas para esa dirección");
 });
 
 module.exports = Guard;
-
-/* status: {
-  type: S.ENUM,
-  values: ["activo", "inactivo", "licencia"],
-  allowNull: false,
-  defaultValue: "activo",
-}, */

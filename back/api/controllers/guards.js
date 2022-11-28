@@ -81,7 +81,7 @@ class GuardsController {
     if (error) {
       return res.status(data.status || 500).send({ message: data.message });
     }
-    res.status(202).send("Eliminado correctamente");
+    res.status(202).send("Restaurado correctamente");
   }
 }
 
