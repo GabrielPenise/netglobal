@@ -2,7 +2,6 @@ const Nominatim = require("nominatim-geocoder");
 
 const getCoordinates = async (street, city, state, postalcode) => {
   const geocoder = new Nominatim();
-
   const response = await geocoder.search({
     street,
     city,
@@ -10,8 +9,7 @@ const getCoordinates = async (street, city, state, postalcode) => {
     state,
     postalcode,
   });
-
-  return [response[0].lat, response[0].lon];
+  return response.length ? [response[0].lat, response[0].lon] : response;
 };
 
 const distanceCoordinates = (lat1, lon1, lat2, lon2) => {
