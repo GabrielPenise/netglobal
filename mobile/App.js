@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import HomeScreen from './src/screens/Home';
+import Fichaje from './src/screens/Fichaje';
 import LoginScreen from './src/screens/Login';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -37,9 +37,11 @@ async function getPerfil() {
   return (
 
 
+
   <Provider store={store}>
     {perfil? (<RootNavigator/>): (<LoginScreen/>)}
    </Provider>
+
 
   );
 }

@@ -25,7 +25,9 @@ function LoginScreen({route, navigation}) {
         setPassword(text)
     }
    
+
     const onButtonPress = async (e) => {
+
       try {
         const LoginUser = await axios.post("http://192.168.1.85:3001/api/guards/login", {email, password})
         const jsonValue = JSON.stringify(LoginUser)
