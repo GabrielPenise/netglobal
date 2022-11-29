@@ -26,7 +26,7 @@ function LoginScreen({route, navigation}) {
         axios.post("http://192.168.1.85:3001/api/guards/login", {email, password}).then((res) => setUser(res.data.email))
         AsyncStorage.setItem("users", user)
         if(user !== null) {
-          navigation.navigate("Perfil")
+          navigation.navigate("Fichaje")
         }
     }
 
