@@ -4,9 +4,14 @@ import style from "../assets/styles/components/Navbar.module.scss";
 import { CiLogin } from "react-icons/ci";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Button } from "react-bootstrap";
+
 import { Axios } from "../utils/AxiosWithCredentials";
-import { unSet } from "../store/slices";
+import {
+  unSetUser,
+  unSetGuard,
+  unSetBranch,
+  unSetClient,
+} from "../store/slices";
 
 function Navbar() {
   const { user } = useSelector((state) => state.user);
@@ -15,29 +20,23 @@ function Navbar() {
 
   const handleLogOut = async () => {
     await Axios.post("/clients/logout");
-    dispatch(unSet());
+    dispatch(unSetUser());
+    dispatch(unSetGuard());
+    dispatch(unSetBranch());
+    dispatch(unSetClient());
     navigate("/");
   };
 
   return (
     <Nav className={`${style["nav"]}  justify-content-between`}>
-      {
-        user ? (
-          <>
-            <Link to="/home">
-              <img className={style["logoNav"]} src={logo} />
-            </Link>
-            <CiLogin className={style["logOut"]} onClick={handleLogOut} />
-          </>
-        ) : null
-        // <Button
-        //   onClick={() => {
-        //     navigate("/login");
-        //   }}
-        // >
-        //   Login
-        // </Button>
-      }
+      {user ? (
+        <>
+          <Link to="/home">
+            <img className={style["logoNav"]} src={logo} />
+          </Link>
+          <CiLogin className={style["logOut"]} onClick={handleLogOut} />
+        </>
+      ) : null}
     </Nav>
   );
 }

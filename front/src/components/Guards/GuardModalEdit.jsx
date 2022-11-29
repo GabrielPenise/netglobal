@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { setUiOpen } from "../store/slices/index.js";
+import { setUiOpen, editGuard } from "../../store/slices/index.js";
 import { Form, Button, Modal } from "react-bootstrap";
-import { Axios } from "../utils/AxiosWithCredentials.js";
+import { Axios } from "../../utils/AxiosWithCredentials.js";
 
-export default function GuardModalEdit({ guard }) {
+export default function GuardModalEdit({ guard, setState }) {
   const initialState = { ...guard.value };
   const [input, setInput] = useState(initialState);
   const dispatch = useDispatch();
@@ -29,6 +29,7 @@ export default function GuardModalEdit({ guard }) {
 
   const closeModal = () => {
     dispatch(setUiOpen(false));
+    setInput(initialState);
 
     //Todo: Cerrar el modal, esta fn la voy a usar al final del handleSubmit
   };
@@ -48,11 +49,22 @@ export default function GuardModalEdit({ guard }) {
     try {
       Axios.put(`guards/edit/${guard.value.id}`, input);
       closeModal();
-      window.location.reload();
+
+      dispatch(
+        editGuard({
+          guard,
+          guardEdit: {
+            label: `Guardia: ${input.name || initialState.name} ${
+              input.lastname || initialState.lastname
+            } Activo: Si`,
+            value: { ...initialState, ...input },
+          },
+        })
+      );
+      setState({});
     } catch (err) {
       console.error(err, "failed to update guard");
       closeModal();
-      window.location.reload();
     }
   };
   return (

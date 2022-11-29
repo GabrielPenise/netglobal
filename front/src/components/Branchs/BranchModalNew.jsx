@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { setUiOpenNew } from "../store/slices/index.js";
+import { setUiOpenNew, newBranch } from "../../store/slices/index.js";
 import { Form, Button, Modal } from "react-bootstrap";
-import { Axios } from "../utils/AxiosWithCredentials.js";
+import { Axios } from "../../utils/AxiosWithCredentials.js";
 
 export default function BranchModalNew() {
   const { user } = useSelector((state) => state.user);
@@ -33,6 +33,7 @@ export default function BranchModalNew() {
 
   const closeModal = () => {
     dispatch(setUiOpenNew(false));
+    setInput(initialState);
 
     //Todo: Cerrar el modal, esta fn la voy a usar al final del handleSubmit
   };
@@ -47,12 +48,23 @@ export default function BranchModalNew() {
     setInput({ ...input, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    Axios.post("/branches/create", input);
-    setInput(initialState);
-    closeModal();
-    window.location.reload();
+    try {
+      const { data } = await Axios.post("/branches/create", input);
+      const branches = {
+        value: { ...data },
+        label: `${data.name}`,
+      };
+      dispatch(newBranch(branches));
+      setInput(initialState);
+      closeModal();
+    } catch (err) {
+      alert("Error, Verificar los datos ingresados");
+      console.error(err, "failed to create branch");
+      setInput(initialState);
+      closeModal();
+    }
   };
 
   return (

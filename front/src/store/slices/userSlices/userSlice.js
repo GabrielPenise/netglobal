@@ -10,10 +10,10 @@ export const userSlice = createSlice({
     setUser: (state, action) => {
       state.user = { ...action.payload };
     },
-    unSet(state) {
+    unSetUser(state) {
       state.user = null;
     },
   },
 });
 
-export const { setUser, unSet } = userSlice.actions;
+export const { setUser, unSetUser } = userSlice.actions;
