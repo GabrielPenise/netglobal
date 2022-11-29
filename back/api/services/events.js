@@ -1,6 +1,13 @@
-const { Event } = require("../models");
+const {
+  Event,
+  Client,
+  Branch,
+  Guard,
+  Shift,
+  GuardShift,
+} = require("../models");
 
-class eventsService {
+class EventsService {
   // CREATE EVENT
   static async createEvent(body) {
     try {
@@ -184,6 +191,37 @@ class eventsService {
       return { error: true, data: error };
     }
   }
+
+  static async eventsByClient(clientId) {
+    try {
+      // comprobamos que el cliente existe
+      const client = await Client.findByPk(clientId);
+
+      if (!client) {
+        return {
+          error: true,
+          data: {
+            status: 405,
+            message: `No existe cliente con id ${clientId}`,
+          },
+        };
+      }
+
+      // traemos las sucursales del cliente
+      const response = await Event.findAll({
+        include: [
+          { model: Branch, as: "branch", where: { clientId } },
+          { model: Guard, as: "guard" },
+          { model: Shift, as: "shift" },
+        ],
+      });
+
+      return { error: false, data: response };
+    } catch (error) {
+      console.error(error);
+      return { error: true, data: error };
+    }
+  }
 }
 
-module.exports = eventsService;
+module.exports = EventsService;

@@ -12,6 +12,7 @@ const getCoordinates = async (street, city, state, postalcode) => {
   return response.length ? [response[0].lat, response[0].lon] : response;
 };
 
+// distancia en kilómetros
 const distanceCoordinates = (lat1, lon1, lat2, lon2) => {
   // convertir grados a radianes
   const rad = (x) => (x * Math.PI) / 180;
