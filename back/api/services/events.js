@@ -7,6 +7,8 @@ const {
   GuardShift,
 } = require("../models");
 
+const moment = require("moment");
+
 class EventsService {
   // CREATE EVENT
   static async createEvent(body) {
@@ -211,12 +213,30 @@ class EventsService {
       const response = await Event.findAll({
         include: [
           { model: Branch, as: "branch", where: { clientId } },
-          { model: Guard, as: "guard" },
+          {
+            model: Guard,
+            as: "guard",
+            attributes: {
+              exclude: ["password", "salt", "createdAt", "updatedAt"],
+            },
+          },
           { model: Shift, as: "shift" },
         ],
       });
-
-      return { error: false, data: response };
+      let events = [];
+      response.forEach((event, i) => {
+        events[i] = {
+          id: event.id,
+          title: `Turno ${event.guard.fullname}`,
+          start: moment(`${event.date} ${event.shift.start}`).toDate(),
+          end: moment(`${event.date} ${event.shift.end}`).toDate(),
+          branchId: event.branchId,
+          guardId: event.guardId,
+          nota: "nada por ahora",
+          guard: event.guard,
+        };
+      });
+      return { error: false, data: events };
     } catch (error) {
       console.error(error);
       return { error: true, data: error };
