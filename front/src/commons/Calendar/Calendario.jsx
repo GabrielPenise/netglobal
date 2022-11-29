@@ -20,9 +20,9 @@ moment.locale("es");
 export default function Calendario({ branch }) {
   //Este events tengo que traerlo con un useEffect de la db y lo guardo en redux.
 
-  if (!branch) {
+  /* if (!branch) {
     return <div>Elija una sucursal para ver el calendario</div>;
-  }
+  } */
   const { events, activeEvent } = useSelector((state) => state.calendar);
 
   const dispatch = useDispatch();
@@ -30,15 +30,16 @@ export default function Calendario({ branch }) {
     localStorage.getItem("fijarVista") || "month"
   );
 
-  const [events, setEvents] = useState([]);
+  const [eventos, setEvents] = useState([]);
 
   useEffect(() => {
-    Axios.get("/events/byClient/4")
-      .then((res) => setEvents(res.data))
-      .catch((err) => console.error(error));
-  }, []);
-  console.log(events);
-  console.log(fakeDataEvent);
+    if (branch)
+      Axios.get(`/events/byBranch/${branch.id}`)
+        .then((res) => setEvents(res.data))
+        .catch((err) => console.error(error));
+  }, [branch]);
+
+  console.log(eventos);
 
   const handleOnview = (e) => {
     setFijarVista(e);
@@ -70,7 +71,7 @@ export default function Calendario({ branch }) {
   //   dispatch(setUiOpen(true));
   // };
 
-  return (
+  return branch ? (
     <>
       <div style={{ height: "100vh" }}>
         <Calendar
@@ -91,5 +92,7 @@ export default function Calendario({ branch }) {
         <CalendarioModal />
       </div>
     </>
+  ) : (
+    <div>Elija una sucursal para ver el calendario</div>
   );
 }

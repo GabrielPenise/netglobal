@@ -161,10 +161,32 @@ class EventsService {
 
   static async allEventsByBranch(branchId) {
     try {
-      const eventos = await Event.findAll({
+      const response = await Event.findAll({
         where: { branchId },
+        include: [
+          {
+            model: Guard,
+            as: "guard",
+            attributes: {
+              exclude: ["password", "salt", "createdAt", "updatedAt"],
+            },
+          },
+          { model: Shift, as: "shift" },
+        ],
       });
-      return { error: false, data: eventos };
+      let events = [];
+      response.forEach((event, i) => {
+        events[i] = {
+          id: event.id,
+          title: `Turno ${event.guard.fullname}`,
+          start: new Date(`${event.date} ${event.shift.start}`),
+          end: new Date(`${event.date} ${event.shift.end}`),
+          branchId: event.branchId,
+          guardId: event.guardId,
+          nota: "",
+        };
+      });
+      return { error: false, data: events };
     } catch (error) {
       console.error(error);
       return { error: true, data: error };
@@ -194,6 +216,7 @@ class EventsService {
     }
   }
 
+  // GET EVENTS BY CLIENT
   static async eventsByClient(clientId) {
     try {
       // comprobamos que el cliente existe
