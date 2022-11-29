@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import BtnDeleteEvent from "../Buttons/BtnDeleteEvent";
 import moment from "moment";
 import Swal from "sweetalert2";
 
@@ -160,6 +160,7 @@ export const CalendarioModal = () => {
           {/* </div> */}
 
           <Modal.Footer>
+            {activeEvent && <BtnDeleteEvent />}
             <Button variant="secondary" onClick={closeModal}>
               Cerrar
             </Button>

@@ -12,6 +12,7 @@ import { fakeDataEvent } from "../../utils/fakeDataEvent";
 import { BtnAddEvent } from "../Buttons/BtnAddEvent.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { eventSetActive, setUiOpen } from "../../store/slices/index.js";
+import BtnDeleteEvent from "../Buttons/BtnDeleteEvent";
 const localizer = momentLocalizer(moment);
 moment.locale("es");
 // const myEventList = [
@@ -47,7 +48,8 @@ export default function Calendario({ branch }) {
   if (!branch) {
     return <div>Elija una sucursal para ver el calendario</div>;
   }
-  const { events } = useSelector((state) => state.calendar);
+  const { events, activeEvent } = useSelector((state) => state.calendar);
+
   const dispatch = useDispatch();
   const [fijarVista, setFijarVista] = useState(
     localStorage.getItem("fijarVista") || "month"
@@ -100,6 +102,7 @@ export default function Calendario({ branch }) {
           components={{ event: CalendarioEvent }}
         />
         <BtnAddEvent />
+
         <CalendarioModal />
       </div>
     </>
