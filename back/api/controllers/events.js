@@ -1,11 +1,11 @@
-const eventsService = require("../services/events");
+const EventsService = require("../services/events");
 
-class eventsController {
+class EventsController {
   // CREATE EVENT
   static async createEvent(req, res) {
     const body = req.body;
 
-    const { error, data } = await eventsService.createEvent(body);
+    const { error, data } = await EventsService.createEvent(body);
 
     if (error) {
       return res.status(data.status || 500).send({ message: data.message });
@@ -18,7 +18,7 @@ class eventsController {
     const { id } = req.params;
     const body = req.body;
 
-    const { error, data } = await eventsService.updateEvent(id, body);
+    const { error, data } = await EventsService.updateEvent(id, body);
 
     if (error) {
       return res.status(data.status || 500).send({ message: data.message });
@@ -31,7 +31,7 @@ class eventsController {
     const { id } = req.params;
     const body = req.body;
 
-    const { error, data } = await eventsService.checkIn(id, body);
+    const { error, data } = await EventsService.checkIn(id, body);
 
     if (error) {
       return res.status(data.status || 500).send({ message: data.message });
@@ -44,7 +44,7 @@ class eventsController {
     const { id } = req.params;
     const body = req.body;
 
-    const { error, data } = await eventsService.checkOut(id, body);
+    const { error, data } = await EventsService.checkOut(id, body);
 
     if (error) {
       return res.status(data.status || 500).send({ message: data.message });
@@ -57,7 +57,7 @@ class eventsController {
   static async deleteEvent(req, res) {
     const { id } = req.params;
 
-    const { error, data } = await eventsService.deleteEvent(id, body);
+    const { error, data } = await EventsService.deleteEvent(id, body);
 
     if (error) {
       return res.status(data.status || 500).send({ message: data.message });
@@ -69,7 +69,7 @@ class eventsController {
   static async getOneEvent(req, res) {
     const { id } = req.params;
 
-    const { error, data } = await eventsService.getOneEvent(id);
+    const { error, data } = await EventsService.getOneEvent(id);
 
     if (error) {
       return res.status(data.status || 500).send({ message: data.message });
@@ -86,7 +86,7 @@ class eventsController {
   static async allEventsByBranch(req, res) {
     const branchId = req.params.branchId;
 
-    const { error, data } = await eventsService.allEventsByBranch(branchId);
+    const { error, data } = await EventsService.allEventsByBranch(branchId);
 
     if (error) {
       return res.status(data.status || 500).send({ message: data.message });
@@ -105,7 +105,7 @@ class eventsController {
   static async allEventsByGuard(req, res) {
     const guardId = req.params.guardId;
 
-    const { error, data } = await eventsService.allEventsByGuard(guardId);
+    const { error, data } = await EventsService.allEventsByGuard(guardId);
 
     if (error) {
       return res.status(data.status || 500).send({ message: data.message });
@@ -123,7 +123,7 @@ class eventsController {
   static async eventByDateYGuard(req, res) {
     const { date, guardId } = req.params;
 
-    const { error, data } = await eventsService.eventByDateYGuard(
+    const { error, data } = await EventsService.eventByDateYGuard(
       guardId,
       date
     );
@@ -139,6 +139,18 @@ class eventsController {
     }
     res.send(data);
   }
+
+  //GET EVENTS BY CLIENT
+  static async eventsByClient(req, res) {
+    const { id } = req.params;
+
+    const { error, data } = await EventsService.eventsByClient(id);
+
+    if (error) {
+      return res.status(data.status || 500).send({ message: data.message });
+    }
+    res.send(data);
+  }
 }
 
-module.exports = eventsController;
+module.exports = EventsController;

@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import HomeScreen from './src/screens/Home';
+import Fichaje from './src/screens/Fichaje';
 import LoginScreen from './src/screens/Login';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -22,8 +22,8 @@ export default function App() {
             <MaterialCommunityIcons name="home" color={color} size={26} />
           ),
         }}/>
-      <Tab.Screen name="Perfil" component={HomeScreen} options={{
-          tabBarLabel: 'Perfil',
+      <Tab.Screen name="Fichaje" component={Fichaje} options={{
+          tabBarLabel: 'Fichaje',
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="account" color={color} size={26} />
           ),
@@ -40,7 +40,6 @@ export default function App() {
             <MaterialCommunityIcons name="clipboard" color={color} size={26} />
           ),
         }}/>
-        
    
       </Tab.Navigator>
     </NavigationContainer>

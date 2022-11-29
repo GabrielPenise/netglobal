@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { setUiOpenNew } from "../store/slices/index.js";
+import { setUiOpenNew, newGuard } from "../../store/slices/index.js";
 import { Form, Button, Modal } from "react-bootstrap";
-import { Axios } from "../utils/AxiosWithCredentials.js";
+import { Axios } from "../../utils/AxiosWithCredentials.js";
 
 export default function GuardModalNew() {
   const { user } = useSelector((state) => state.user);
@@ -39,6 +39,7 @@ export default function GuardModalNew() {
 
   const closeModal = () => {
     dispatch(setUiOpenNew(false));
+    setInput(initialState);
 
     //Todo: Cerrar el modal, esta fn la voy a usar al final del handleSubmit
   };
@@ -53,17 +54,23 @@ export default function GuardModalNew() {
     setInput({ ...input, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      Axios.post("/guards/create", input);
+      const { data } = await Axios.post("/guards/create", input);
+      const guard = {
+        value: { ...data },
+        label: `Guardia: ${data.name} ${data.lastname} Activo: Si`,
+      };
+
+      dispatch(newGuard(guard));
       setInput(initialState);
       closeModal();
-      window.location.reload();
     } catch (err) {
+      alert("Error, Verificar los datos ingresados");
       console.error(err, "failed to create guard");
+      setInput(initialState);
       closeModal();
-      window.location.reload();
     }
   };
   return (

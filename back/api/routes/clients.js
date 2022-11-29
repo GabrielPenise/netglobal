@@ -30,6 +30,13 @@ router.get("/validate", validateAuth, (req, res) => {
 //GET ALL CLIENTS  api/clients/
 router.get("/", validateSuperAdmin, ClientController.allClients);
 
+//GET ALL INACTIVES CLIENTS api/clients/inactives
+router.get(
+  "/inactives",
+  validateSuperAdmin,
+  ClientController.allInactivesClients
+);
+
 //GET ONE CLIENT api/clients/:id ------> acá debería agregar validación superAdmin?
 router.get("/:id", validateAuth, ClientController.getOneClient);
 
