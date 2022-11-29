@@ -5,14 +5,17 @@ import styles from './styles';
 import axios from 'axios';
 import { Button } from '@rneui/themed';
 import AsyncStorage from '@react-native-async-storage/async-storage'
-
-
+import { useDispatch, useSelector } from 'react-redux';
+import { userLogin } from '../../store/user';
+import { useNavigation } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 
 
 function LoginScreen({route, navigation}) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("")
-    const [user, setUser] = useState("")  
+    const [perfil, setPerfil] = useState({})  
+    const user = useSelector((state) => state.user);
 
     const onChangeTextEmail = (text)=>{
         setEmail(text)
@@ -22,32 +25,35 @@ function LoginScreen({route, navigation}) {
         setPassword(text)
     }
    
-    const onButtonPress = () => {
-        axios.post("http://192.168.1.85:3001/api/guards/login", {email, password}).then((res) => setUser(res.data.email))
-        AsyncStorage.setItem("users", user)
-        if(user !== null) {
-          navigation.navigate("Perfil")
-        }
-    }
-
-    const getData = async () => {
+    const onButtonPress = async (e) => {
       try {
-        const value = await AsyncStorage.getItem('users')
-        if(value !== null) {
-          console.log(value);
-        }
-      } catch(e) {
-        console.log(error);
+        const LoginUser = await axios.post("http://192.168.1.85:3001/api/guards/login", {email, password})
+        const jsonValue = JSON.stringify(LoginUser)
+        await AsyncStorage.setItem("user", jsonValue)
+            } 
+            catch (error) {
+        alert("usuario/contraseña incorrecta, consulte con recursos humanos")
       }
-    }
-console.log(new Date());
+   }
 
 
+//  const usuario = () => {
+//    AsyncStorage.getItem("user").then((data) => setPerfil(JSON.parse(data)))}
+// usuario()
 
-getData()
+// const removeUser = () => {
+//   AsyncStorage.removeItem("user").then((res) => console.log("done"))
+// }
+
+// removeUser()
+
   return (
+
+  <NavigationContainer>
     <View style={styles.container}>
+      
       <View>
+
         <Image source={images.logoFull} style={styles.image} />
         <TextInput placeholder='Email' onChangeText={onChangeTextEmail} value={email} style={styles.textInput} />
         <TextInput placeholder='Password'value={password} onChangeText={onChangeTextContrasena} style={styles.textInput} secureTextEntry={true}/>
@@ -59,10 +65,9 @@ getData()
   borderRadius: 30,
 }}/>
         </View>
-
-
       </View>
     </View>
+    </NavigationContainer>
   );
 }
 

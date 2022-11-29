@@ -3,7 +3,7 @@ import { Text, View, TouchableOpacity } from 'react-native';
 function Horarios({route, navigation}) {
 
   const handleBoton = () => {
-    navigation.navigate("Login")
+    navigation.navigate("LoginScreen")
   }
 
   return (
