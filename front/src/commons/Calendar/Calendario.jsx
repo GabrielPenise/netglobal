@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "moment/locale/es";
@@ -10,7 +10,8 @@ import { CalendarioModal } from "./CalendarioModal";
 
 import { fakeDataEvent } from "../../utils/fakeDataEvent";
 import { BtnAddEvent } from "../Buttons/BtnAddEvent.jsx";
-
+import { useDispatch, useSelector } from "react-redux";
+import { eventSetActive, setUiOpen } from "../../store/slices/index.js";
 const localizer = momentLocalizer(moment);
 moment.locale("es");
 // const myEventList = [
@@ -40,7 +41,14 @@ moment.locale("es");
 //   },
 // ];
 
-export default function Calendario() {
+export default function Calendario({ branch }) {
+  //Este events tengo que traerlo con un useEffect de la db y lo guardo en redux.
+
+  if (!branch) {
+    return <div>Elija una sucursal para ver el calendario</div>;
+  }
+  const { events } = useSelector((state) => state.calendar);
+  const dispatch = useDispatch();
   const [fijarVista, setFijarVista] = useState(
     localStorage.getItem("fijarVista") || "month"
   );
@@ -62,18 +70,31 @@ export default function Calendario() {
     };
   };
 
+  useEffect(() => {
+    //Cuando branch cambia dispara el useEffect y hace la carga en redux
+  }, []);
+
+  const handleSelectEvent = (e) => {
+    dispatch(eventSetActive(e));
+    dispatch(setUiOpen(true));
+  };
+
+  // const onDoubleClickEvent = (e) => {
+  //   dispatch(setUiOpen(true));
+  // };
+
   return (
     <>
       <div style={{ height: "100vh" }}>
         <Calendar
           localizer={localizer}
-          events={fakeDataEvent}
+          events={events}
           startAccesor="start"
           endAccesor="end"
           messages={messages}
           eventPropGetter={eventStyleGetter}
-          // onDoubleClickEvent={() => setUiOpen(true)}
-          onSelectEvent={(e) => console.log(e)}
+          // onDoubleClickEvent={onDoubleClickEvent}
+          onSelectEvent={handleSelectEvent}
           onView={handleOnview}
           view={fijarVista}
           components={{ event: CalendarioEvent }}
