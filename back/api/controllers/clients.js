@@ -35,6 +35,16 @@ class ClientController {
     res.send(data);
   }
 
+  // GET ALL INACTIVES CLIENTS
+  static async allInactivesClients(req, res) {
+    const { error, data } = await ClientService.allInactivesClients();
+
+    if (error) {
+      return res.status(data.status || 500).send({ message: data.message });
+    }
+    res.send(data);
+  }
+
   // GET ONE CLIENT BY ID
   static async getOneClient(req, res) {
     const { id } = req.params;

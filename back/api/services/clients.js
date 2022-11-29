@@ -64,6 +64,20 @@ class ClientService {
     }
   }
 
+  // GET ALL INACTIVES CLIENTS
+  static async allInactivesClients() {
+    try {
+      const response = await Client.findAll({
+        where: { super_admin: false, active: false },
+        attributes: { exclude: ["password", "salt"] },
+      });
+      return { error: false, data: response };
+    } catch (error) {
+      console.error(error);
+      return { error: true, data: error };
+    }
+  }
+
   // GET ONE CLIENT BY ID
   static async getOneClient(id) {
     try {
