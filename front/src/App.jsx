@@ -57,7 +57,7 @@ function App() {
             ) : (
               <>
                 <Route path="/" element={<Navigate to={"/home"} />} />
-                <Route path="/calendar" element={<Calendario />} />
+                <Route path="/calendar" element={<Branchs />} />
 
                 <Route path={`/branch/${user.id}`} element={<Branchs />} />
 

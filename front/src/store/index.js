@@ -6,6 +6,7 @@ import {
   clientsSlice,
   guardSlice,
   branchSlice,
+  calendarSlice,
 } from "./slices";
 
 export const store = configureStore({
@@ -16,5 +17,6 @@ export const store = configureStore({
     clients: clientsSlice.reducer,
     guards: guardSlice.reducer,
     branchs: branchSlice.reducer,
+    calendar: calendarSlice.reducer,
   },
 });

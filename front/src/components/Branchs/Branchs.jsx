@@ -13,10 +13,12 @@ import DropDownSelect from "../../commons/DropDown/DropDownSelect.jsx";
 import DynamicTable from "../../commons/Tables/DynamicTable.jsx";
 import { FetchsDb } from "../../utils/FetchsDb.js";
 import { setBranchs, deleteBranch } from "../../store/slices/index.js";
+import { useLocation } from "react-router-dom";
+import Calendario from "../../commons/Calendar/Calendario.jsx";
 
 export default function Branchs() {
   const dispatch = useDispatch();
-
+  const { pathname } = useLocation();
   const [input, setInput] = useState({});
 
   const { user } = useSelector((state) => state.user);
@@ -57,11 +59,19 @@ export default function Branchs() {
         options={branchs}
         handleSelect={handleSelect}
       />
-
-      <DynamicTable object={Array(input.value)} handleDelete={handleDelete} />
-      <BtnNewForAbm />
-      <BranchModalEdit branch={input} setState={setInput} />
-      <BranchModalNew />
+      {pathname === "/calendar" ? (
+        <Calendario branch={input.value} />
+      ) : (
+        <>
+          <DynamicTable
+            object={Array(input.value)}
+            handleDelete={handleDelete}
+          />
+          <BtnNewForAbm />
+          <BranchModalEdit branch={input} setState={setInput} />
+          <BranchModalNew />
+        </>
+      )}
     </Container>
   );
 }

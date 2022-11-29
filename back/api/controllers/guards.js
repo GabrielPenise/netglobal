@@ -11,6 +11,15 @@ class GuardsController {
     res.send(data);
   }
 
+  static async getInactivesGuards(req, res) {
+    const { error, data } = await GuardsService.getInactivesGuards();
+
+    if (error) {
+      return res.status(data.status || 500).send({ message: data.message });
+    }
+    res.send(data);
+  }
+
   static async getGuardsByClient(req, res) {
     const { id } = req.params;
 

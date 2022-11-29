@@ -11,11 +11,21 @@ import { CalendarioModal } from "./CalendarioModal";
 
 import { fakeDataEvent } from "../../utils/fakeDataEvent";
 import { BtnAddEvent } from "../Buttons/BtnAddEvent.jsx";
-
+import { useDispatch, useSelector } from "react-redux";
+import { eventSetActive, setUiOpen } from "../../store/slices/index.js";
+import BtnDeleteEvent from "../Buttons/BtnDeleteEvent";
 const localizer = momentLocalizer(moment);
 moment.locale("es");
 
-export default function Calendario() {
+export default function Calendario({ branch }) {
+  //Este events tengo que traerlo con un useEffect de la db y lo guardo en redux.
+
+  if (!branch) {
+    return <div>Elija una sucursal para ver el calendario</div>;
+  }
+  const { events, activeEvent } = useSelector((state) => state.calendar);
+
+  const dispatch = useDispatch();
   const [fijarVista, setFijarVista] = useState(
     localStorage.getItem("fijarVista") || "month"
   );
@@ -47,6 +57,19 @@ export default function Calendario() {
     };
   };
 
+  useEffect(() => {
+    //Cuando branch cambia dispara el useEffect y hace la carga en redux
+  }, []);
+
+  const handleSelectEvent = (e) => {
+    dispatch(eventSetActive(e));
+    dispatch(setUiOpen(true));
+  };
+
+  // const onDoubleClickEvent = (e) => {
+  //   dispatch(setUiOpen(true));
+  // };
+
   return (
     <>
       <div style={{ height: "100vh" }}>
@@ -57,13 +80,14 @@ export default function Calendario() {
           endAccesor="end"
           messages={messages}
           eventPropGetter={eventStyleGetter}
-          // onDoubleClickEvent={() => setUiOpen(true)}
-          onSelectEvent={(e) => console.log(e)}
+          // onDoubleClickEvent={onDoubleClickEvent}
+          onSelectEvent={handleSelectEvent}
           onView={handleOnview}
           view={fijarVista}
           components={{ event: CalendarioEvent }}
         />
         <BtnAddEvent />
+
         <CalendarioModal />
       </div>
     </>

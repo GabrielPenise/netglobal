@@ -7,6 +7,9 @@ const GuardsController = require("../controllers/guards");
 //GET ALL GUARDS api/guards
 router.get("/", GuardsController.getAll);
 
+//GET ALL INACTIVES GUARDS api/guards/inactives
+router.get("/inactives", GuardsController.getInactivesGuards);
+
 //PERSISTENCE api/guards/validate
 router.get("/validate", validateAuth, (req, res) => {
   console.log("hola", req.user);
