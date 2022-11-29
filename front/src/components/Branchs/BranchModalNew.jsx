@@ -1,18 +1,19 @@
 import React, { useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { setUiOpenNew } from "../store/slices/index.js";
+import { setUiOpenNew } from "../../store/slices/index.js";
 import { Form, Button, Modal } from "react-bootstrap";
-import { Axios } from "../utils/AxiosWithCredentials.js";
+import { Axios } from "../../utils/AxiosWithCredentials.js";
 
-export default function ClientModalNew() {
+export default function BranchModalNew() {
   const { user } = useSelector((state) => state.user);
   const initialState = {
-    email: "",
-    password: "",
     name: "",
-    address: "",
-    cuit: "",
+    province: "",
+    city: "",
+    street: "",
+    number: null,
+    postalcode: "",
     clientId: user.id,
   };
   const [input, setInput] = useState(initialState);
@@ -21,14 +22,13 @@ export default function ClientModalNew() {
 
   //Crea los nombres de los campos que necesito para crear un nuevo branch
   //heading es lo que voy a ver en el formulario, la key es el nombre de la prop de obj, y el type es para usar en el input de html
-  const headingClientNew = [
-    { heading: "Email", key: "email", type: "email" },
-    { heading: "Password", key: "password", type: "password" },
+  const headingBranchNew = [
     { heading: "Nombre", key: "name", type: "text" },
-
-    { heading: "Dirección", key: "address", type: "text" },
-
-    { heading: "Cuit", key: "cuit", type: "text" },
+    { heading: "Provincia", key: "province", type: "text" },
+    { heading: "Ciudad", key: "city", type: "text" },
+    { heading: "Calle", key: "street", type: "text" },
+    { heading: "Altura", key: "number", type: "number" },
+    { heading: "Codigo Postal", key: "postalcode", type: "text" },
   ];
 
   const closeModal = () => {
@@ -49,7 +49,7 @@ export default function ClientModalNew() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    Axios.post("/clients/create", input);
+    Axios.post("/branches/create", input);
     setInput(initialState);
     closeModal();
     window.location.reload();
@@ -64,11 +64,11 @@ export default function ClientModalNew() {
       aria-labelledby="contained-moda-tittle-vcenter"
     >
       <Modal.Header closeButton>
-        <Modal.Title>Nueva Cliente</Modal.Title>
+        <Modal.Title>Nueva Sucursal</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
-          {headingClientNew.map((element, index) => {
+          {headingBranchNew.map((element, index) => {
             return (
               <div className="mb-3" key={index}>
                 <label className="form-label">{element.heading}</label>

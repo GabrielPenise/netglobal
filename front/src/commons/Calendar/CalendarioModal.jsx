@@ -1,15 +1,14 @@
 import React, { useState } from "react";
 
-import ReactDOM from "react-dom";
 import moment from "moment";
 import Modal from "react-modal";
 import DateTimePicker from "react-datetime-picker";
 
 import { Button } from "react-bootstrap";
 
-import "../assets/styles/commons/CalendarioModal.css";
+import "../../assets/styles/commons/CalendarioModal.css";
 import { useDispatch, useSelector } from "react-redux";
-import { setUiOpen } from "../store/slices/index.js";
+import { setUiOpen } from "../../store/slices/index.js";
 
 const customStyles = {
   content: {

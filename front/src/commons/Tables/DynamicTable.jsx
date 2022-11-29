@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { Button } from "react-bootstrap";
 
-import { setUiOpen } from "../store/slices/index.js";
+import { setUiOpen } from "../../store/slices/index.js";
 export default function DynamicTable({ object, handleDelete }) {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);

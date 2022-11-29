@@ -1,24 +1,26 @@
 import React, { useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { setUiOpen } from "../store/slices/index.js";
+import { setUiOpen } from "../../store/slices/index.js";
 import { Form, Button, Modal } from "react-bootstrap";
-import { Axios } from "../utils/AxiosWithCredentials.js";
+import { Axios } from "../../utils/AxiosWithCredentials.js";
 
-export default function ClientModal({ client }) {
-  const initialState = { ...client.value };
+export default function BranchModal({ branch }) {
+  const initialState = { ...branch.value };
   const [input, setInput] = useState(initialState);
   const dispatch = useDispatch();
   const { uiOpen } = useSelector((state) => state.modal);
 
-  const headingClientModal = [
-    { heading: "Email", key: "email", type: "email" },
-    { heading: "Cuit", key: "cuit", type: "number" },
+  const headingBranchModal = [
     { heading: "Nombre", key: "name", type: "text" },
-    { heading: "Dirección", key: "address", type: "text" },
+    { heading: "Provincia", key: "province", type: "text" },
+    { heading: "Ciudad", key: "city", type: "text" },
+    { heading: "Calle", key: "street", type: "text" },
+    { heading: "Altura", key: "number", type: "number" },
+    { heading: "Codigo Postal", key: "postalcode", type: "text" },
   ];
 
-  if (!Object.keys(client).length) {
+  if (!Object.keys(branch).length) {
     return null;
   }
 
@@ -41,13 +43,11 @@ export default function ClientModal({ client }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     try {
-      Axios.put(`clients/edit/${client.value.id}`, input);
+      Axios.put(`branches/${branch.value.id}`, input);
       closeModal();
-      window.location.reload();
     } catch (err) {
-      console.error(err, "failed to update client");
+      console.error(err, "failed to update branches");
       closeModal();
-      window.location.reload();
     }
   };
   return (
@@ -62,13 +62,13 @@ export default function ClientModal({ client }) {
         <Modal.Title>Editar</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form onSubmit={handleSubmit}>
-          {headingClientModal.map((element, index) => {
+        <Form>
+          {headingBranchModal.map((element, index) => {
             return (
               <div className="mb-3" key={index}>
                 <label className="form-label">{element.heading}</label>
                 <InputModal
-                  item={client.value}
+                  item={branch.value}
                   inputKey={element.key}
                   type={element.type}
                   handleInputChange={handleInputChange}
@@ -76,16 +76,16 @@ export default function ClientModal({ client }) {
               </div>
             );
           })}
-          <Modal.Footer>
-            <Button variant="secondary" onClick={closeModal}>
-              Cerrar
-            </Button>
-            <Button variant="primary" type="submit">
-              Guardar Cambios
-            </Button>
-          </Modal.Footer>
         </Form>
       </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={closeModal}>
+          Cerrar
+        </Button>
+        <Button variant="primary" type="submit" onClick={handleSubmit}>
+          Guardar Cambios
+        </Button>
+      </Modal.Footer>
     </Modal>
   );
 }
@@ -97,7 +97,6 @@ const InputModal = ({ item, inputKey, type, handleInputChange }) => (
       name={inputKey}
       onChange={handleInputChange}
       defaultValue={item[`${inputKey}`]}
-      required
     />
   </>
 );

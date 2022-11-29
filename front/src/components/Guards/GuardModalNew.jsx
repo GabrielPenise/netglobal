@@ -1,20 +1,34 @@
 import React, { useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { setUiOpen } from "../store/slices/index.js";
+import { setUiOpenNew, newGuard } from "../../store/slices/index.js";
 import { Form, Button, Modal } from "react-bootstrap";
-import { Axios } from "../utils/AxiosWithCredentials.js";
+import { Axios } from "../../utils/AxiosWithCredentials.js";
 
-export default function GuardModalEdit({ guard }) {
-  const initialState = { ...guard.value };
+export default function GuardModalNew() {
+  const { user } = useSelector((state) => state.user);
+  const initialState = {
+    name: "",
+    lastname: "",
+    email: "",
+    password: null,
+    cuit: null,
+    street: "",
+    number: null,
+    city: "",
+    province: "",
+    postalcode: "",
+    clientId: user.id,
+  };
   const [input, setInput] = useState(initialState);
   const dispatch = useDispatch();
-  const { uiOpen } = useSelector((state) => state.modal);
+  const { uiOpenNew } = useSelector((state) => state.modalCreate);
 
-  const headingGuardModal = [
+  const headingGuardNew = [
     { heading: "Nombre", key: "name", type: "text" },
     { heading: "Apellido", key: "lastname", type: "text" },
-    { heading: "Email", key: "email", type: "text" },
+    { heading: "Email", key: "email", type: "email" },
+    { heading: "Password", key: "password", type: "password" },
     { heading: "Cuil", key: "cuil", type: "text" },
     { heading: "Calle", key: "street", type: "text" },
     { heading: "Altura", key: "number", type: "number" },
@@ -23,12 +37,9 @@ export default function GuardModalEdit({ guard }) {
     { heading: "Codigo Postal", key: "postalcode", type: "text" },
   ];
 
-  if (!Object.keys(guard).length) {
-    return null;
-  }
-
   const closeModal = () => {
-    dispatch(setUiOpen(false));
+    dispatch(setUiOpenNew(false));
+    setInput(initialState);
 
     //Todo: Cerrar el modal, esta fn la voy a usar al final del handleSubmit
   };
@@ -43,40 +54,48 @@ export default function GuardModalEdit({ guard }) {
     setInput({ ...input, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      Axios.put(`guards/edit/${guard.value.id}`, input);
+      const { data } = await Axios.post("/guards/create", input);
+      const newUser = {
+        value: { ...data },
+        label: `Guardia: ${data.name} ${data.lastname} Activo: Si`,
+      };
+
+      dispatch(newGuard(newUser));
+      setInput(initialState);
       closeModal();
-      window.location.reload();
     } catch (err) {
-      console.error(err, "failed to update guard");
+      alert("Verificar la direccion");
+      console.error(err, "failed to create guard");
+      setInput(initialState);
       closeModal();
-      window.location.reload();
     }
   };
   return (
     <Modal
       size="sm"
-      show={uiOpen}
+      show={uiOpenNew}
       onHide={closeModal}
       centered
       aria-labelledby="contained-moda-tittle-vcenter"
     >
       <Modal.Header closeButton>
-        <Modal.Title>Editar</Modal.Title>
+        <Modal.Title>Nuevo Guardia</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
-          {headingGuardModal.map((element, index) => {
+          {headingGuardNew.map((element, index) => {
             return (
               <div className="mb-3" key={index}>
                 <label className="form-label">{element.heading}</label>
-                <InputModal
-                  item={guard.value}
-                  inputKey={element.key}
+                <Form.Control
+                  value={input[element.key]}
                   type={element.type}
-                  handleInputChange={handleInputChange}
+                  name={element.key}
+                  onChange={handleInputChange}
+                  required
                 />
               </div>
             );
@@ -94,15 +113,3 @@ export default function GuardModalEdit({ guard }) {
     </Modal>
   );
 }
-
-const InputModal = ({ item, inputKey, type, handleInputChange }) => (
-  <>
-    <Form.Control
-      type={type}
-      name={inputKey}
-      onChange={handleInputChange}
-      defaultValue={item[`${inputKey}`]}
-      required
-    />
-  </>
-);
