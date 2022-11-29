@@ -13,6 +13,19 @@ class GuardsService {
     }
   }
 
+  static async getInactivesGuards() {
+    try {
+      const response = await Guard.findAll({
+        where: { active: false },
+        attributes: { exclude: ["password", "salt"] },
+      });
+      return { error: false, data: response };
+    } catch (error) {
+      console.error(error);
+      return { error: true, data: error };
+    }
+  }
+
   static async getGuardsByClient(clientId) {
     try {
       const response = await Guard.findAll({
