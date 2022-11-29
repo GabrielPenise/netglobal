@@ -56,6 +56,12 @@ export const calendarSlice = createSlice({
         activeEvent: null,
       };
     },
+    branchEvents(state, action) {
+      return {
+        ...current(state),
+        events: [...action.payload],
+      };
+    },
   },
 });
 
@@ -65,4 +71,5 @@ export const {
   unSetEventActive,
   eventUpdate,
   eventDeleted,
+  branchEvents,
 } = calendarSlice.actions;

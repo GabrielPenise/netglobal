@@ -102,7 +102,7 @@ export const CalendarioModal = () => {
       aria-labelledby="contained-moda-tittle-vcenter"
     >
       <Modal.Header closeButton>
-        <Modal.Title>Turno </Modal.Title>
+        <Modal.Title>Turno</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
