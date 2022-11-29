@@ -21,8 +21,11 @@ export const branchSlice = createSlice({
       branchEdited.push(action.payload.branchEdit);
       return branchEdited;
     },
+    newBranch(state, action) {
+      return [...current(state)].push(action.payload);
+    },
   },
 });
 
-export const { setBranchs, deleteBranch, unSetBranch, editBranch } =
+export const { setBranchs, deleteBranch, unSetBranch, editBranch, newBranch } =
   branchSlice.actions;

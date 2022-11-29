@@ -39,7 +39,7 @@ export default function Branchs() {
   };
 
   useEffect(() => {
-    if (!branchs) {
+    if (!branchs.length) {
       getBranchs();
     }
   }, [branchs]);

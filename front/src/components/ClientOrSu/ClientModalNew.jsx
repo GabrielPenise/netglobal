@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { setUiOpenNew } from "../../store/slices/index.js";
+import { newClient, setUiOpenNew } from "../../store/slices/index.js";
 import { Form, Button, Modal } from "react-bootstrap";
 import { Axios } from "../../utils/AxiosWithCredentials.js";
 
@@ -47,12 +47,23 @@ export default function ClientModalNew() {
     setInput({ ...input, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    Axios.post("/clients/create", input);
-    setInput(initialState);
-    closeModal();
-    window.location.reload();
+    try {
+      const { data } = await Axios.post("/clients/create", input);
+      const clients = {
+        value: { ...data },
+        label: `${data.name}`,
+      };
+      dispatch(newClient(clients));
+      setInput(initialState);
+      closeModal();
+    } catch (err) {
+      alert("Error, Verificar los datos ingresados");
+      console.error(err, "failed to create branch");
+      setInput(initialState);
+      closeModal();
+    }
   };
 
   return (

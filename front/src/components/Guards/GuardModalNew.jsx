@@ -58,16 +58,16 @@ export default function GuardModalNew() {
     e.preventDefault();
     try {
       const { data } = await Axios.post("/guards/create", input);
-      const newUser = {
+      const guard = {
         value: { ...data },
         label: `Guardia: ${data.name} ${data.lastname} Activo: Si`,
       };
 
-      dispatch(newGuard(newUser));
+      dispatch(newGuard(guard));
       setInput(initialState);
       closeModal();
     } catch (err) {
-      alert("Verificar la direccion");
+      alert("Error, Verificar los datos ingresados");
       console.error(err, "failed to create guard");
       setInput(initialState);
       closeModal();

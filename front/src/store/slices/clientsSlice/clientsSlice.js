@@ -21,8 +21,11 @@ export const clientsSlice = createSlice({
     unSetClient(state, action) {
       return initialState;
     },
+    newClient(state, action) {
+      return [...current(state)].push(action.payload);
+    },
   },
 });
 
-export const { setClients, deleteClient, editClient, unSetClient } =
+export const { setClients, deleteClient, editClient, unSetClient, newClient } =
   clientsSlice.actions;

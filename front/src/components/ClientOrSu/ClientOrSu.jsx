@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Axios } from "../../utils/AxiosWithCredentials.js";
 
 import DropDownSelect from "../../commons/DropDown/DropDownSelect.jsx";
 import DynamicTable from "../../commons/Tables/DynamicTable.jsx";
@@ -33,7 +34,7 @@ export default function ClientOrSu() {
   };
 
   useEffect(() => {
-    if (!clients) {
+    if (!clients.length) {
       getClients();
     }
   }, [clients]);
