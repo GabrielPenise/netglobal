@@ -46,6 +46,16 @@ const branches = [
     postalcode: "B2900",
     clientId: 4,
   },
+  {
+    name: "Suc. Luján",
+    street: "Avenida Lorenzo Casey",
+    number: 1090,
+    city: "Luján",
+    province: "Buenos Aires",
+    postalcode: "B6700",
+    clientId: 4,
+    active: false,
+  },
 ];
 
 async function createBranches() {

@@ -10,6 +10,15 @@ class BranchesController {
     res.send(data);
   }
 
+  static async getInactives(req, res) {
+    const { error, data } = await BranchesService.getInactives();
+
+    if (error) {
+      return res.status(data.status || 500).send({ message: data.message });
+    }
+    res.send(data);
+  }
+
   static async getSingle(req, res) {
     const { id } = req.params;
 
