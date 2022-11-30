@@ -1,4 +1,5 @@
-const { Guard } = require("../models");
+const { Guard, Branch } = require("../models");
+const { distanceCoordinates } = require("../utils/coordinates");
 
 class GuardsService {
   static async getAll() {
@@ -32,6 +33,43 @@ class GuardsService {
         where: { clientId, active: true },
         attributes: { exclude: ["password", "salt"] },
       });
+      return { error: false, data: response };
+    } catch (error) {
+      console.error(error);
+      return { error: true, data: error };
+    }
+  }
+
+  static async getByDistance(branchId) {
+    try {
+      // comprobamos que la branch existe
+      const branch = await Branch.findByPk(branchId);
+
+      if (!branch) {
+        return {
+          error: true,
+          data: {
+            status: 405,
+            message: `No existe sucursal con id ${branchId}`,
+          },
+        };
+      }
+
+      // traemos los guardias del cliente al que pertenece esa sucursal
+      const guards = await Guard.findAll({
+        where: { clientId: branch.clientId, active: true },
+        attributes: { exclude: ["password", "salt"] },
+      });
+      // filtramos guardias que se encuentran como máxim a 50km de la sucursal
+      const response = guards.filter(
+        (guard) =>
+          distanceCoordinates(
+            guard.latitude,
+            guard.longitude,
+            branch.latitude,
+            branch.longitude
+          ) < 50
+      );
       return { error: false, data: response };
     } catch (error) {
       console.error(error);
