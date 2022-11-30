@@ -80,6 +80,6 @@ const styles = StyleSheet.create({
   },
   datos: {
     fontSize: 20,
-
+    
   }
 });
