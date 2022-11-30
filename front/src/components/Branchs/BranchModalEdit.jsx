@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { setUiOpen } from "../store/slices/index.js";
+import { setUiOpen, editBranch } from "../../store/slices/index.js";
 import { Form, Button, Modal } from "react-bootstrap";
-import { Axios } from "../utils/AxiosWithCredentials.js";
+import { Axios } from "../../utils/AxiosWithCredentials.js";
 
-export default function BranchModalEdit({ branch }) {
+export default function BranchModalEdit({ branch, setState }) {
   const initialState = { ...branch.value };
   const [input, setInput] = useState(initialState);
   const dispatch = useDispatch();
@@ -45,11 +45,19 @@ export default function BranchModalEdit({ branch }) {
     try {
       Axios.put(`branches/edit/${branch.value.id}`, input);
       closeModal();
-      window.location.reload();
+      dispatch(
+        editBranch({
+          branch,
+          branchEdit: {
+            label: input.name,
+            value: { ...initialState, ...input },
+          },
+        })
+      );
+      setState({});
     } catch (err) {
       console.error(err, "failed to update branches");
       closeModal();
-      window.location.reload();
     }
   };
   return (

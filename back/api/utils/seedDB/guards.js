@@ -41,6 +41,19 @@ const guards = [
     active: false,
     clientId: 2,
   },
+  {
+    name: "Facundo",
+    lastname: "Tassi",
+    email: "facundo@guard.com",
+    cuil: 23,
+    password: "123456",
+    street: "Eva Perón",
+    number: 2102,
+    city: "Villa Gobernador Gálvez",
+    province: "Santa Fe",
+    postalcode: "S2124",
+    clientId: 4,
+  },
 ];
 
 async function createGuards() {

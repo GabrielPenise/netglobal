@@ -1,6 +1,15 @@
-const { Event } = require("../models");
+const {
+  Event,
+  Client,
+  Branch,
+  Guard,
+  Shift,
+  GuardShift,
+} = require("../models");
 
-class eventsService {
+const moment = require("moment");
+
+class EventsService {
   // CREATE EVENT
   static async createEvent(body) {
     try {
@@ -152,10 +161,32 @@ class eventsService {
 
   static async allEventsByBranch(branchId) {
     try {
-      const eventos = await Event.findAll({
+      const response = await Event.findAll({
         where: { branchId },
+        include: [
+          {
+            model: Guard,
+            as: "guard",
+            attributes: {
+              exclude: ["password", "salt", "createdAt", "updatedAt"],
+            },
+          },
+          { model: Shift, as: "shift" },
+        ],
       });
-      return { error: false, data: eventos };
+      let events = [];
+      response.forEach((event, i) => {
+        events[i] = {
+          id: event.id,
+          title: `Turno ${event.guard.fullname}`,
+          start: new Date(`${event.date} ${event.shift.start}`),
+          end: new Date(`${event.date} ${event.shift.end}`),
+          branchId: event.branchId,
+          guardId: event.guardId,
+          nota: "",
+        };
+      });
+      return { error: false, data: events };
     } catch (error) {
       console.error(error);
       return { error: true, data: error };
@@ -184,6 +215,56 @@ class eventsService {
       return { error: true, data: error };
     }
   }
+
+  // GET EVENTS BY CLIENT
+  static async eventsByClient(clientId) {
+    try {
+      // comprobamos que el cliente existe
+      const client = await Client.findByPk(clientId);
+
+      if (!client) {
+        return {
+          error: true,
+          data: {
+            status: 405,
+            message: `No existe cliente con id ${clientId}`,
+          },
+        };
+      }
+
+      // traemos las sucursales del cliente
+      const response = await Event.findAll({
+        include: [
+          { model: Branch, as: "branch", where: { clientId } },
+          {
+            model: Guard,
+            as: "guard",
+            attributes: {
+              exclude: ["password", "salt", "createdAt", "updatedAt"],
+            },
+          },
+          { model: Shift, as: "shift" },
+        ],
+      });
+      let events = [];
+      response.forEach((event, i) => {
+        events[i] = {
+          id: event.id,
+          title: `Turno ${event.guard.fullname}`,
+          start: moment(`${event.date} ${event.shift.start}`).toDate(),
+          end: moment(`${event.date} ${event.shift.end}`).toDate(),
+          branchId: event.branchId,
+          guardId: event.guardId,
+          nota: "nada por ahora",
+          guard: event.guard,
+        };
+      });
+      return { error: false, data: events };
+    } catch (error) {
+      console.error(error);
+      return { error: true, data: error };
+    }
+  }
 }
 
-module.exports = eventsService;
+module.exports = EventsService;

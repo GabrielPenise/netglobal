@@ -43,7 +43,7 @@ Branch.init(
     full_address: {
       type: S.VIRTUAL,
       get() {
-        return `${this.street}, ${this.number}, ${this.city}, ${this.province}`;
+        return `${this.street}, ${this.number}, ${this.city}, ${this.province}, ${this.postalcode}`;
       },
     },
     coordinates: {

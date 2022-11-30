@@ -7,13 +7,35 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Horarios from './src/screens/Horarios';
 import Reportes from './src/screens/Reportes';
+import { Provider, useDispatch, useSelector } from 'react-redux';
+import store from './src/store/store';
+import { useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import RootNavigator from './src/Navigation/rootNavigation';
+
 
 const Stack = createNativeStackNavigator();
-
 const Tab = createBottomTabNavigator();
 
+
 export default function App() {
+const [perfil, setPerfil] = useState({})
+
+useEffect(() => {
+  getPerfil()
+},[])
+
+async function getPerfil() {
+  try {
+    const perfil = await AsyncStorage.getItem("user")
+    setPerfil(perfil)
+  } catch (error) {
+    console.log(error);
+  }
+}
+
   return (
+<<<<<<< HEAD
     <NavigationContainer>
       
       <Tab.Navigator>
@@ -44,6 +66,16 @@ export default function App() {
    
       </Tab.Navigator>
     </NavigationContainer>
+=======
+
+
+
+  <Provider store={store}>
+    {perfil? (<RootNavigator/>): (<LoginScreen/>)}
+   </Provider>
+
+
+>>>>>>> produccion
   );
 }
 

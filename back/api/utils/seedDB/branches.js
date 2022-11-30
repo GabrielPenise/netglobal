@@ -37,6 +37,15 @@ const branches = [
     postalcode: "C1123",
     clientId: 3,
   },
+  {
+    name: "Suc. San Nicolas",
+    street: "Avenida Alberdi",
+    number: 361,
+    city: "San Nicolas",
+    province: "Buenos Aires",
+    postalcode: "B2900",
+    clientId: 4,
+  },
 ];
 
 async function createBranches() {
