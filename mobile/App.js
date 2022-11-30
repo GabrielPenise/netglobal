@@ -15,6 +15,7 @@ const Tab = createBottomTabNavigator();
 export default function App() {
   return (
     <NavigationContainer>
+      
       <Tab.Navigator>
         <Tab.Screen name="Inicio" component={LoginScreen} options={{
           tabBarLabel: 'Inicio',
@@ -25,7 +26,7 @@ export default function App() {
       <Tab.Screen name="Fichaje" component={Fichaje} options={{
           tabBarLabel: 'Fichaje',
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="account" color={color} size={26} />
+            <MaterialCommunityIcons name="check" color={color} size={26} />
           ),
         }}/>
           <Tab.Screen name="Horarios" component={Horarios} options={{
