@@ -35,6 +35,38 @@ async function getPerfil() {
 }
 
   return (
+<<<<<<< HEAD
+    <NavigationContainer>
+      
+      <Tab.Navigator>
+        <Tab.Screen name="Inicio" component={LoginScreen} options={{
+          tabBarLabel: 'Inicio',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="home" color={color} size={26} />
+          ),
+        }}/>
+      <Tab.Screen name="Fichaje" component={Fichaje} options={{
+          tabBarLabel: 'Fichaje',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="check" color={color} size={26} />
+          ),
+        }}/>
+          <Tab.Screen name="Horarios" component={Horarios} options={{
+          tabBarLabel: 'Horarios',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="calendar" color={color} size={26} />
+          ),
+        }}/>
+          <Tab.Screen name="Reportes" component={Reportes} options={{
+          tabBarLabel: 'Reportes',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="clipboard" color={color} size={26} />
+          ),
+        }}/>
+   
+      </Tab.Navigator>
+    </NavigationContainer>
+=======
 
 
 
@@ -43,6 +75,7 @@ async function getPerfil() {
    </Provider>
 
 
+>>>>>>> produccion
   );
 }
 
