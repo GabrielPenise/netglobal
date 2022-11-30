@@ -3,7 +3,17 @@ const { Branch, Client } = require("../models");
 class BranchesService {
   static async getAll() {
     try {
-      const response = await Branch.findAll();
+      const response = await Branch.findAll({ where: { active: true } });
+      return { error: false, data: response };
+    } catch (error) {
+      console.error(error);
+      return { error: true, data: error };
+    }
+  }
+
+  static async getInactives() {
+    try {
+      const response = await Branch.findAll({ where: { active: false } });
       return { error: false, data: response };
     } catch (error) {
       console.error(error);

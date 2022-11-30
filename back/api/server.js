@@ -18,7 +18,7 @@ app.use(cors({ credentials: true, origin: "http://localhost:5174" }));
 
 app.use("/api", routes);
 
-db.sync({ force: false}).then(() => {
+db.sync({ force: false }).then(() => {
   app.listen(PORT, () => {
     console.log("Escuchando en el puerto ", PORT);
   });
