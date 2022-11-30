@@ -12,6 +12,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Perfil from '../screens/Perfil';
 import { useDispatch, useSelector } from 'react-redux';
 import { userLogin } from '../store/user';
+import Fichaje from '../screens/Fichaje';
 
 
 const Tab = createBottomTabNavigator();
@@ -47,11 +48,12 @@ useEffect(() => {
       <Tab.Navigator>      
       <Tab.Screen name="Perfil" component={HomeScreen} options={{
           tabBarLabel: 'Inicio',
+          headerShown:false,
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="home" color={color} size={26} />
+            <MaterialCommunityIcons name="account" color={color} size={26} />
           ),
         }}/>
-                <Tab.Screen name="Perfil " component={Perfil} options={{
+                <Tab.Screen name="Perfil " component={Fichaje} options={{
           tabBarLabel: 'Perfil',
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="account" color={color} size={26} />

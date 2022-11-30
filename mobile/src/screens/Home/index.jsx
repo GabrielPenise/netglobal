@@ -14,9 +14,7 @@ const user = useSelector((state) => state.user)
 const [empleado, setEmpleado] = useState({})
 const id = user.id
 
-  const handleBoton = () => {
-    navigation.navigate("LoginScreen")
-  }
+
 useEffect(() =>{
   if(user) 
   axios.get(`http://192.168.1.85:3001/api/guards/${user.id}`).then((res) => setEmpleado(res.data))
@@ -44,7 +42,6 @@ ListItem
           rounded
           source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-DIROB4u3cU82LhXPXqJIlMNeUrElZCKwKA&usqp=CAU' }}
           title="Bj"
-          
         >
      </Avatar>
 <CardDivider/>

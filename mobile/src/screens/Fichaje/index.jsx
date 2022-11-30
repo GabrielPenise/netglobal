@@ -37,6 +37,7 @@ const Fichaje = ({route, navigation}) => {
     })();
   }, []);
 
+
   const handleFecha = () =>{
     const fecha2= new Date().toISOString()
     setText(fecha2)
@@ -47,14 +48,17 @@ const Fichaje = ({route, navigation}) => {
     axios.put("http://192.168.0.73:3001/api/events/checkin/1", {time_in:text, position_in_latitude:latitud, position_in_longitude: longitud})
     setBotonEntrada(true)
      //.then(data=>console.log(data))
+
   }
 
 
   const handleOnPressSalida = ()=>{
+
     handleFecha()
     axios.put("http://192.168.0.73:3001/api/events/checkout/1", { time_out:text,position_out_latitude:latitud, position_out_longitude: longitud})
     setBotonSalida(true)
     //.then(data=>console.log(data))
+
   }
   
   return (
@@ -69,7 +73,9 @@ const Fichaje = ({route, navigation}) => {
       title="Usted esta aquí"
       ></Marker>
       </MapView> */}
+
       {botonEntrada ? (<Text style={{fontWeight:"bold", fontSize: 20}}>Su hora de entrada es: {text}</Text>) : (null)}
+
       <View style={{margin: 20}}>
       {!botonEntrada ? (<Button title="Ingrese la hora de entrada" onPress={handleOnPress}/> ) : (null)}
       </View>
