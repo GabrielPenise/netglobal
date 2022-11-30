@@ -1,4 +1,4 @@
-const { Guard, Branch } = require("../models");
+const { Guard, Branch, GuardShift, Shift } = require("../models");
 const { distanceCoordinates } = require("../utils/coordinates");
 
 class GuardsService {
@@ -58,7 +58,19 @@ class GuardsService {
       // traemos los guardias del cliente al que pertenece esa sucursal
       const guards = await Guard.findAll({
         where: { clientId: branch.clientId, active: true },
-        attributes: { exclude: ["password", "salt"] },
+        include: {
+          model: GuardShift,
+          attributes: {
+            exclude: ["createdAt", "updatedAt", "guardId", "shiftId"],
+          },
+          include: {
+            model: Shift,
+            attributes: { exclude: ["createdAt", "updatedAt"] },
+          },
+        },
+        attributes: {
+          exclude: ["password", "salt", "createdAt", "updatedAt"],
+        },
       });
       // filtramos guardias que se encuentran como máxim a 50km de la sucursal
       const response = guards.filter(
