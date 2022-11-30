@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   },
   datos: {
     fontSize: 20,
-
+    
   }
 });
 console.log("hola");
