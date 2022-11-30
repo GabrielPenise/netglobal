@@ -35,24 +35,24 @@ const Fichaje = ({route, navigation}) => {
       
     })();
   }, []);
-  // console.log(latitud)
-  // console.log(longitud)
+  console.log(latitud)
+  console.log(longitud)
 
   const handleOnPress = ()=>{
     setText(String(new Date()))
-    axios.put("http://192.168.100.24:3001/api/events/checkin/1", { position_in_latitude:latitud, position_in_longitude: longitud})
+    axios.put("http://192.168.1.85:3001/api/events/checkin/1", { position_in_latitude:latitud, position_in_longitude: longitud})
     .then(data=>console.log(data))
   }
 
 
   const handleOnPressSalida = ()=>{
     setTextSalida("2022-01-17T04:33:12.000Z") 
-    axios.put("http://192.168.100.24:3001/api/events/checkout/1", { position_out_latitude:latitud, position_out_longitude: longitud})
+    axios.put("http://192.168.1.85:3001/api/events/checkout/1", { position_out_latitude:latitud, position_out_longitude: longitud})
     .then(data=>console.log(data))
   }
   return (
     <View style={styles.container}>
-      <MapView 
+      {/* <MapView 
       style={styles.map} initialRegion={{
       latitude: latitud,
       longitude: longitud,
@@ -61,7 +61,7 @@ const Fichaje = ({route, navigation}) => {
       coordinate={{latitude: latitud, longitude: longitud}}
       title="Usted esta aquí"
       ></Marker>
-      </MapView>
+      </MapView> */}
       <Text style={{fontWeight:"bold", fontSize: 20}}>Su hora de entrada es: {text}</Text>
       <View style={{margin: 20}}>
       {!text ? (<Button title="Ingrese la hora de entrada" onPress={handleOnPress}/> ) : (null)}
