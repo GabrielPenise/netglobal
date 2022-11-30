@@ -1,18 +1,20 @@
 import React, {useState, useEffect} from "react";
 import { Text, View, StyleSheet, Button, Platform } from "react-native";
 import axios from "axios";
-import MapView, { Marker, Circle } from 'react-native-maps';
+// import MapView, { Marker, Circle } from 'react-native-maps';
 import * as Location from 'expo-location';
 
-
+const fecha = new Date().toISOString()
 const Fichaje = ({route, navigation}) => {
   const handleBoton = () => {
     navigation.navigate("Login")
   } 
-  const [text, setText] = useState("");
-  const [textSalida, setTextSalida] = useState("");
+  const [text, setText] = useState(fecha);
+  const [textSalida, setTextSalida] = useState(fecha);
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
+  const [botonEntrada, setBotonEntrada] = useState(false)
+  const [botonSalida, setBotonSalida] = useState(false)
 
   const [latitud, setLatitud] = useState(0)
   const [longitud, setLongitud] = useState(0)
@@ -28,31 +30,40 @@ const Fichaje = ({route, navigation}) => {
 
       let locacion = await Location.getCurrentPositionAsync({});
       setLocation(locacion);
-      // console.log(locacion.coords.latitude)
 
       setLatitud(locacion.coords.latitude)
       setLongitud(locacion.coords.longitude)
       
     })();
   }, []);
-  // console.log(latitud)
-  // console.log(longitud)
+
+
+  const handleFecha = () =>{
+    const fecha2= new Date().toISOString()
+    setText(fecha2)
+  }
 
   const handleOnPress = ()=>{
-    setText(String(new Date()))
-    axios.put("http://192.168.100.24:3001/api/events/checkin/1", { position_in_latitude:latitud, position_in_longitude: longitud})
-    .then(data=>console.log(data))
+    handleFecha()
+    axios.put("http://192.168.0.73:3001/api/events/checkin/1", {time_in:text, position_in_latitude:latitud, position_in_longitude: longitud})
+    setBotonEntrada(true)
+     //.then(data=>console.log(data))
+
   }
 
 
   const handleOnPressSalida = ()=>{
-    setTextSalida("2022-01-17T04:33:12.000Z") 
-    axios.put("http://192.168.100.24:3001/api/events/checkout/1", { position_out_latitude:latitud, position_out_longitude: longitud})
-    .then(data=>console.log(data))
+
+    handleFecha()
+    axios.put("http://192.168.0.73:3001/api/events/checkout/1", { time_out:text,position_out_latitude:latitud, position_out_longitude: longitud})
+    setBotonSalida(true)
+    //.then(data=>console.log(data))
+
   }
+  
   return (
     <View style={styles.container}>
-      <MapView 
+      {/* <MapView 
       style={styles.map} initialRegion={{
       latitude: latitud,
       longitude: longitud,
@@ -61,16 +72,18 @@ const Fichaje = ({route, navigation}) => {
       coordinate={{latitude: latitud, longitude: longitud}}
       title="Usted esta aquí"
       ></Marker>
-      </MapView>
-      <Text style={{fontWeight:"bold", fontSize: 20}}>Su hora de entrada es: {text}</Text>
+      </MapView> */}
+
+      {botonEntrada ? (<Text style={{fontWeight:"bold", fontSize: 20}}>Su hora de entrada es: {text}</Text>) : (null)}
+
       <View style={{margin: 20}}>
-      {!text ? (<Button title="Ingrese la hora de entrada" onPress={handleOnPress}/> ) : (null)}
+      {!botonEntrada ? (<Button title="Ingrese la hora de entrada" onPress={handleOnPress}/> ) : (null)}
       </View>
 
 
-      <Text style={{fontWeight:"bold", fontSize: 20}}>Su hora de salida es: {textSalida}</Text>
+      {botonSalida ? (<Text style={{fontWeight:"bold", fontSize: 20}}>Su hora de salida es: {textSalida}</Text>) : (null)}
       <View style={{margin: 20}}>
-        {!textSalida ? (<Button title="Ingrese la hora de salida" onPress={handleOnPressSalida} />) : (null)} 
+        {!botonSalida ? (<Button title="Ingrese la hora de salida" onPress={handleOnPressSalida} />) : (null)} 
       </View>
     </View>
   );

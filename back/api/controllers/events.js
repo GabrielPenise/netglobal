@@ -57,12 +57,12 @@ class EventsController {
   static async deleteEvent(req, res) {
     const { id } = req.params;
 
-    const { error, data } = await EventsService.deleteEvent(id, body);
+    const { error, data } = await EventsService.deleteEvent(id);
 
     if (error) {
       return res.status(data.status || 500).send({ message: data.message });
     }
-    res.status(202).send(data);
+    res.sendStatus(202);
   }
 
   // GET EVENT BY ID

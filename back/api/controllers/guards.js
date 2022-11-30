@@ -30,6 +30,16 @@ class GuardsController {
     res.send(data);
   }
 
+  static async getByDistance(req, res) {
+    const { id } = req.params;
+    const { error, data } = await GuardsService.getByDistance(id);
+
+    if (error) {
+      return res.status(data.status || 500).send({ message: data.message });
+    }
+    res.send(data);
+  }
+
   static async getSingle(req, res) {
     const { id } = req.params;
     const { error, data } = await GuardsService.getSingle(id);

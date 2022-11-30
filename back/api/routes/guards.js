@@ -10,6 +10,9 @@ router.get("/", GuardsController.getAll);
 //GET ALL INACTIVES GUARDS api/guards/inactives
 router.get("/inactives", GuardsController.getInactivesGuards);
 
+//GET GUARD BY DISTANCE TO BRANCH api/guards/:id
+router.get("/byDistance/:id", validateAuth, GuardsController.getByDistance);
+
 //PERSISTENCE api/guards/validate
 router.get("/validate", validateAuth, (req, res) => {
   console.log("hola", req.user);
