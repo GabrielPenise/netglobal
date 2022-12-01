@@ -40,7 +40,7 @@ Branch.init(
       type: S.BOOLEAN,
       defaultValue: true,
     },
-    full_address: {
+    fulladdress: {
       type: S.VIRTUAL,
       get() {
         return `${this.street}, ${this.number}, ${this.city}, ${this.province}, ${this.postalcode}`;
