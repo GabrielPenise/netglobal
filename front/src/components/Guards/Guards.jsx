@@ -54,7 +54,7 @@ export default function Guards() {
   return (
     <Container style={{ minHeight: "100vh" }}>
       <DropDownSelect
-        value={input}
+        defVal={input}
         options={guards}
         handleSelect={handleSelect}
       />

@@ -55,7 +55,7 @@ export default function Branchs() {
   return (
     <Container style={{ minHeight: "100vh" }}>
       <DropDownSelect
-        value={input}
+        defVal={input}
         options={branchs}
         handleSelect={handleSelect}
       />

@@ -49,7 +49,7 @@ export default function ClientOrSu() {
     <Container style={{ minHeight: "100vh" }}>
       {!select ? null : (
         <DropDownSelect
-          value={input}
+          defVal={input}
           options={clients}
           handleSelect={handleSelect}
         />
