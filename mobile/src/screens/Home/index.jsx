@@ -8,6 +8,7 @@ import axios from 'axios';
 import { Button } from '@rneui/base';
 import { ListItem } from '@rneui/themed';
 import { CardDivider } from '@rneui/base/dist/Card/Card.Divider';
+import {URLBase} from "../../url/variable";
 
 function HomeScreen({route, navigation, perfil}) {
 const user = useSelector((state) => state.user)
@@ -17,7 +18,9 @@ const id = user.id
 
 useEffect(() =>{
   if(user) 
-  axios.get(`http://192.168.1.85:3001/api/guards/1`).then((res) => setEmpleado(res.data))
+
+  URLBase.get(`/guards/${user.id}`).then((res) => setEmpleado(res.data))
+
 }, [id])
 
 const removeValue = async () => {
@@ -80,5 +83,3 @@ const styles = StyleSheet.create({
     
   }
 });
-console.log("hola");
-console.log("hola");

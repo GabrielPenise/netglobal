@@ -6,6 +6,9 @@ const router = express.Router();
 // GET ALL BRANCHES /api/branches
 router.get("/", BranchesController.getAll);
 
+// GET ALL BRANCHES /api/branches
+router.get("/inactives", BranchesController.getInactives);
+
 // GET BRANCH BY ID /api/branches/:id
 router.get("/:id", BranchesController.getSingle);
 
