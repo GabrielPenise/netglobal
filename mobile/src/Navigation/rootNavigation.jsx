@@ -39,39 +39,46 @@ useEffect(() => {
 
   const Stack = createNativeStackNavigator()
 
+  function HomeTabs() {
+    return (
+      <Tab.Navigator>    
+
+
+    <Tab.Screen name="Perfil" component={HomeScreen} options={{
+        tabBarLabel: 'Credencial',
+        headerShown:false,
+        tabBarIcon: ({ color }) => (
+          <MaterialCommunityIcons name="account" color={color} size={26} />
+        ),
+      }}/>
+              <Tab.Screen name="Fichaje" component={Fichaje} options={{
+        tabBarLabel: 'Fichar',
+        tabBarIcon: ({ color }) => (
+          <MaterialCommunityIcons name="clock" color={color} size={26} />
+        ),
+      }}/>
+        <Tab.Screen name="Horarios" component={Horarios} options={{
+        tabBarLabel: 'Horarios',
+        tabBarIcon: ({ color }) => (
+          <MaterialCommunityIcons name="calendar" color={color} size={26} />
+        ),
+      }}/>
+        <Tab.Screen name="Reportes" component={Reportes} options={{
+        tabBarLabel: 'Reportes',
+        tabBarIcon: ({ color }) => (
+          <MaterialCommunityIcons name="clipboard" color={color} size={26} />
+        ),
+      }}/>
+    </Tab.Navigator>
+    );
+  }
+
   return (
-    <NavigationContainer>
-      <Tab.Navigator>      
-      <Tab.Screen name="Perfil" component={HomeScreen} options={{
-          tabBarLabel: 'Inicio',
-          headerShown:false,
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="account" color={color} size={26} />
-          ),
-        }}/>
-                <Tab.Screen name="Fichaje" component={Fichaje} options={{
-          tabBarLabel: 'Perfil',
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="account" color={color} size={26} />
-          ),
-        }}/>
-          <Tab.Screen name="Horarios" component={Horarios} options={{
-          tabBarLabel: 'Horarios',
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="calendar" color={color} size={26} />
-          ),
-        }}/>
-          <Tab.Screen name="Reportes" component={Reportes} options={{
-          tabBarLabel: 'Reportes',
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="clipboard" color={color} size={26} />
-          ),
-        }}/>
-             
-      </Tab.Navigator>
-      
-      </NavigationContainer>
-    
+   <Stack.Navigator>
+    <Stack.Screen name="Logueo" component={LoginScreen} options={{headerShown:false}}/>
+    <Stack.Screen name="Hometabs" component={HomeTabs} options={{headerShown:false}}/>
+   </Stack.Navigator>
+
   );
 }
 

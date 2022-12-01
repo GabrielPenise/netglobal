@@ -19,25 +19,13 @@ const Tab = createBottomTabNavigator();
 
 
 export default function App() {
-const [perfil, setPerfil] = useState({})
-
-useEffect(() => {
-  getPerfil()
-},[])
-
-async function getPerfil() {
-  try {
-    const perfil = await AsyncStorage.getItem("user")
-    setPerfil(perfil)
-  } catch (error) {
-    console.log(error);
-  }
-}
 
   return (
     
   <Provider store={store}>
-    {perfil? (<RootNavigator/>): (<LoginScreen/>)}
+    <NavigationContainer>
+    <RootNavigator/>
+    </NavigationContainer>
    </Provider>
 
   );
