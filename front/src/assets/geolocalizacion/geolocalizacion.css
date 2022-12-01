@@ -1,8 +1,8 @@
 #map {
-  height: 700px;
+  height: 100vh;
 }
-@media screen and (max-width: 800px) {
-  #map {
-    height: 600px;
-  }
+
+.leaflet-div-icon {
+  background: transparent;
+  border: none;
 }
