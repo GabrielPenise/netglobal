@@ -9,34 +9,35 @@ import {URLBase} from "../../url/variable";
 
 function Horarios({route, navigation}) {
 
-  const user = useSelector((state) => state.user)
-const [empleado, setEmpleado] = useState(null)
-// const id = user.id
+//   const user = useSelector((state) => state.user)
+// const [empleado, setEmpleado] = useState([])
+// // const id = user.id
 
 
-useEffect(() =>{
-  URLBase.get(`/events/byGuard/${user.id}`).then((res) => setEmpleado(res.data))
-}, [user.id])
+// useEffect(() =>{
+//   URLBase.get(`/events/byGuard/${user.id}`).then((res) => setEmpleado(res.data))
+// }, [])
 
   const handleBoton = () => {
     navigation.navigate("LoginScreen")
   }
-if(!empleado){
-  return (<View>
-     <Text>Cargando </Text>
-  </View>)
-}
+// if(!empleado){
+//   return (<View>
+//      <Text>Cargando </Text>
+//   </View>)
+// }
   return (
     <View style={{ flex: 1, alignItems: 'center', marginTop: 100}}>
 <CardDivider/>
      <View>
-     <Text style={styles.datos}> Nombre: {empleado[0].branch.name} </Text>
+      <Text>hola</Text>
+     {/* <Text style={styles.datos}> Nombre: {empleado[0].branch.name} </Text>
      <Text style={styles.datos}> Ciudad: {empleado[0].branch.city}  </Text>
      <Text style={styles.datos}> Provincia: {empleado[0].branch.province} </Text>
      <Text style={styles.datos}> Dirección: {empleado[0].branch.fulladdress} </Text>
      <Text style={styles.datos}> Turno: {empleado[0].branch.type} </Text>
      <Text style={styles.datos}> Hora de ingreso: {empleado[0].shift.start} </Text>
-     <Text style={styles.datos}> Hora de salida: {empleado[0].shift.end} </Text>
+     <Text style={styles.datos}> Hora de salida: {empleado[0].shift.end} </Text> */}
      </View>
      <Card.Divider/>
     </View>
