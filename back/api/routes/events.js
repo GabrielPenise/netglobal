@@ -31,7 +31,6 @@ router.get(
 // GET ALL EVENTS BY GUARD api/events/byGuard/:id
 router.get(
   "/byGuard/:guardId",
-  validateClient,
   EventsController.allEventsByGuard
 );
 
