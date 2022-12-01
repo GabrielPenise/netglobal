@@ -163,6 +163,9 @@ class EventsService {
     try {
       const response = await Event.findAll({
         where: { branchId },
+        attributes: {
+          exclude: ["createdAt", "updatedAt"],
+        },
         include: [
           {
             model: Guard,
@@ -197,7 +200,28 @@ class EventsService {
 
   static async allEventsByGuard(guardId) {
     try {
-      const eventos = await Event.findAll({ where: { guardId } });
+      const eventos = await Event.findAll({
+        where: { guardId },
+        attributes: {
+          exclude: ["createdAt", "updatedAt"],
+        },
+        include: [
+          {
+            model: Branch,
+            as: "branch",
+            attributes: {
+              exclude: ["createdAt", "updatedAt"],
+            },
+          },
+          {
+            model: Shift,
+            as: "shift",
+            attributes: {
+              exclude: ["createdAt", "updatedAt"],
+            },
+          },
+        ],
+      });
       return { error: false, data: eventos };
     } catch (error) {
       console.error(error);
@@ -208,7 +232,19 @@ class EventsService {
   //GET EVENT BY GUARD ID AND DATE
   static async eventByDateYGuard(guardId, date) {
     try {
-      const eventos = await Event.findAll({ where: { guardId, date } });
+      const eventos = await Event.findAll({
+        where: { guardId, date },
+        attributes: {
+          exclude: ["createdAt", "updatedAt"],
+        },
+        include: [
+          {
+            model: Branch,
+            as: "branch",
+          },
+          { model: Shift, as: "shift" },
+        ],
+      });
       return { error: false, data: eventos };
     } catch (error) {
       console.error(error);
@@ -234,6 +270,9 @@ class EventsService {
 
       // traemos las sucursales del cliente
       const response = await Event.findAll({
+        attributes: {
+          exclude: ["createdAt", "updatedAt"],
+        },
         include: [
           { model: Branch, as: "branch", where: { clientId } },
           {
