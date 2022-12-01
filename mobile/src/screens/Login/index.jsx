@@ -1,4 +1,4 @@
-import {  useState } from 'react';
+import {  useEffect, useState } from 'react';
 import { View, Image, TextInput } from 'react-native';
 import images from '../../assets/images'
 import styles from './styles';
@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { userLogin } from '../../store/user';
 import { useNavigation } from '@react-navigation/native';
 import { NavigationContainer } from '@react-navigation/native';
+import {URLBase} from "../../url/variable"
 
 
 function LoginScreen({route, navigation}) {
@@ -25,17 +26,21 @@ function LoginScreen({route, navigation}) {
         setPassword(text)
     }
    
+    // useEffect(()=>{
+    //   navigation.navigate("Perfil")
+    // },[user.id])
 
     const onButtonPress = async (e) => {
 
       try {
-        const LoginUser = await axios.post("http://192.168.1.85:3001/api/guards/login", {email, password})
+        const LoginUser = await URLBase.post(`/guards/login`, {email, password})
         const jsonValue = JSON.stringify(LoginUser)
         await AsyncStorage.setItem("user", jsonValue)
             } 
             catch (error) {
         alert("usuario/contraseña incorrecta, consulte con recursos humanos")
       }
+      navigation.navigate("Perfil")
    }
 
 

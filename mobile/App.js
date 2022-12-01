@@ -35,6 +35,7 @@ async function getPerfil() {
 }
 
   return (
+    
   <Provider store={store}>
     {perfil? (<RootNavigator/>): (<LoginScreen/>)}
    </Provider>
