@@ -2,10 +2,9 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Sidebar from "./components/SideBar";
 import Reports from "./components/Reports";
-import Calendario from "./commons/Calendar/Calendario";
 import Login from "./screens/Login";
 import Home from "./screens/Home";
-import Geolocalizacion from "./geolocalizacion/Geolocalizacion";
+import Map from "./geolocalizacion/Map";
 
 import { Navigate, Route, Routes } from "react-router-dom";
 
@@ -63,7 +62,7 @@ function App() {
 
                 <Route path={`/guards/${user.id}`} element={<Guards />} />
 
-                <Route path="/geo" element={<Geolocalizacion user={user} />} />
+                <Route path="/map" element={<Map user={user} />} />
 
                 <Route path="/home" element={<Home />} />
                 <Route path="/reports" element={<Reports />} />
