@@ -1,5 +1,7 @@
 const GuardsService = require("../services/guards");
+const emailService = require("../services/email");
 const { generateToken } = require("../config/token");
+const { generatePassword } = require("../utils/password");
 
 class GuardsController {
   static async getAll(req, res) {
@@ -56,10 +58,12 @@ class GuardsController {
 
   static async createGuard(req, res) {
     const body = req.body;
+    body.password = generatePassword();
     const { error, data } = await GuardsService.createGuard(body);
     if (error) {
       return res.status(data.status || 500).send({ message: data.message });
     }
+    emailService.sendRegisterEmail(data, body.password);
     res.status(201).send(data);
   }
 
