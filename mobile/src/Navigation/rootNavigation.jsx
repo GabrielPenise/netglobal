@@ -40,10 +40,6 @@ useEffect(() => {
   const Stack = createNativeStackNavigator()
 
   return (
- 
-              
-          
-
     <NavigationContainer>
       <Tab.Navigator>      
       <Tab.Screen name="Perfil" component={HomeScreen} options={{
@@ -53,7 +49,7 @@ useEffect(() => {
             <MaterialCommunityIcons name="account" color={color} size={26} />
           ),
         }}/>
-                <Tab.Screen name="Perfil " component={Fichaje} options={{
+                <Tab.Screen name="Fichaje" component={Fichaje} options={{
           tabBarLabel: 'Perfil',
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="account" color={color} size={26} />
@@ -75,9 +71,6 @@ useEffect(() => {
       </Tab.Navigator>
       
       </NavigationContainer>
-
-
-
     
   );
 }
