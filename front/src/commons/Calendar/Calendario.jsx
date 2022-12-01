@@ -86,7 +86,7 @@ export default function Calendario({ branch }) {
         />
         <BtnAddEvent />
 
-        <CalendarioModal />
+        <CalendarioModal branch={branch} />
       </div>
     </>
   ) : (
