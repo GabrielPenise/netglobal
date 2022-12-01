@@ -10,13 +10,34 @@ import { userLogin } from '../../store/user';
 import { useNavigation } from '@react-navigation/native';
 import { NavigationContainer } from '@react-navigation/native';
 import {URLBase} from "../../url/variable"
+import HomeScreen from '../Home';
+
 
 
 function LoginScreen({route, navigation}) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("")
-    const [perfil, setPerfil] = useState({})  
     const user = useSelector((state) => state.user);
+    const [perfil, setPerfil] = useState({})
+
+  useEffect(() => {
+  getPerfil()
+  if (perfil) {
+    navigation.navigate("Hometabs")
+  }
+  },[perfil])
+
+  
+async function getPerfil() {
+  try {
+    const perfil = await AsyncStorage.getItem("user")
+    const usuario = JSON.parse(perfil)
+    setPerfil(usuario.data)
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 
     const onChangeTextEmail = (text)=>{
         setEmail(text)
@@ -26,41 +47,24 @@ function LoginScreen({route, navigation}) {
         setPassword(text)
     }
    
-    // useEffect(()=>{
-    //   navigation.navigate("Perfil")
-    // },[user.id])
-
     const onButtonPress = async (e) => {
-
       try {
         const LoginUser = await URLBase.post(`/guards/login`, {email, password})
         const jsonValue = JSON.stringify(LoginUser)
         await AsyncStorage.setItem("user", jsonValue)
+        navigation.navigate("Hometabs")
             } 
             catch (error) {
         alert("usuario/contraseña incorrecta, consulte con recursos humanos")
       }
-      navigation.navigate("Perfil")
    }
-
-
-//  const usuario = () => {
-//    AsyncStorage.getItem("user").then((data) => setPerfil(JSON.parse(data)))}
-// usuario()
-
-// const removeUser = () => {
-//   AsyncStorage.removeItem("user").then((res) => console.log("done"))
-// }
-
-// removeUser()
 
   return (
 
-  <NavigationContainer>
-    <View style={styles.container}>
-      
-      <View>
 
+
+    <View style={styles.container}>
+      <View>
         <Image source={images.logoFull} style={styles.image} />
         <TextInput placeholder='Email' onChangeText={onChangeTextEmail} value={email} style={styles.textInput} />
         <TextInput placeholder='Password'value={password} onChangeText={onChangeTextContrasena} style={styles.textInput} secureTextEntry={true}/>
@@ -75,7 +79,7 @@ function LoginScreen({route, navigation}) {
       </View>
         <Text style={{marginTop:20, alignContent:"center"}}> ¿Olvido su contraseña? Haga Click aquí</Text>
     </View>
-    </NavigationContainer>
+  
   );
 }
 

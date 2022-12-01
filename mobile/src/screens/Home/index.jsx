@@ -18,10 +18,9 @@ const id = user.id
 
 useEffect(() =>{
   if(user) 
-
-  URLBase.get(`/guards/${user.id}`).then((res) => setEmpleado(res.data))
-
+  URLBase.get(`/guards/${id}`).then((res) => setEmpleado(res.data))
 }, [id])
+
 
 const removeValue = async () => {
   try {
@@ -34,12 +33,11 @@ const removeValue = async () => {
 
 const handleLogOut = () => {
   removeValue()
-  navigation.navigate("Reportes")
+  navigation.navigate("Logueo")
 } 
 ListItem
   return (
     <View style={{ flex: 1, alignItems: 'center', marginTop: 100}}>
-    
     <Avatar
           size={200}
           rounded
