@@ -12,6 +12,7 @@ const moment = require("moment");
 class EventsService {
   // CREATE EVENT
   static async createEvent(body) {
+    console.log(body);
     try {
       const response = await Event.create(body);
       return { error: false, data: response };
@@ -119,10 +120,14 @@ class EventsService {
   }
 
   // DELETE A EVENT
-  static async deleteEvent(id) {
+  static async deleteEvent(body) {
+    const { shiftId, guardId, branchId, date } = body;
+
     try {
       // check if the event exists
-      const evento = await Event.findByPk(id);
+      const evento = await Event.findAll({
+        where: { shiftId, guardId, branchId, date },
+      });
 
       if (!evento) {
         return {
@@ -136,7 +141,7 @@ class EventsService {
 
       // delete the event
       const response = await Event.destroy({
-        where: { id },
+        where: { shiftId, guardId, branchId, date },
       });
       return { error: false, data: response };
     } catch (error) {
@@ -181,6 +186,7 @@ class EventsService {
       response.forEach((event, i) => {
         events[i] = {
           id: event.id,
+          date: event.date,
           title: `Turno ${event.guard.fullname}`,
           start: new Date(`${event.date} ${event.shift.start}`),
           end: new Date(`${event.date} ${event.shift.end}`),

@@ -7,15 +7,13 @@ function Fecha({ handleSelect }) {
 
   const handleDateSelect = () => {};
 
-  console.log(date);
-
   return (
     <div>
       <DatePicker
         className="form-control"
         selected={date}
-        onChange={(date) => setDate(date)}
-        onSelect={handleSelect}
+        onChange={handleSelect}
+        onSelect={(date) => setDate(date)}
       />
     </div>
   );
