@@ -3,6 +3,8 @@ import BtnDeleteEvent from "../Buttons/BtnDeleteEvent";
 import moment from "moment";
 import Swal from "sweetalert2";
 import Fecha from "./Fecha";
+import Turnos from "./Turnos";
+import { Axios } from "../../utils/AxiosWithCredentials";
 
 import DateTimePicker from "react-datetime-picker";
 
@@ -39,6 +41,7 @@ export const CalendarioModal = ({ branch }) => {
   const [dateStart, setDateStart] = useState(startDate.toDate());
   const [dateEnd, setDateEnd] = useState(endDate.toDate());
   const [formData, setFormData] = useState(initialState);
+  const [date, setDate] = useState(new Date());
 
   const closeModal = () => {
     dispatch(setUiOpen(false));
@@ -55,13 +58,27 @@ export const CalendarioModal = ({ branch }) => {
   };
 
   const handleDateChange = (e) => {
-    const date = moment(e).format("YYYY-MM-DD");
+    console.log("lo q llega", e);
+    setDate(moment(e).format("YYYY-MM-DD"));
     setFormData({
       ...formData,
-      date: date,
+      date: moment(e).format("YYYY-MM-DD"),
     });
   };
 
+  console.log(formData.date);
+
+  const handleShiftChange = (e) => {
+    const start = moment(`${date} ${e.value.start}`).toDate();
+    const end = moment(`${date} ${e.value.end}`).toDate();
+
+    setFormData({
+      ...formData,
+      shiftId: e.value.id,
+      start,
+      end,
+    });
+  };
   const validateDates = (start, end) => {
     const momentStartDate = moment(start);
     const momentEndDate = moment(end);
@@ -84,35 +101,19 @@ export const CalendarioModal = ({ branch }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     //Validar fecha e inputs
-    const error = validateDates(formData.start, formData.end);
-    if (error) return;
+    // const error = validateDates(formData.start, formData.end);
+    // if (error) return;
 
     if (activeEvent) {
       //endpoint para updatear evento
       dispatch(eventUpdate(formData));
     } else {
       //endpoint para crear evento
-      axios.post("ruta", { ...formData, branchId: branch.id });
+      Axios.post("/events", { ...formData, branchId: branch.id });
       dispatch(eventAddNew({ ...formData, branchId: branch.id }));
     }
 
     closeModal();
-  };
-
-  const handleDateStart = (e) => {
-    setDateStart(e);
-    setFormData({
-      ...formData,
-      start: e,
-    });
-  };
-
-  const handleDateEnd = (e) => {
-    setDateEnd(e);
-    setFormData({
-      ...formData,
-      end: e,
-    });
   };
 
   useEffect(() => {
@@ -130,40 +131,29 @@ export const CalendarioModal = ({ branch }) => {
       aria-labelledby="contained-moda-tittle-vcenter"
     >
       <Modal.Header closeButton>
-        <Modal.Title>Nueva Jornada</Modal.Title>
+        <Modal.Title>{activeEvent ? "Editar" : "Nueva jornada"}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <div className="mb-3">
-          <label className="form-label">
-            <Fecha handleSelect={handleDateChange} />
-          </label>
-        </div>
-
         <Form onSubmit={handleSubmit}>
+          {activeEvent ? (
+            `${activeEvent.date}`
+          ) : (
+            <div className="mb-3">
+              <label className="form-label">
+                <Fecha handleSelect={handleDateChange} />
+              </label>
+            </div>
+          )}
+
+          {activeEvent ? null : (
+            <div className="mb-3">
+              <Turnos handleSelect={handleShiftChange} />
+            </div>
+          )}
+
           <div className="mb-3">
             <DropDownModalGuards handleSelect={handleGuardChange} />
           </div>
-
-          {/* <div className="mb-3">
-            <label className="form-label">Fecha Hora Inicio Jornada</label>
-            <DateTimePicker
-              className="form-control"
-              minDate={startDate.toDate()}
-              onChange={handleDateStart}
-              value={dateStart}
-              required
-            />
-          </div> */}
-          {/* <div className="mb-3">
-            <label className="form-label">Fecha y Hora Fin de Jornada </label>
-            <DateTimePicker
-              className="form-control"
-              minDate={dateStart}
-              onChange={handleDateEnd}
-              value={dateEnd}
-              required
-            />
-          </div> */}
 
           <Modal.Footer>
             {activeEvent && <BtnDeleteEvent />}
@@ -171,7 +161,7 @@ export const CalendarioModal = ({ branch }) => {
               Cerrar
             </Button>
             <Button variant="primary" type="submit">
-              Crear jornada
+              {activeEvent ? "Editar" : "Nueva jornada"}
             </Button>
           </Modal.Footer>
         </Form>
