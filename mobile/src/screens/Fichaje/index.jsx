@@ -50,7 +50,6 @@ const Fichaje = ({route, navigation}) => {
     URLBase.put("/api/events/checkin/1", {time_in:text, position_in_latitude:latitud, position_in_longitude: longitud})
     setBotonEntrada(true)
      //.then(data=>console.log(data))
-
   }
 
 

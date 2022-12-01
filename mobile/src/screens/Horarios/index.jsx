@@ -6,26 +6,21 @@ import { CardDivider } from '@rneui/base/dist/Card/Card.Divider';
 import {URLBase} from "../../url/variable";
  import React from 'react';
 
-
-function Horarios({route, navigation}) {
-
-//   const user = useSelector((state) => state.user)
-// const [empleado, setEmpleado] = useState([])
-// // const id = user.id
+function Horarios({navigation}) {
+const user = useSelector((state) => state.user)
+const [empleado, setEmpleado] = useState(null)
 
 
-// useEffect(() =>{
-//   URLBase.get(`/events/byGuard/${user.id}`).then((res) => setEmpleado(res.data))
-// }, [])
+useEffect(() =>{
+  if(user) 
+  URLBase.get(`/events/byGuard/${user.id}`).then((res) => setEmpleado(res.data))
+}, [user])
+
 
   const handleBoton = () => {
     navigation.navigate("LoginScreen")
   }
-// if(!empleado){
-//   return (<View>
-//      <Text>Cargando </Text>
-//   </View>)
-// }
+
   return (
     <View style={{ flex: 1, alignItems: 'center', marginTop: 100}}>
 <CardDivider/>

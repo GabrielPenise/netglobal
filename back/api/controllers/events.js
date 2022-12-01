@@ -55,9 +55,7 @@ class EventsController {
   // DELETE A EVENT
 
   static async deleteEvent(req, res) {
-    const { id } = req.params;
-
-    const { error, data } = await EventsService.deleteEvent(id);
+    const { error, data } = await EventsService.deleteEvent(req.body);
 
     if (error) {
       return res.status(data.status || 500).send({ message: data.message });
