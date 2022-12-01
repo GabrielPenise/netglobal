@@ -9,7 +9,7 @@ router.post("/", EventsController.createEvent);
 // UPDATE A EVENT /api/events/:id
 router.put("/:id", validateClient, EventsController.updateEvent);
 
-// DELETE A EVENT /api/events/:id
+// DELETE A EVENT /api/events/
 router.delete("/", validateClient, EventsController.deleteEvent);
 
 //CHECKIN GUARD /api/events/checkin/:id

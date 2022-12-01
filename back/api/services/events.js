@@ -192,6 +192,7 @@ class EventsService {
           end: new Date(`${event.date} ${event.shift.end}`),
           branchId: event.branchId,
           guardId: event.guardId,
+          shiftId: event.shiftId,
           nota: "",
         };
       });
