@@ -63,7 +63,7 @@ function App() {
 
                 <Route path={`/guards/${user.id}`} element={<Guards />} />
 
-                <Route path="/geo" element={<Geolocalizacion />} />
+                <Route path="/geo" element={<Geolocalizacion user={user} />} />
 
                 <Route path="/home" element={<Home />} />
                 <Route path="/reports" element={<Reports />} />
