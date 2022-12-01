@@ -34,6 +34,9 @@ router.get(
   EventsController.allEventsByGuard
 );
 
+
+
+
 // GET EVENT BY GUARD ID AND DATE api/events/byDate/:guardId/:date
 router.get("/byDate/:date/:guardId", EventsController.eventByDateYGuard);
 
