@@ -7,25 +7,27 @@ import {URLBase} from "../../url/variable";
  import React from 'react';
 
 
-function Horarios({route, navigation}) {
-
-  const user = useSelector((state) => state.user)
+function Horarios({navigation}) {
+const user = useSelector((state) => state.user)
 const [empleado, setEmpleado] = useState(null)
-// const id = user.id
 
 
 useEffect(() =>{
+  if(user) 
   URLBase.get(`/events/byGuard/${user.id}`).then((res) => setEmpleado(res.data))
-}, [user.id])
+}, [user])
 
   const handleBoton = () => {
     navigation.navigate("LoginScreen")
   }
+
+
 if(!empleado){
   return (<View>
      <Text>Cargando </Text>
   </View>)
 }
+
   return (
     <View style={{ flex: 1, alignItems: 'center', marginTop: 100}}>
 <CardDivider/>
