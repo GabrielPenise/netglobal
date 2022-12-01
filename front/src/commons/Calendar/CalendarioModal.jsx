@@ -4,7 +4,7 @@ import moment from "moment";
 import Swal from "sweetalert2";
 
 import DateTimePicker from "react-datetime-picker";
-import { FetchsDb } from "../../utils/FetchsDb.js";
+
 import { Button, Modal, Form, Dropdown, DropdownButton } from "react-bootstrap";
 
 import "../../assets/styles/commons/CalendarioModal.css";
@@ -15,7 +15,7 @@ import {
   unSetEventActive,
   eventUpdate,
 } from "../../store/slices/index.js";
-import DropDownSelect from "../DropDown/DropDownSelect";
+
 import DropDownModalGuards from "../DropDown/DropDownModalGuards";
 
 const startDate = moment().minutes(0).seconds(0).add(1, "hours");
@@ -25,9 +25,11 @@ const initialState = {
   start: startDate.toDate(),
   end: endDate.toDate(),
   notes: "",
+  guardId: null,
+  branchId: null,
 };
 
-export const CalendarioModal = () => {
+export const CalendarioModal = ({ branch }) => {
   const dispatch = useDispatch();
   const { uiOpen } = useSelector((state) => state.modal);
   const { activeEvent } = useSelector((state) => state.calendar);
@@ -42,10 +44,11 @@ export const CalendarioModal = () => {
     dispatch(unSetEventActive());
     //Todo: Cerrar el modal, esta fn la voy a usar al final del handleSubmit
   };
-  const handleInputChange = (e) => {
+  const handleGuardChange = (e) => {
     setFormData({
       ...formData,
       title: e.label,
+      guardId: e.value.id,
     });
   };
 
@@ -53,7 +56,7 @@ export const CalendarioModal = () => {
     const momentStartDate = moment(start);
     const momentEndDate = moment(end);
 
-    if (momentEndDate.isSameOrAfter(momentStartDate)) {
+    if (momentStartDate.isSameOrAfter(momentEndDate)) {
       //Fecha de inicio no puede ser Igual o Menor que la de finalizacion.
       return Swal.fire(
         "Error",
@@ -77,7 +80,7 @@ export const CalendarioModal = () => {
     if (activeEvent) {
       dispatch(eventUpdate(formData));
     } else {
-      dispatch(eventAddNew({ ...formData }));
+      dispatch(eventAddNew({ ...formData, branchId: branch.id }));
     }
 
     closeModal();
@@ -119,7 +122,7 @@ export const CalendarioModal = () => {
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
           <div className="mb-3">
-            <DropDownModalGuards handleInputChange={handleInputChange} />
+            <DropDownModalGuards handleSelect={handleGuardChange} />
           </div>
 
           <div className="mb-3">
@@ -157,42 +160,3 @@ export const CalendarioModal = () => {
     </Modal>
   );
 };
-
-// const DropDownGuards = ({ defaultGuard, activeEvent }) => {
-//   const { title } = defaultGuard;
-//   const [guards, setGuards] = useState([]);
-//   const [guard, setGuard] = useState({
-//     label: `Turno ${title} `,
-//     value: defaultGuard,
-//   });
-//   const { user } = useSelector((state) => state.user);
-
-//   const getGuards = async () => {
-//     const guardsArr = await FetchsDb.fetchGet(`/guards/byclient/${user.id}`);
-
-//     const optionsGuardsArr = guardsArr.map((element) => {
-//       return {
-//         label: `Turno ${element.fullname} `,
-//         value: element,
-//       };
-//     });
-
-//     setGuards(optionsGuardsArr);
-//   };
-
-//   useEffect(() => {
-//     getGuards();
-//   }, [activeEvent]);
-
-//   const handleGuards = (e) => {
-//     setGuard(e);
-//   };
-
-//   return (
-//     <DropDownSelect
-//       value={guard}
-//       options={guards}
-//       handleSelect={handleGuards}
-//     />
-//   );
-// };

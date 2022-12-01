@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { FetchsDb } from "../../utils/FetchsDb";
 import DropDownSelect from "./DropDownSelect";
 
-export default function DropDownModalGuards({ handleInputChange }) {
+export default function DropDownModalGuards({ handleSelect }) {
   const { activeEvent } = useSelector((state) => state.calendar);
 
   let checkeo = {};
@@ -39,7 +39,7 @@ export default function DropDownModalGuards({ handleInputChange }) {
   return (
     <DropDownSelect
       options={guards}
-      handleSelect={handleInputChange}
+      handleSelect={handleSelect}
       defVal={guardInput}
     />
   );
