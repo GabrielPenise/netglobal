@@ -1,5 +1,5 @@
+import { View, Image, TextInput, Text } from 'react-native';
 import {  useEffect, useState } from 'react';
-import { View, Image, TextInput } from 'react-native';
 import images from '../../assets/images'
 import styles from './styles';
 import axios from 'axios';
@@ -73,6 +73,7 @@ function LoginScreen({route, navigation}) {
 }}/>
         </View>
       </View>
+        <Text style={{marginTop:20, alignContent:"center"}}> ¿Olvido su contraseña? Haga Click aquí</Text>
     </View>
     </NavigationContainer>
   );

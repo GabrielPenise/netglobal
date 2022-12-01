@@ -18,7 +18,9 @@ const id = user.id
 
 useEffect(() =>{
   if(user) 
+
   URLBase.get(`/guards/${user.id}`).then((res) => setEmpleado(res.data))
+
 }, [id])
 
 const removeValue = async () => {
