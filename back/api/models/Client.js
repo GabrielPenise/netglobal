@@ -33,7 +33,7 @@ Client.init(
       type: S.STRING,
     },
     cuit: {
-      type: S.INTEGER,
+      type: S.BIGINT,
       allowNull: false,
       unique: true,
     },
@@ -58,6 +58,10 @@ Client.init(
       defaultValue: false,
     },
     active: {
+      type: S.BOOLEAN,
+      defaultValue: true,
+    },
+    first_access: {
       type: S.BOOLEAN,
       defaultValue: true,
     },
