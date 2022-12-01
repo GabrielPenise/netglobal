@@ -1,9 +1,14 @@
 import Select from "react-select";
 
-export default function DropDownSelect({ value, options, handleSelect }) {
+export default function DropDownSelect({ options, handleSelect, defVal }) {
   return (
     <>
-      <Select value={value} options={options} onChange={handleSelect} />
+      <Select
+        options={options}
+        onChange={handleSelect}
+        defaultValue={defVal}
+        required={true}
+      />
     </>
   );
 }
