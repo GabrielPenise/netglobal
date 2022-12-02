@@ -72,24 +72,32 @@ El sistema dispone de dos aplicaciones bien diferenciadas:
 - Dotenv
 - Cors
 - Nominatim
+- Moment
+- Nodemailer
+- Handlebars
 
 #### Front
 
 - Axios
+- Vite
 - React
 - React Calendar
 - React Leaflet
 - Redux
 - Moment
+- OpenStreetMap
 - React-Bootstrap
 - Bootstrap
 - SASS
 - CSS
+- Fontawseome Icons
 
-#### APP MOBILE
+#### App Mobile
 
 - React Native
 - Expo
+- Axios
+- Redux
 
 <p align="right">(<a href="#readme-top">volver a arriba</a>)</p>
 
@@ -155,11 +163,11 @@ Puedes ver todos los metodos de la API descargando la [colección de POSTMAN](ht
   - [x] Panel alta clientes
   - [x] Panel alta sucursales de un cliente
   - [x] Panel alta vigiladores
-  - [ ] Calendario y asignación de turnos
+  - [x] Calendario y asignación de turnos
   - [ ] Calendarios por vigilador
-  - [ ] Calendarios por sucursal
+  - [x] Calendarios por sucursal
   - [ ] Otros
-    - [ ] Mapa validación localización sucursales
+    - [x] Mapa validación localización sucursales y vigiladores
     - [ ] Reporte de sucursales con horarios sin cubrir
     - [ ] Reporte de horas trabajadas por vigilador
 
@@ -167,9 +175,9 @@ Puedes ver todos los metodos de la API descargando la [colección de POSTMAN](ht
 
 - [ ] Aplicación Móvil
   - [x] Login/Logout
-  - [ ] Persistencia de usuario
-  - [ ] Fichaje horario entrada y salida
-  - [ ] Registrar geoposicionamiento entrada y salida
+  - [x] Persistencia de usuario
+  - [x] Fichaje horario entrada y salida
+  - [x] Registrar geoposicionamiento entrada y salida
   - [ ] Otros
     - [ ] Consulta días y horarios próximas direcciones de trabajo
     - [ ] Cargar avisos de ausencias en su calendario
