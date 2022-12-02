@@ -79,6 +79,15 @@ class GuardsController {
     res.send(data);
   }
 
+  static async changePassword(req, res) {
+    const id = req.params.id;
+    const { password } = req.body;
+    const { error, data } = await GuardService.changePassword(id, password);
+    if (error) {
+      return res.status(data.status || 500).send({ message: data.message });
+    }
+    res.status(202).send("Se ha cambiado la contraseña con éxito");
+  }
   static async updateGuard(req, res) {
     const { id } = req.params;
     const body = req.body;

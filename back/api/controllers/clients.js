@@ -64,6 +64,18 @@ class ClientController {
     res.send(data);
   }
 
+  // CHANGE PASSWORD
+
+  static async changePassword(req, res) {
+    const id = req.params.id;
+    const { password } = req.body;
+    const { error, data } = await ClientService.changePassword(id, password);
+    if (error) {
+      return res.status(data.status || 500).send({ message: data.message });
+    }
+    res.status(202).send("Se ha cambiado la contraseña con éxito");
+  }
+
   // UPDATE CLIENT
 
   static async updateClient(req, res) {
