@@ -24,24 +24,32 @@ class EventsService {
 
   // UPDATE A EVENT
 
-  static async updateEvent(id, body) {
+  static async updateEvent(body) {
+    const { guardId, shiftId, branchId } = body;
+    delete body.id;
     try {
       // check if the event exists
-      const evento = await Event.findByPk(id);
+      const evento = await Event.findAll({
+        where: {
+          guardId,
+          shiftId,
+          branchId,
+        },
+      });
 
       if (!evento) {
         return {
           error: true,
           data: {
             status: 405,
-            message: `No existe el evento ${id}`,
+            message: `No existe el evento `,
           },
         };
       }
 
       // update the event
       const [affectedRows, updatedEvent] = await Event.update(body, {
-        where: { id },
+        where: { guardId, shiftId, branchId },
         returning: true, //para que devuelva algo el update
       });
       return { error: false, data: updatedEvent[0] };

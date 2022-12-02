@@ -7,7 +7,7 @@ const EventsController = require("../controllers/events");
 router.post("/", EventsController.createEvent);
 
 // UPDATE A EVENT /api/events/:id
-router.put("/:id", validateClient, EventsController.updateEvent);
+router.put("/", validateClient, EventsController.updateEvent);
 
 // DELETE A EVENT /api/events/
 router.delete("/", validateClient, EventsController.deleteEvent);
@@ -29,13 +29,7 @@ router.get(
 );
 
 // GET ALL EVENTS BY GUARD api/events/byGuard/:id
-router.get(
-  "/byGuard/:guardId",
-  EventsController.allEventsByGuard
-);
-
-
-
+router.get("/byGuard/:guardId", EventsController.allEventsByGuard);
 
 // GET EVENT BY GUARD ID AND DATE api/events/byDate/:guardId/:date
 router.get("/byDate/:date/:guardId", EventsController.eventByDateYGuard);

@@ -2,17 +2,17 @@ const { Shift } = require("../../models");
 
 const shifts = [
   {
-    type: "morning",
+    type: "Mañana",
     start: "08:00:00",
     end: "16:00:00",
   },
   {
-    type: "afternoon",
+    type: "Tarde",
     start: "16:00:00",
     end: "00:00:00",
   },
   {
-    type: "night",
+    type: "Noche",
     start: "00:00:00",
     end: "08:00:00",
   },

@@ -15,10 +15,9 @@ class EventsController {
 
   // UPDATE A EVENT
   static async updateEvent(req, res) {
-    const { id } = req.params;
     const body = req.body;
 
-    const { error, data } = await EventsService.updateEvent(id, body);
+    const { error, data } = await EventsService.updateEvent(body);
 
     if (error) {
       return res.status(data.status || 500).send({ message: data.message });
