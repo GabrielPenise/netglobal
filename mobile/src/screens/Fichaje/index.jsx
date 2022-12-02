@@ -47,19 +47,14 @@ const Fichaje = ({route, navigation}) => {
 
   const handleOnPress = ()=>{
     handleFecha()
-    URLBase.put("/api/events/checkin/1", {time_in:text, position_in_latitude:latitud, position_in_longitude: longitud})
+    URLBase.put("/events/checkin/1", {time_in:text, position_in_latitude:latitud, position_in_longitude: longitud})
     setBotonEntrada(true)
-     //.then(data=>console.log(data))
   }
-
-
+  
   const handleOnPressSalida = ()=>{
-
     handleFecha()
     URLBase.put("/events/checkout/1", { time_out:text,position_out_latitude:latitud, position_out_longitude: longitud})
     setBotonSalida(true)
-    //.then(data=>console.log(data))
-
   }
   
   return (

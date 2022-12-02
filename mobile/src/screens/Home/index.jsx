@@ -12,8 +12,6 @@ function HomeScreen({ navigation }) {
   const [empleado, setEmpleado] = useState({});
   const id = user.id;
 
-  console.log(user);
-
   useEffect(() => {
     URLBase.get(`/guards/${id}`).then((res) => setEmpleado(res.data));
   }, []);
@@ -38,7 +36,7 @@ function HomeScreen({ navigation }) {
       style={{ alignContent: "center", alignItems: "center", marginTop: 100 }}
     >
       <Card style={{ alignItems: "center", alignItems: "center" }}>
-        <Card.Title> NET SECURITY </Card.Title>
+        <Card.Title> CREDENCIAL </Card.Title>
         <Card.Divider />
         <View
           style={{
