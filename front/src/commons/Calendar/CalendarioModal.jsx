@@ -26,11 +26,14 @@ const startDate = moment().minutes(0).seconds(0).add(1, "hours");
 const endDate = startDate.clone().add(8, "hours");
 const initialState = {
   title: "",
-  start: startDate.toDate(),
-  end: endDate.toDate(),
+  start: null,
+  end: null,
   notes: "",
   guardId: null,
   branchId: null,
+  id: null,
+  shiftId: null,
+  date: null,
 };
 
 export const CalendarioModal = ({ branch }) => {
@@ -47,6 +50,7 @@ export const CalendarioModal = ({ branch }) => {
     dispatch(setUiOpen(false));
     setFormData(initialState);
     dispatch(unSetEventActive());
+
     //Todo: Cerrar el modal, esta fn la voy a usar al final del handleSubmit
   };
   const handleGuardChange = (e) => {
@@ -58,15 +62,12 @@ export const CalendarioModal = ({ branch }) => {
   };
 
   const handleDateChange = (e) => {
-    console.log("lo q llega", e);
     setDate(moment(e).format("YYYY-MM-DD"));
     setFormData({
       ...formData,
       date: moment(e).format("YYYY-MM-DD"),
     });
   };
-
-  console.log(formData.date);
 
   const handleShiftChange = (e) => {
     const start = moment(`${date} ${e.value.start}`).toDate();
@@ -79,38 +80,54 @@ export const CalendarioModal = ({ branch }) => {
       end,
     });
   };
-  const validateDates = (start, end) => {
-    const momentStartDate = moment(start);
-    const momentEndDate = moment(end);
+  const validateDates = (date) => {
+    // const momentStartDate = moment(date);
+    // const momentEndDate = moment(new Date());
 
-    if (momentStartDate.isSameOrAfter(momentEndDate)) {
-      //Fecha de inicio no puede ser Igual o Menor que la de finalizacion.
-      return Swal.fire(
-        "Error",
-        "La fecha fin debe ser mayor a la de inicio",
-        "error"
-      );
-    }
+    // if (momentEndDate.isSameOrAfter(momentStartDate)) {
+    //   //Fecha de inicio no puede ser Igual o Menor que la de finalizacion.
+    //   Swal.fire("Error", "Fecha incorrecta, verificar", "error");
+    // }
 
     if (formData.title.length === 0) {
       //Fecha de inicio no puede ser Igual o Menor que la de finalizacion.
-      return Swal.fire("Error", "Tiene que asignar un guardia", "error");
+      Swal.fire("Error", "Tiene que asignar un guardia", "error");
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     //Validar fecha e inputs
-    // const error = validateDates(formData.start, formData.end);
-    // if (error) return;
+    const error = validateDates(formData.date);
+    if (error) return;
 
     if (activeEvent) {
       //endpoint para updatear evento
-      dispatch(eventUpdate(formData));
+      try {
+        await Axios.put("/events", formData);
+        dispatch(eventUpdate(formData));
+      } catch (err) {
+        Swal.fire(
+          "Error",
+          "No se pudo editar el evento, recuerda que para editar tiene que cambiar el guardia. ",
+          "error"
+        );
+
+        console.error("No se pudo editar el evento");
+      }
     } else {
       //endpoint para crear evento
-      Axios.post("/events", { ...formData, branchId: branch.id });
-      dispatch(eventAddNew({ ...formData, branchId: branch.id }));
+      try {
+        await Axios.post("/events", { ...formData, branchId: branch.id });
+        dispatch(eventAddNew({ ...formData, branchId: branch.id }));
+      } catch (err) {
+        Swal.fire(
+          "Error",
+          "No se pudo crear el evento, revise los campos ",
+          "error"
+        );
+        console.error(err, "Cant Create Events");
+      }
     }
 
     closeModal();

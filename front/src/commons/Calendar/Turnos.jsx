@@ -12,6 +12,7 @@ function Turnos({ handleSelect }) {
 
   const getShifts = async () => {
     const shiftsArr = await FetchsDb.fetchGet(`/shifts`);
+
     const optionsShiftsArr = shiftsArr.map((element) => {
       return {
         label: `Turno ${element.type} `,

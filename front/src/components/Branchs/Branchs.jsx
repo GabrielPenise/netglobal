@@ -52,7 +52,6 @@ export default function Branchs() {
     setInput({});
   };
 
-  console.log(input);
   return (
     <Container style={{ minHeight: "100vh" }}>
       <div style={{ marginBottom: "6%" }}>
