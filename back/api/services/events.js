@@ -25,13 +25,13 @@ class EventsService {
   // UPDATE A EVENT
 
   static async updateEvent(body) {
-    const { guardId, shiftId, branchId } = body;
+    const { guardId, shiftId, branchId, date } = body;
     delete body.id;
     try {
       // check if the event exists
       const evento = await Event.findAll({
         where: {
-          guardId,
+          date,
           shiftId,
           branchId,
         },
@@ -49,7 +49,7 @@ class EventsService {
 
       // update the event
       const [affectedRows, updatedEvent] = await Event.update(body, {
-        where: { guardId, shiftId, branchId },
+        where: { date, shiftId, branchId },
         returning: true, //para que devuelva algo el update
       });
       return { error: false, data: updatedEvent[0] };

@@ -9,7 +9,6 @@ import { Axios } from "../../utils/AxiosWithCredentials";
 export default function BtnDeleteEvent() {
   const dispatch = useDispatch();
   const { activeEvent } = useSelector((state) => state.calendar);
-  console.log(activeEvent);
 
   const handleDelete = () => {
     dispatch(eventDeleted(activeEvent));
