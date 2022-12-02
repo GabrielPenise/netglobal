@@ -4,7 +4,7 @@ import images from "../../assets/images";
 import styles from "./styles";
 import { Button } from "@rneui/themed";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { URLBase } from "../../url/variable";
 import { userLogin } from "../../store/user";
 
@@ -12,11 +12,11 @@ function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
 
   useEffect(() => {
     getPerfil();
   }, []);
-
 
   async function getPerfil() {
     try {
@@ -55,42 +55,40 @@ function LoginScreen({ navigation }) {
   };
 
   return (
-
-    (<View style={styles.container}>
-    <View>
-      <Image source={images.logoFull} style={styles.image} />
-      <TextInput
-        placeholder="Email"
-        onChangeText={onChangeTextEmail}
-        value={email}
-        style={styles.textInput}
-      />
-      <TextInput
-        placeholder="Password"
-        value={password}
-        onChangeText={onChangeTextContrasena}
-        style={styles.textInput}
-        secureTextEntry={true}
-      />
-      <View style={styles.loginBtn}>
-        <Button
-          title="Ingresar"
-          onPress={onButtonPress}
-          buttonStyle={{
-            backgroundColor: "rgba(90, 154, 230, 1)",
-            borderColor: "transparent",
-            borderWidth: 0,
-            borderRadius: 30,
-          }}
+    <View style={styles.container}>
+      <View>
+        <Image source={images.logoFull} style={styles.image} />
+        <TextInput
+          placeholder="Email"
+          onChangeText={onChangeTextEmail}
+          value={email}
+          style={styles.textInput}
         />
+        <TextInput
+          placeholder="Password"
+          value={password}
+          onChangeText={onChangeTextContrasena}
+          style={styles.textInput}
+          secureTextEntry={true}
+        />
+        <View style={styles.loginBtn}>
+          <Button
+            title="Ingresar"
+            onPress={onButtonPress}
+            buttonStyle={{
+              backgroundColor: "rgba(90, 154, 230, 1)",
+              borderColor: "transparent",
+              borderWidth: 0,
+              borderRadius: 30,
+            }}
+          />
+        </View>
       </View>
+      <Text style={{ marginTop: 20, alignContent: "center" }}>
+        {" "}
+        ¿Olvido su contraseña? Haga Click aquí
+      </Text>
     </View>
-    <Text style={{ marginTop: 20, alignContent: "center" }}>
-      {" "}
-      ¿Olvido su contraseña? Haga Click aquí
-    </Text>
-  </View>)
-  
   );
 }
 
