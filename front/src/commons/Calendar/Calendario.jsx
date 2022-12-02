@@ -16,7 +16,6 @@ import {
   eventSetActive,
   setUiOpen,
 } from "../../store/slices/index.js";
-import BtnDeleteEvent from "../Buttons/BtnDeleteEvent";
 
 const localizer = momentLocalizer(moment);
 moment.locale("es");
@@ -33,6 +32,7 @@ export default function Calendario({ branch }) {
       Axios.get(`/events/byBranch/${branch.id}`)
         .then((res) => {
           // transformar start/end a tipo Date
+
           res.data.forEach((event) => {
             event.start = new Date(event.start);
             event.end = new Date(event.end);
@@ -86,7 +86,7 @@ export default function Calendario({ branch }) {
         />
         <BtnAddEvent />
 
-        <CalendarioModal />
+        <CalendarioModal branch={branch} />
       </div>
     </>
   ) : (

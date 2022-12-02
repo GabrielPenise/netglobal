@@ -2,10 +2,9 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Sidebar from "./components/SideBar";
 import Reports from "./components/Reports";
-import Calendario from "./commons/Calendar/Calendario";
 import Login from "./screens/Login";
 import Home from "./screens/Home";
-import Geolocalizacion from "./geolocalizacion/Geolocalizacion";
+import Map from "./geolocalizacion/Map";
 
 import { Navigate, Route, Routes } from "react-router-dom";
 
@@ -17,6 +16,7 @@ import { setUser } from "./store/slices/index.js";
 import Guards from "./components/Guards/Guards";
 import Branchs from "./components/Branchs/Branchs";
 import ClientOrSu from "./components/ClientOrSu/ClientOrSu";
+import ChangePassword from "./screens/ChangePassword";
 
 function App() {
   const { user } = useSelector((state) => state.user);
@@ -40,39 +40,47 @@ function App() {
     <div className="App">
       <Navbar />
       {!user ? (
-        <>
-          <Routes>
-            <Route path="/" element={<Login />} />
-          </Routes>
-        </>
+        <Routes>
+          <Route path="/" element={<Login />} />
+        </Routes>
       ) : (
         <>
-          <Sidebar />
-          <Routes>
-            {user["super_admin"] ? (
-              <>
-                <Route path="/superadmin" element={<ClientOrSu />} />
-                <Route path="/home" element={<Home />} />
-              </>
-            ) : (
-              <>
-                <Route path="/" element={<Navigate to={"/home"} />} />
-                <Route path="/calendar" element={<Branchs />} />
+          {user.first_access ? (
+            <Routes>
+              <Route
+                path="/change-password"
+                element={<ChangePassword user={user} />}
+              />
+            </Routes>
+          ) : (
+            <>
+              <Sidebar />
+              <Routes>
+                {user["super_admin"] ? (
+                  <>
+                    <Route path="/superadmin" element={<ClientOrSu />} />
+                    <Route path="/home" element={<Home />} />
+                  </>
+                ) : (
+                  <>
+                    <Route path="/" element={<Navigate to={"/home"} />} />
+                    <Route path="/calendar" element={<Branchs />} />
 
-                <Route path={`/branch/${user.id}`} element={<Branchs />} />
+                    <Route path={`/branch/${user.id}`} element={<Branchs />} />
 
-                <Route path={`/guards/${user.id}`} element={<Guards />} />
+                    <Route path={`/guards/${user.id}`} element={<Guards />} />
 
-                <Route path="/geo" element={<Geolocalizacion />} />
+                    <Route path="/map" element={<Map user={user} />} />
 
-                <Route path="/home" element={<Home />} />
-                <Route path="/reports" element={<Reports />} />
-              </>
-            )}
-          </Routes>
+                    <Route path="/home" element={<Home />} />
+                    <Route path="/reports" element={<Reports />} />
+                  </>
+                )}
+              </Routes>
+            </>
+          )}
         </>
       )}
-
       <Footer />
     </div>
   );

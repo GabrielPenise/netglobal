@@ -15,10 +15,9 @@ class EventsController {
 
   // UPDATE A EVENT
   static async updateEvent(req, res) {
-    const { id } = req.params;
     const body = req.body;
 
-    const { error, data } = await EventsService.updateEvent(id, body);
+    const { error, data } = await EventsService.updateEvent(body);
 
     if (error) {
       return res.status(data.status || 500).send({ message: data.message });
@@ -55,9 +54,7 @@ class EventsController {
   // DELETE A EVENT
 
   static async deleteEvent(req, res) {
-    const { id } = req.params;
-
-    const { error, data } = await EventsService.deleteEvent(id);
+    const { error, data } = await EventsService.deleteEvent(req.body);
 
     if (error) {
       return res.status(data.status || 500).send({ message: data.message });
@@ -74,7 +71,7 @@ class EventsController {
     if (error) {
       return res.status(data.status || 500).send({ message: data.message });
     }
-    // ACÁ NO ES !ID EN VEZ DE !DATA?????????????????????????????????????????????????????????????????
+
     if (!data) {
       return res.status(404).send({ message: `No existe el evento ${id}` });
     }

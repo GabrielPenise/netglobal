@@ -29,9 +29,10 @@ function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
     Axios.post("/clients/login", input)
-      .then((res) => {
-        dispatch(setUser(res.data));
-        navigate("/home");
+      .then((res) => res.data)
+      .then((user) => {
+        dispatch(setUser(user));
+        user.first_access ? navigate("/change-password") : navigate("/home");
       })
       .catch(() => {
         setInput(initialState);

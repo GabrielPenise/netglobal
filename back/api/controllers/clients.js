@@ -1,14 +1,18 @@
 const ClientService = require("../services/clients");
+const emailService = require("../services/email");
 const { generateToken } = require("../config/token");
+const { generatePassword } = require("../utils/password");
 
 class ClientController {
   // CREATE CLIENT - REGISTER
   static async createClient(req, res) {
     const body = req.body;
+    body.password = generatePassword();
     const { error, data } = await ClientService.createClient(body);
     if (error) {
       return res.status(data.status || 500).send({ message: data.message });
     }
+    emailService.sendRegisterEmail(data, body.password);
     res.status(201).send(data);
   }
 
@@ -58,6 +62,18 @@ class ClientController {
         .send({ message: `No existe el cliente con id: ${id}` });
     }
     res.send(data);
+  }
+
+  // CHANGE PASSWORD
+
+  static async changePassword(req, res) {
+    const id = req.params.id;
+    const { password } = req.body;
+    const { error, data } = await ClientService.changePassword(id, password);
+    if (error) {
+      return res.status(data.status || 500).send({ message: data.message });
+    }
+    res.status(202).send("Se ha cambiado la contraseña con éxito");
   }
 
   // UPDATE CLIENT

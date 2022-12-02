@@ -1,4 +1,4 @@
-const { Guard, Branch } = require("../models");
+const { Guard, Branch, GuardShift, Shift } = require("../models");
 const { distanceCoordinates } = require("../utils/coordinates");
 
 class GuardsService {
@@ -58,7 +58,19 @@ class GuardsService {
       // traemos los guardias del cliente al que pertenece esa sucursal
       const guards = await Guard.findAll({
         where: { clientId: branch.clientId, active: true },
-        attributes: { exclude: ["password", "salt"] },
+        include: {
+          model: GuardShift,
+          attributes: {
+            exclude: ["createdAt", "updatedAt", "guardId", "shiftId"],
+          },
+          include: {
+            model: Shift,
+            attributes: { exclude: ["createdAt", "updatedAt"] },
+          },
+        },
+        attributes: {
+          exclude: ["password", "salt", "createdAt", "updatedAt"],
+        },
       });
       // filtramos guardias que se encuentran como máxim a 50km de la sucursal
       const response = guards.filter(
@@ -124,10 +136,36 @@ class GuardsService {
         email: guard.email,
         fullname: guard.fullname,
         rol: "guard",
+        first_access: guard.first_access,
       };
       return { error: false, data: payload };
     } catch (error) {
       console.log(error);
+      return { error: true, data: error };
+    }
+  }
+
+  static async changePassword(id, password) {
+    try {
+      const guard = await Guard.findByPk(id);
+      if (!guard) {
+        return {
+          error: true,
+          data: {
+            status: 405,
+            message: `No existe el cliente ${id}`,
+          },
+        };
+      }
+      // actualizamos la contraseña
+      const hashedPassword = await guard.hash(password, client.salt);
+      const response = guard.update({
+        password: hashedPassword,
+        first_access: false,
+      });
+      return { error: false, data: response };
+    } catch (error) {
+      console.error(error);
       return { error: true, data: error };
     }
   }

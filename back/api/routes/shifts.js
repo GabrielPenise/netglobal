@@ -3,6 +3,7 @@ const ShiftsController = require("../controllers/shifts");
 const { validateClient } = require("../middlewares/auth");
 const router = express.Router();
 
+// api/shifts
 router.get("/", ShiftsController.getAll);
 router.get("/:id", ShiftsController.getSingle);
 router.post("/", validateClient, ShiftsController.createShift);

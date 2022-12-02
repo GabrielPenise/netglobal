@@ -2,10 +2,13 @@ import React, { useEffect, useState } from "react";
 import BtnDeleteEvent from "../Buttons/BtnDeleteEvent";
 import moment from "moment";
 import Swal from "sweetalert2";
+import Fecha from "./Fecha";
+import Turnos from "./Turnos";
+import { Axios } from "../../utils/AxiosWithCredentials";
 
 import DateTimePicker from "react-datetime-picker";
 
-import { Button, Modal, Form } from "react-bootstrap";
+import { Button, Modal, Form, Dropdown, DropdownButton } from "react-bootstrap";
 
 import "../../assets/styles/commons/CalendarioModal.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,16 +19,24 @@ import {
   eventUpdate,
 } from "../../store/slices/index.js";
 
+import DropDownModalGuards from "../DropDown/DropDownModalGuards";
+import axios from "axios";
+
 const startDate = moment().minutes(0).seconds(0).add(1, "hours");
 const endDate = startDate.clone().add(8, "hours");
 const initialState = {
   title: "",
-  start: startDate.toDate(),
-  end: endDate.toDate(),
+  start: null,
+  end: null,
   notes: "",
+  guardId: null,
+  branchId: null,
+  id: null,
+  shiftId: null,
+  date: null,
 };
 
-export const CalendarioModal = () => {
+export const CalendarioModal = ({ branch }) => {
   const dispatch = useDispatch();
   const { uiOpen } = useSelector((state) => state.modal);
   const { activeEvent } = useSelector((state) => state.calendar);
@@ -33,58 +44,93 @@ export const CalendarioModal = () => {
   const [dateStart, setDateStart] = useState(startDate.toDate());
   const [dateEnd, setDateEnd] = useState(endDate.toDate());
   const [formData, setFormData] = useState(initialState);
+  const [date, setDate] = useState(new Date());
 
   const closeModal = () => {
     dispatch(setUiOpen(false));
     setFormData(initialState);
     dispatch(unSetEventActive());
+
     //Todo: Cerrar el modal, esta fn la voy a usar al final del handleSubmit
   };
-  const handleInputChange = ({ target }) => {
+  const handleGuardChange = (e) => {
     setFormData({
       ...formData,
-      [target.name]: target.value,
+      title: e.label,
+      guardId: e.value.id,
     });
   };
 
-  const validateDates = (start, end) => {
-    const momentStartDate = moment(start);
-    const momentEndDate = moment(end);
+  const handleDateChange = (e) => {
+    setDate(moment(e).format("YYYY-MM-DD"));
+    setFormData({
+      ...formData,
+      date: moment(e).format("YYYY-MM-DD"),
+    });
+  };
 
-    if (momentStartDate.isSameOrAfter(momentEndDate)) {
+  const handleShiftChange = (e) => {
+    const start = moment(`${date} ${e.value.start}`).toDate();
+    const end = moment(`${date} ${e.value.end}`).toDate();
+
+    setFormData({
+      ...formData,
+      shiftId: e.value.id,
+      start,
+      end,
+    });
+  };
+  const validateDates = (date) => {
+    // const momentStartDate = moment(date);
+    // const momentEndDate = moment(new Date());
+
+    // if (momentEndDate.isSameOrAfter(momentStartDate)) {
+    //   //Fecha de inicio no puede ser Igual o Menor que la de finalizacion.
+    //   Swal.fire("Error", "Fecha incorrecta, verificar", "error");
+    // }
+
+    if (formData.title.length === 0) {
       //Fecha de inicio no puede ser Igual o Menor que la de finalizacion.
-      Swal.fire("Error", "La fecha fin debe ser mayor a la de inicio", "error");
+      Swal.fire("Error", "Tiene que asignar un guardia", "error");
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     //Validar fecha e inputs
-    validateDates(formData.start, formData.end);
+    const error = validateDates(formData.date);
+    if (error) return;
 
     if (activeEvent) {
-      dispatch(eventUpdate(formData));
+      //endpoint para updatear evento
+      try {
+        await Axios.put("/events", formData);
+        dispatch(eventUpdate(formData));
+      } catch (err) {
+        Swal.fire(
+          "Error",
+          "No se pudo editar el evento, recuerda que para editar tiene que cambiar el guardia. ",
+          "error"
+        );
+
+        console.error("No se pudo editar el evento");
+      }
     } else {
-      dispatch(eventAddNew({ ...formData }));
+      //endpoint para crear evento
+      try {
+        await Axios.post("/events", { ...formData, branchId: branch.id });
+        dispatch(eventAddNew({ ...formData, branchId: branch.id }));
+      } catch (err) {
+        Swal.fire(
+          "Error",
+          "No se pudo crear el evento, revise los campos ",
+          "error"
+        );
+        console.error(err, "Cant Create Events");
+      }
     }
 
     closeModal();
-  };
-
-  const handleDateStart = (e) => {
-    setDateStart(e);
-    setFormData({
-      ...formData,
-      start: e,
-    });
-  };
-
-  const handleDateEnd = (e) => {
-    setDateEnd(e);
-    setFormData({
-      ...formData,
-      end: e,
-    });
   };
 
   useEffect(() => {
@@ -102,62 +148,29 @@ export const CalendarioModal = () => {
       aria-labelledby="contained-moda-tittle-vcenter"
     >
       <Modal.Header closeButton>
-        <Modal.Title>Turno</Modal.Title>
+        <Modal.Title>{activeEvent ? "Editar" : "Nueva jornada"}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
+          {activeEvent ? (
+            `${activeEvent.date}`
+          ) : (
+            <div className="mb-3">
+              <label className="form-label">
+                <Fecha handleSelect={handleDateChange} />
+              </label>
+            </div>
+          )}
+
+          {activeEvent ? null : (
+            <div className="mb-3">
+              <Turnos handleSelect={handleShiftChange} />
+            </div>
+          )}
+
           <div className="mb-3">
-            <label className="form-label">Turno</label>
-            <Form.Control
-              type="text"
-              value={formData.title}
-              name="title"
-              placeholder="Turno de..."
-              onChange={handleInputChange}
-              required
-            />
+            <DropDownModalGuards handleSelect={handleGuardChange} />
           </div>
-          <div className="mb-3">
-            <label className="form-label">Fecha Hora Inicio Jornada</label>
-            <DateTimePicker
-              className="form-control"
-              minDate={startDate.toDate()}
-              onChange={handleDateStart}
-              value={dateStart}
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Fecha y Hora Fin de Jornada </label>
-            <DateTimePicker
-              className="form-control"
-              minDate={dateStart}
-              onChange={handleDateEnd}
-              value={dateEnd}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <textarea
-              type="text"
-              className="form-control"
-              placeholder="notas"
-              rows="5"
-              name="notes"
-              value={formData.notes}
-              onChange={handleInputChange}
-            ></textarea>
-          </div>
-          {/* <div className="mb-3">
-            <label className="form-label">Label</label> */}
-          {/* <Form.Control
-                  type={element.type}
-                  value={input[element.key]}
-                  name={element.key}
-                  onChange={handleInputChange}
-                  required
-                /> */}
-          {/* </div> */}
 
           <Modal.Footer>
             {activeEvent && <BtnDeleteEvent />}
@@ -165,66 +178,11 @@ export const CalendarioModal = () => {
               Cerrar
             </Button>
             <Button variant="primary" type="submit">
-              Guardar Cambios
+              {activeEvent ? "Editar" : "Nueva jornada"}
             </Button>
           </Modal.Footer>
         </Form>
       </Modal.Body>
     </Modal>
   );
-
-  // return (
-  //   <>
-  //     <Modal
-  //       isOpen={uiOpen}
-  //       onRequestClose={closeModal}
-  //       style={customStyles}
-  //       closeTimeoutMS={200}
-  //       overlayClassName="modal-fondo"
-  //     >
-  //       <form>
-  //         <div className="mb-3">
-  //           <label className="form-label">Fecha</label>
-  //           <DateTimePicker
-  //             className="form-control"
-  //             minDate={date}
-  //             onChange={handleDate}
-  //             value={date}
-  //           />
-  //         </div>
-  //         <div className="mb-3">
-  //           <label className="form-label">Turno</label>
-  //           <select className="form-select">
-  //             <option value={"Turno Mañana"}>Mañana</option>
-  //             <option value={"Turno Tarde"}>Tarde</option>
-  //             <option value={"Turno Noche"}>Noche</option>
-  //           </select>
-  //         </div>
-  //         <div className="mb-3">
-  //           <label className="form-label">Estado</label>
-  //           <select className="form-select">
-  //             <option value={"Cancelado"}>Cancelado</option>
-  //             <option value={"pendiente"}>Pendiente</option>
-  //             <option value={"Confirmado"}>Confirmado</option>
-  //           </select>
-  //         </div>
-  //         <div className="mb-3">
-  //           <label className="form-label">Vigilador</label>
-  //           <select className="form-select">
-  //             {/* aca tengo que mapear los vigiladores  */}
-
-  //             <option value={"Vigilador 1"}>Juan</option>
-  //             <option value={"Vigilador 2"}>Carlos</option>
-  //             <option value={"Vigilador 3"}>Pablo</option>
-  //           </select>
-  //         </div>
-  //         <div className="mb-3">
-  //           <label className="form-label">Notas:</label>
-  //           <textarea className="form-control" rows={5} placeholder="Notas.." />
-  //         </div>
-  //         <Button>Guardar</Button>
-  //       </form>
-  //     </Modal>
-  //   </>
-  // );
 };

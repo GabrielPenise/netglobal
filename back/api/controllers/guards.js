@@ -1,5 +1,7 @@
 const GuardsService = require("../services/guards");
+const emailService = require("../services/email");
 const { generateToken } = require("../config/token");
+const { generatePassword } = require("../utils/password");
 
 class GuardsController {
   static async getAll(req, res) {
@@ -56,10 +58,12 @@ class GuardsController {
 
   static async createGuard(req, res) {
     const body = req.body;
+    body.password = generatePassword();
     const { error, data } = await GuardsService.createGuard(body);
     if (error) {
       return res.status(data.status || 500).send({ message: data.message });
     }
+    emailService.sendRegisterEmail(data, body.password);
     res.status(201).send(data);
   }
 
@@ -75,6 +79,15 @@ class GuardsController {
     res.send(data);
   }
 
+  static async changePassword(req, res) {
+    const id = req.params.id;
+    const { password } = req.body;
+    const { error, data } = await GuardService.changePassword(id, password);
+    if (error) {
+      return res.status(data.status || 500).send({ message: data.message });
+    }
+    res.status(202).send("Se ha cambiado la contraseña con éxito");
+  }
   static async updateGuard(req, res) {
     const { id } = req.params;
     const body = req.body;

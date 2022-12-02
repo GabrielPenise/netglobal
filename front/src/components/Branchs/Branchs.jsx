@@ -54,11 +54,13 @@ export default function Branchs() {
 
   return (
     <Container style={{ minHeight: "100vh" }}>
-      <DropDownSelect
-        value={input}
-        options={branchs}
-        handleSelect={handleSelect}
-      />
+      <div style={{ marginBottom: "6%" }}>
+        <DropDownSelect
+          defVal={input}
+          options={branchs}
+          handleSelect={handleSelect}
+        />
+      </div>
       {pathname === "/calendar" ? (
         <Calendario branch={input.value} />
       ) : (

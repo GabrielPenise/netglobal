@@ -77,6 +77,10 @@ Guard.init(
       type: S.BOOLEAN,
       defaultValue: true,
     },
+    first_access: {
+      type: S.BOOLEAN,
+      defaultValue: true,
+    },
     fulladdress: {
       type: S.VIRTUAL,
       get() {

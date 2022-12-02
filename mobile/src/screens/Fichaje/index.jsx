@@ -3,6 +3,8 @@ import { Text, View, StyleSheet, Button, Platform } from "react-native";
 import axios from "axios";
 // import MapView, { Marker, Circle } from 'react-native-maps';
 import * as Location from 'expo-location';
+import  {URLBase} from "../../url/variable"
+
 
 const fecha = new Date().toISOString()
 const Fichaje = ({route, navigation}) => {
@@ -45,20 +47,14 @@ const Fichaje = ({route, navigation}) => {
 
   const handleOnPress = ()=>{
     handleFecha()
-    axios.put("http://192.168.0.73:3001/api/events/checkin/1", {time_in:text, position_in_latitude:latitud, position_in_longitude: longitud})
+    URLBase.put("/events/checkin/1", {time_in:text, position_in_latitude:latitud, position_in_longitude: longitud})
     setBotonEntrada(true)
-     //.then(data=>console.log(data))
-
   }
-
-
+  
   const handleOnPressSalida = ()=>{
-
     handleFecha()
-    axios.put("http://192.168.0.73:3001/api/events/checkout/1", { time_out:text,position_out_latitude:latitud, position_out_longitude: longitud})
+    URLBase.put("/events/checkout/1", { time_out:text,position_out_latitude:latitud, position_out_longitude: longitud})
     setBotonSalida(true)
-    //.then(data=>console.log(data))
-
   }
   
   return (

@@ -41,6 +41,7 @@ class ClientService {
         cuit: client.cuit,
         email: client.email,
         super_admin: client.super_admin,
+        first_access: client.first_access,
         rol: "client",
       };
       return { error: false, data: payload };
@@ -91,6 +92,41 @@ class ClientService {
     }
   }
 
+  // CHANGE PASSWORD
+  static async changePassword(id, password) {
+    try {
+      const client = await Client.findByPk(id);
+      if (!client) {
+        return {
+          error: true,
+          data: {
+            status: 405,
+            message: `No existe el cliente ${id}`,
+          },
+        };
+      }
+      if (password.length < 6) {
+        return {
+          error: true,
+          data: {
+            status: 400,
+            message: `La contraseña debe tener al menos 6 caracteres`,
+          },
+        };
+      }
+      // actualizamos la contraseña
+      const hashedPassword = await client.hash(password, client.salt);
+      const response = client.update({
+        password: hashedPassword,
+        first_access: false,
+      });
+      return { error: false, data: response };
+    } catch (error) {
+      console.error(error);
+      return { error: true, data: error };
+    }
+  }
+
   // UPDATE CLIENT
   static async updateClient(id, body) {
     try {
@@ -104,7 +140,6 @@ class ClientService {
           },
         };
       }
-      console.log(cliente);
       // actualizamos el cliente
       const [affectedRows, updatedClient] = await Client.update(body, {
         where: { id },

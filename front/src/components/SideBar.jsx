@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import {BsGeoAltFill} from "react-icons/bs";
+import { BsGeoAltFill } from "react-icons/bs";
 import {
   FaTh,
   FaBars,
@@ -46,9 +46,10 @@ const Sidebar = () => {
       path: "/reports",
       name: "Reportes",
       icon: <FaRegChartBar />,
-    },{
-      path: "/geo",
-      name: "Geolocalizacion",
+    },
+    {
+      path: "/map",
+      name: "Mapa",
       icon: <BsGeoAltFill />,
     },
   ];

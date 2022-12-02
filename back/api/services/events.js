@@ -12,6 +12,7 @@ const moment = require("moment");
 class EventsService {
   // CREATE EVENT
   static async createEvent(body) {
+    console.log(body);
     try {
       const response = await Event.create(body);
       return { error: false, data: response };
@@ -23,24 +24,32 @@ class EventsService {
 
   // UPDATE A EVENT
 
-  static async updateEvent(id, body) {
+  static async updateEvent(body) {
+    const { guardId, shiftId, branchId, date } = body;
+    delete body.id;
     try {
       // check if the event exists
-      const evento = await Event.findByPk(id);
+      const evento = await Event.findAll({
+        where: {
+          date,
+          shiftId,
+          branchId,
+        },
+      });
 
       if (!evento) {
         return {
           error: true,
           data: {
             status: 405,
-            message: `No existe el evento ${id}`,
+            message: `No existe el evento `,
           },
         };
       }
 
       // update the event
       const [affectedRows, updatedEvent] = await Event.update(body, {
-        where: { id },
+        where: { date, shiftId, branchId },
         returning: true, //para que devuelva algo el update
       });
       return { error: false, data: updatedEvent[0] };
@@ -119,10 +128,14 @@ class EventsService {
   }
 
   // DELETE A EVENT
-  static async deleteEvent(id) {
+  static async deleteEvent(body) {
+    const { shiftId, guardId, branchId, date } = body;
+
     try {
       // check if the event exists
-      const evento = await Event.findByPk(id);
+      const evento = await Event.findAll({
+        where: { shiftId, guardId, branchId, date },
+      });
 
       if (!evento) {
         return {
@@ -136,7 +149,7 @@ class EventsService {
 
       // delete the event
       const response = await Event.destroy({
-        where: { id },
+        where: { shiftId, guardId, branchId, date },
       });
       return { error: false, data: response };
     } catch (error) {
@@ -163,6 +176,9 @@ class EventsService {
     try {
       const response = await Event.findAll({
         where: { branchId },
+        attributes: {
+          exclude: ["createdAt", "updatedAt"],
+        },
         include: [
           {
             model: Guard,
@@ -178,11 +194,13 @@ class EventsService {
       response.forEach((event, i) => {
         events[i] = {
           id: event.id,
+          date: event.date,
           title: `Turno ${event.guard.fullname}`,
           start: new Date(`${event.date} ${event.shift.start}`),
           end: new Date(`${event.date} ${event.shift.end}`),
           branchId: event.branchId,
           guardId: event.guardId,
+          shiftId: event.shiftId,
           nota: "",
         };
       });
@@ -197,7 +215,28 @@ class EventsService {
 
   static async allEventsByGuard(guardId) {
     try {
-      const eventos = await Event.findAll({ where: { guardId } });
+      const eventos = await Event.findAll({
+        where: { guardId },
+        attributes: {
+          exclude: ["createdAt", "updatedAt"],
+        },
+        include: [
+          {
+            model: Branch,
+            as: "branch",
+            attributes: {
+              exclude: ["createdAt", "updatedAt"],
+            },
+          },
+          {
+            model: Shift,
+            as: "shift",
+            attributes: {
+              exclude: ["createdAt", "updatedAt"],
+            },
+          },
+        ],
+      });
       return { error: false, data: eventos };
     } catch (error) {
       console.error(error);
@@ -208,7 +247,19 @@ class EventsService {
   //GET EVENT BY GUARD ID AND DATE
   static async eventByDateYGuard(guardId, date) {
     try {
-      const eventos = await Event.findAll({ where: { guardId, date } });
+      const eventos = await Event.findAll({
+        where: { guardId, date },
+        attributes: {
+          exclude: ["createdAt", "updatedAt"],
+        },
+        include: [
+          {
+            model: Branch,
+            as: "branch",
+          },
+          { model: Shift, as: "shift" },
+        ],
+      });
       return { error: false, data: eventos };
     } catch (error) {
       console.error(error);
@@ -234,6 +285,9 @@ class EventsService {
 
       // traemos las sucursales del cliente
       const response = await Event.findAll({
+        attributes: {
+          exclude: ["createdAt", "updatedAt"],
+        },
         include: [
           { model: Branch, as: "branch", where: { clientId } },
           {
