@@ -42,6 +42,13 @@ router.post("/logout", (req, res) => {
   res.sendStatus(204);
 });
 
+//CHANGE PASSWORD api/guards/change-password/:id
+router.put(
+  "/change-password/:id",
+  validateAuth,
+  GuardsController.changePassword
+);
+
 //UPDATE GUARD api/guards/edit/:id
 router.put(
   "/edit/:id",

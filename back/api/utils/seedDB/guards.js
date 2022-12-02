@@ -12,6 +12,7 @@ const guards = [
     city: "Rosario",
     province: "Santa Fe",
     postalcode: "S2000",
+    first_access: false,
     clientId: 2,
   },
   {
@@ -25,6 +26,7 @@ const guards = [
     city: "Campana",
     province: "Buenos Aires",
     postalcode: "B2804",
+    first_access: false,
     clientId: 2,
   },
   {
@@ -39,6 +41,7 @@ const guards = [
     province: "Buenos Aires",
     postalcode: "B6700",
     active: false,
+    first_access: false,
     clientId: 2,
   },
   {
@@ -52,6 +55,7 @@ const guards = [
     city: "Villa Gobernador Gálvez",
     province: "Santa Fe",
     postalcode: "S2124",
+    first_access: false,
     clientId: 4,
   },
 ];

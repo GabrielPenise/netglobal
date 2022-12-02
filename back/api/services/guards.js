@@ -136,10 +136,36 @@ class GuardsService {
         email: guard.email,
         fullname: guard.fullname,
         rol: "guard",
+        first_access: guard.first_access,
       };
       return { error: false, data: payload };
     } catch (error) {
       console.log(error);
+      return { error: true, data: error };
+    }
+  }
+
+  static async changePassword(id, password) {
+    try {
+      const guard = await Guard.findByPk(id);
+      if (!guard) {
+        return {
+          error: true,
+          data: {
+            status: 405,
+            message: `No existe el cliente ${id}`,
+          },
+        };
+      }
+      // actualizamos la contraseña
+      const hashedPassword = await guard.hash(password, client.salt);
+      const response = guard.update({
+        password: hashedPassword,
+        first_access: false,
+      });
+      return { error: false, data: response };
+    } catch (error) {
+      console.error(error);
       return { error: true, data: error };
     }
   }

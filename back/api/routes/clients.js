@@ -1,6 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const { validateAuth, validateSuperAdmin } = require("../middlewares/auth");
+const {
+  validateAuth,
+  validateSuperAdmin,
+  validateClient,
+} = require("../middlewares/auth");
 const { validateCuix } = require("../middlewares/cuix");
 const ClientController = require("../controllers/clients");
 
@@ -39,6 +43,13 @@ router.get(
 
 //GET ONE CLIENT api/clients/:id ------> acá debería agregar validación superAdmin?
 router.get("/:id", validateAuth, ClientController.getOneClient);
+
+//CHANGE PASSWORD api/clients/change-password/:id
+router.put(
+  "/change-password/:id",
+  validateClient,
+  ClientController.changePassword
+);
 
 //UPDATE CLIENT api/clients/edit/:id
 router.put(

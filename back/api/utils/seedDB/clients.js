@@ -10,6 +10,7 @@ const clients = [
     /* fecha_inicio_contrato: "01/01/1900",
     fecha_fin_contrato: "01/01/1900", */
     super_admin: true,
+    first_access: false,
   },
   {
     email: "cliente@cliente.com",
@@ -19,6 +20,7 @@ const clients = [
     address: "Mitre, 1555, Rosario, Santa Fe",
     /* fecha_inicio_contrato: "01/01/1900",
     fecha_fin_contrato: "01/01/1900", */
+    first_access: false,
   },
   {
     email: "fravega@fravega.com",
@@ -29,6 +31,7 @@ const clients = [
     /* fecha_inicio_contrato: "01/01/1900",
     fecha_fin_contrato: "01/01/1900", */
     active: false,
+    first_access: false,
   },
   {
     email: "musimundo@musimundo.com",
@@ -39,6 +42,7 @@ const clients = [
     /* fecha_inicio_contrato: "01/01/1900",
     fecha_fin_contrato: "01/01/1900", */
     active: true,
+    first_access: false,
   },
 ];
 
