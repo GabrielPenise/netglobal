@@ -7,17 +7,13 @@ import  {URLBase} from "../../url/variable"
 
 
 const fecha = new Date().toISOString()
-const Fichaje = ({route, navigation}) => {
-  const handleBoton = () => {
-    navigation.navigate("Login")
-  } 
+const Fichaje = ({navigation}) => {
   const [text, setText] = useState(fecha);
   const [textSalida, setTextSalida] = useState(fecha);
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [botonEntrada, setBotonEntrada] = useState(false)
   const [botonSalida, setBotonSalida] = useState(false)
-
   const [latitud, setLatitud] = useState(0)
   const [longitud, setLongitud] = useState(0)
 
@@ -29,13 +25,10 @@ const Fichaje = ({route, navigation}) => {
         setErrorMsg('Permission to access location was denied');
         return;
       }
-
       let locacion = await Location.getCurrentPositionAsync({});
       setLocation(locacion);
-
       setLatitud(locacion.coords.latitude)
       setLongitud(locacion.coords.longitude)
-      
     })();
   }, []);
 
