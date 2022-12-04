@@ -15,12 +15,8 @@ useEffect(() =>{
   URLBase.get(`/events/byGuard/${user.id}`).then((res) => setEmpleado(res.data))
 }, [user])
 
-
-  const handleBoton = () => {
-    navigation.navigate("LoginScreen")
-  }
-
   return (
+  
     <View style={{ flex: 1, alignItems: 'center', marginTop: 100}}>
 <CardDivider/>
      <View>
@@ -35,7 +31,7 @@ useEffect(() =>{
      <Card.Divider/>
     </View>
   );
-   };
+};
 
 const styles = StyleSheet.create({
   legajo: {
