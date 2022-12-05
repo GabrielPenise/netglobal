@@ -1,13 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, Button, Platform } from "react-native";
+import { Text, View, StyleSheet, Button, Platform } from "react-native";
 import axios from "axios";
 // import MapView, { Marker, Circle } from 'react-native-maps';
 import * as Location from "expo-location";
 import { URLBase } from "../../url/variable";
 import { useSelector } from "react-redux";
-import { Avatar } from '@rneui/themed';
-import { Text, Card, Icon } from '@rneui/themed';
+import { PricingCard, lightColors, Card, Icon, Avatar, Text  } from "@rneui/themed";
+import {
+  Alert,
+  Modal,
+  StyleSheet,
+  Text,
+  Pressable,
+  View,
+  Button,
+  Platform,
+} from "react-native";
 
+const fecha = new Date().toISOString();
 const Fichaje = ({ navigation }) => {
   const [text, setText] = useState(fecha);
   const [textSalida, setTextSalida] = useState(fecha);
@@ -68,7 +78,8 @@ const fechaEvento =(parseInt(fecha.slice(0,10).split("-").join("")))
     URLBase.get(`/events/byDate/${fechaEvento}/${user.id}`).then((res) => setEvento(res.data));
   }, []);
 
-console.log(evento);
+  const [modalVisibleSalida, setModalVisibleSalida] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const handleOnPress = () => {
     (async () => {
@@ -90,6 +101,7 @@ console.log(evento);
       );
     })();
     setBotonEntrada(true);
+    setModalVisible(!modalVisible)
   };
 
   const handleOnPressSalida = () => {
@@ -112,8 +124,8 @@ console.log(evento);
       );
     })();
     setBotonSalida(true);
+    setModalVisibleSalida(!modalVisible)
   };
-
 
   return (
     <View style={styles.container}>
@@ -182,6 +194,95 @@ console.log(evento);
             onPress={handleOnPressSalida}
           />
         ) : null}
+
+      <View style={{ margin: 20 }}>
+        {!botonEntrada ? (
+          <Button
+            title="Ingrese la hora de entrada"
+            onPress={() => setModalVisible(!modalVisible)}
+          />
+        ) : null}
+      </View>
+
+      {botonSalida ? (
+        <Text style={{ fontWeight: "bold", fontSize: 20 }}>
+          Su hora de salida es: {horaSalida}
+        </Text>
+      ) : null}
+      <View style={{ margin: 20 }}>
+        {!botonSalida ? (
+          <Button
+            title="Ingrese la hora de salida"
+            onPress={() => setModalVisibleSalida(!modalVisibleSalida)}
+          />
+        ) : null}
+      </View>
+
+      {/* VISTA MODAL DE ENTRADA */}
+
+      <View style={styles.centeredView}>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            Alert.alert("Modal has been closed.");
+          }}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>
+                ¿Deseas confirmar el horario de entrada?
+              </Text>
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={handleOnPress}
+              >
+                <Text style={styles.textStyle}>Aceptar</Text>
+              </Pressable>
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => setModalVisible(!modalVisible)}
+              >
+                <Text style={styles.textStyle}>Cerrar</Text>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>
+      </View>
+
+      {/* VISTA MODAL DE SALIDA */}
+
+      <View style={styles.centeredView}>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisibleSalida}
+          onRequestClose={() => {
+            Alert.alert("Modal has been closed.");
+          }}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>
+                ¿Deseas confirmar el horario de salida?
+              </Text>
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={handleOnPressSalida}
+              >
+                <Text style={styles.textStyle}>Aceptar</Text>
+              </Pressable>
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => setModalVisibleSalida(!modalVisibleSalida)}
+              >
+                <Text style={styles.textStyle}>Cerrar</Text>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>
+
       </View>
     </View>
   );
@@ -197,6 +298,48 @@ const styles = StyleSheet.create({
   map: {
     width: "100%",
     height: "50%",
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    margin: 2,
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: "#F194FF",
+  },
+  buttonClose: {
+    backgroundColor: "#2196F3",
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  modalText: {
+    marginBottom: 15,
+
   },
 });
 
