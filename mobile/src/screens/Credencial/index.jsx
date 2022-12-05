@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { Button } from "@rneui/base";
 import { URLBase } from "../../url/variable";
 
-function HomeScreen({ navigation }) {
+function Credencial({ navigation }) {
   const user = useSelector((state) => state.user);
   const [empleado, setEmpleado] = useState({});
   const id = user.id;
@@ -94,7 +94,7 @@ function HomeScreen({ navigation }) {
   );
 }
 
-export default HomeScreen;
+export default Credencial;
 
 const styles = StyleSheet.create({
   legajo: {

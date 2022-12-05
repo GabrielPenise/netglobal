@@ -15,6 +15,7 @@ function Horarios({ navigation }) {
     },
   ]);
 
+
   useEffect(() => {
     if (user)
       URLBase.get(`/events/byGuard/${user.id}`).then((res) =>

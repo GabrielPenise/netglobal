@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import HomeScreen from "../screens/Home";
+import HomeScreen from "../screens/Credencial";
 import LoginScreen from "../screens/Login";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
