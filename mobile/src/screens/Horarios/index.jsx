@@ -23,6 +23,7 @@ function Horarios({ navigation }) {
       );
   }, [user]);
 
+
   const handleBoton = () => {
     navigation.navigate("LoginScreen");
   };
@@ -34,7 +35,7 @@ function Horarios({ navigation }) {
           <Card.Divider />
           {empleado.map((dato, i) => {
             return (
-              <Card>
+              <Card key={empleado.id}>
                 <Card.Title>HORARIO DEL DÍA: {dato.date}</Card.Title>
                 <View key={i} style={styles.user}>
                 <Text style={styles.datos}> Nombre: {dato.branch.name} </Text>

@@ -29,7 +29,7 @@ const Stack = createNativeStackNavigator();
           }}
         />
         <Tab.Screen
-          name="Hoy tu lugar de trabajo es en: "
+          name=" "
           component={Fichaje}
           options={{
             tabBarLabel: "Fichar",

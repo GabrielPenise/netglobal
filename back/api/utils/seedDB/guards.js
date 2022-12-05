@@ -231,7 +231,7 @@ const guards = [
     name: "Facundo",
     lastname: "Tassi",
     email: "facundo@guard.com",
-    cuil: 23,
+    cuil: 23345896784,
     password: "123456",
     street: "Eva Perón",
     number: 2102,
