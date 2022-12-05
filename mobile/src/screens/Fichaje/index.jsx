@@ -22,6 +22,7 @@ const Fichaje = ({navigation}) => {
   const [horaSalida, setHoraSalida] = useState("")
   const user = useSelector((state) => state.user);
 
+
 // =======================  aca hay que obtener el ID del evento que corresponde a ese dia 
   // useEffect(() => {
   //     URLBase.get(`/events/byDate/${user.id}/20221129`).then((data) => console.log(data))
@@ -51,13 +52,12 @@ const Fichaje = ({navigation}) => {
  
   const handleOnPress = ()=>{
     (async () => {
-            let { status } = await Location.requestForegroundPermissionsAsync();
+      let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
         setErrorMsg('Permission to access location was denied');
         return;
       }
       let locacion = await Location.getCurrentPositionAsync({});
-      console.log(locacion);
       const update = await URLBase.put("/events/checkin/1", {time_in:locacion.timestamp, position_in_latitude:locacion.coords.latitude, position_in_longitude: locacion.coords.longitude})
       const horario = locacion.timestamp
       const fecha = new Date(horario)
