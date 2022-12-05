@@ -1,11 +1,23 @@
-import { Text, View } from "react-native";
+import React from "react";
+import { View, StyleSheet, Button, Alert } from "react-native";
+
 
 function Reportes() {
+
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text> ACA PUEDEN IR LOS REPORTES DE HORAS TRABAJADAS </Text>
-    </View>
+    <View style={styles.container}>
+      <Text> Avisos por licencias </Text>
+  </View>
   );
 }
 
 export default Reportes;
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
+  }
+});
