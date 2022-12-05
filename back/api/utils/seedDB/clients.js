@@ -15,17 +15,18 @@ const clients = [
   {
     email: "cliente@cliente.com",
     password: "123456",
-    cuit: 1,
-    name: "Empresa S.A.",
-    address: "Mitre, 1555, Rosario, Santa Fe",
+    cuit: 30548083156,
+    name: "COTO  C.I.C.S.A ",
+    address: "Paysandú 1842, Buenos Aires, Argentina",
     /* fecha_inicio_contrato: "01/01/1900",
     fecha_fin_contrato: "01/01/1900", */
+    active: true,
     first_access: false,
   },
   {
     email: "fravega@fravega.com",
     password: "123456",
-    cuit: 2,
+    cuit: 30526874249,
     name: "Fravega S.A.",
     address: "Belgrano, 234, CABA, Buenos Aires",
     /* fecha_inicio_contrato: "01/01/1900",
@@ -36,7 +37,7 @@ const clients = [
   {
     email: "musimundo@musimundo.com",
     password: "123456",
-    cuit: 74,
+    cuit: 30697260532,
     name: "Musimundo",
     address: "Santa Fe 123, CABA, Buenos Aires",
     /* fecha_inicio_contrato: "01/01/1900",
