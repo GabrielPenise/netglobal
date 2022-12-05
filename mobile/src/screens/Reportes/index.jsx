@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Button, Alert } from "react-native";
+import { View, StyleSheet, Button, Alert, Text } from "react-native";
 
 
 function Reportes() {
