@@ -53,11 +53,13 @@ export default function Guards() {
 
   return (
     <Container style={{ minHeight: "100vh" }}>
-      <DropDownSelect
-        defVal={input}
-        options={guards}
-        handleSelect={handleSelect}
-      />
+      <div style={{ marginBottom: "6%" }}>
+        <DropDownSelect
+          defVal={input}
+          options={guards}
+          handleSelect={handleSelect}
+        />
+      </div>
 
       <DynamicTable object={Array(input.value)} handleDelete={handleDelete} />
       <BtnNewForAbm />

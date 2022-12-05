@@ -76,25 +76,36 @@ export const CalendarioModal = ({ branch }) => {
     });
   };
 
-  const validateDates = (date) => {
-    // const momentStartDate = moment(new Date());
-    // const momentEndDate = moment(formData.date);
+  const validateDates = () => {
+    const momentStartDate = moment(new Date());
+    const momentEndDate = moment(formData.start);
 
-    // if (momentEndDate.isSameOrAfter(momentStartDate)) {
-    //   //Fecha de inicio no puede ser Igual o Menor que la de finalizacion.
-    //   Swal.fire("Error", "Fecha incorrecta, verificar", "error");
-    // }
+    if (!momentEndDate.isSameOrAfter(momentStartDate)) {
+      //Fecha de inicio no puede ser Igual o Menor que la de finalizacion.
+
+      Swal.fire(
+        "Error",
+        `No puede elegir el turno, por favor verificar`,
+        "error"
+      );
+
+      closeModal();
+
+      return true;
+    }
 
     if (formData.title.length === 0) {
       //Fecha de inicio no puede ser Igual o Menor que la de finalizacion.
       Swal.fire("Error", "Tiene que asignar un guardia", "error");
+      closeModal();
+      return true;
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     //Validar fecha e inputs
-    const error = validateDates(formData.date);
+    const error = validateDates();
     if (error) return;
 
     if (activeEvent) {
@@ -108,8 +119,6 @@ export const CalendarioModal = ({ branch }) => {
           "No se pudo editar el evento, recuerda que para editar tiene que cambiar el guardia. ",
           "error"
         );
-
-        console.error("No se pudo editar el evento");
       }
     } else {
       //endpoint para crear evento

@@ -5,7 +5,6 @@ const moment = require("moment");
 class EventsService {
   // CREATE EVENT
   static async createEvent(body) {
-    console.log(body);
     try {
       const response = await Event.create(body);
       return { error: false, data: response };
