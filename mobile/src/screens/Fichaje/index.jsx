@@ -1,21 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, StyleSheet, Button, Platform } from "react-native";
 import axios from "axios";
 // import MapView, { Marker, Circle } from 'react-native-maps';
 import * as Location from "expo-location";
 import { URLBase } from "../../url/variable";
-import { useSelector } from "react-redux";
-import { PricingCard, lightColors, Card, Icon, Avatar, Text  } from "@rneui/themed";
-import {
-  Alert,
-  Modal,
-  StyleSheet,
-  Text,
-  Pressable,
-  View,
-  Button,
-  Platform,
-} from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { Card, Avatar } from "@rneui/themed";
+import {Alert, Modal, StyleSheet,Text,Pressable, View, Button, Platform} from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import CardTrabajo from "../../Commons/CardTrabajo";
+import userEvent from "../../store/event";
 
 const fecha = new Date().toISOString();
 const Fichaje = ({ navigation }) => {
@@ -29,6 +22,8 @@ const Fichaje = ({ navigation }) => {
   const [longitud, setLongitud] = useState(0);
   const [horaEntrada, setHoraEntrada] = useState("");
   const [horaSalida, setHoraSalida] = useState("");
+  const event = useSelector((state) => state.event);
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const [evento, setEvento] = useState([
     {
@@ -70,16 +65,15 @@ const Fichaje = ({ navigation }) => {
       },
     },
   ]);
+const [modalVisibleSalida, setModalVisibleSalida] = useState(false);
+const [modalVisible, setModalVisible] = useState(false);
 
 const fecha = new Date().toISOString();
 const fechaEvento =(parseInt(fecha.slice(0,10).split("-").join("")))
 
   useEffect(() => {
-    URLBase.get(`/events/byDate/${fechaEvento}/${user.id}`).then((res) => setEvento(res.data));
+    URLBase.get(`/events/byDate/${fechaEvento}/${user.id}`).then((res) => setEvento(res.data))
   }, []);
-
-  const [modalVisibleSalida, setModalVisibleSalida] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false);
 
   const handleOnPress = () => {
     (async () => {
@@ -89,7 +83,7 @@ const fechaEvento =(parseInt(fecha.slice(0,10).split("-").join("")))
         return;
       }
       let locacion = await Location.getCurrentPositionAsync({});
-      const update = await URLBase.put("/events/checkin/1", {
+      const update = await URLBase.put(`/events/checkin/1`, {
         time_in: locacion.timestamp,
         position_in_latitude: locacion.coords.latitude,
         position_in_longitude: locacion.coords.longitude,
@@ -112,7 +106,7 @@ const fechaEvento =(parseInt(fecha.slice(0,10).split("-").join("")))
         return;
       }
       let locacion = await Location.getCurrentPositionAsync({});
-      const update = await URLBase.put("/events/checkout/1", {
+      const update = await URLBase.put(`/events/checkout/1`, {
         time_out: locacion.timestamp,
         position_out_latitude: locacion.coords.latitude,
         position_out_longitude: locacion.coords.longitude,
@@ -128,165 +122,104 @@ const fechaEvento =(parseInt(fecha.slice(0,10).split("-").join("")))
   };
 
   return (
+
     <View style={styles.container}>
-      {/* <MapView 
-      style={styles.map} initialRegion={{
-      latitude: latitud,
-      longitude: longitud,
-    }} >
-      <Marker
-      coordinate={{latitude: latitud, longitude: longitud}}
-      title="Usted esta aquí"
-      ></Marker>
-      </MapView> */}
-    <Card>
-          <Card.Title>{evento[0].branch.fulladdress}</Card.Title>
-          <Card.Image
-            style={{ padding: 0 }}
-            source={{
-              uri:
-                'https://mundogremial.com/wp-content/uploads/2019/10/musimundo.jpg',
+    {
+      evento?.length ? (<View style={styles.container}>
+        <CardTrabajo evento={evento}/>
+        {botonEntrada ? (<Text style={{ fontWeight: "bold", fontSize: 20, marginTop:5 }}> Su hora de entrada es: {horaEntrada} </Text> ) : null}
+      <View style={{justifyContent:"center", alignItems:"center", marginTop:5}}>
+            <Avatar
+            size={130}
+            rounded
+            icon={{ name: 'login', type: 'MaterialIcons' }}
+            containerStyle={{ backgroundColor: 'green' }}
+            />
+              <Text style={{fontSize:20, fontWeight:"bold"}}>{evento[0].shift.start} </Text>
+        <View style={{ margin: 20 }}>
+          {!botonEntrada ? ( <Button title="Ingrese la hora de entrada" onPress={() => setModalVisible(!modalVisible)} /> ) : null}
+        </View>
+        {botonSalida ? (<Text style={{ fontWeight: "bold", fontSize: 20, marginTop:5 }}> Su hora de salida es: {horaSalida} </Text>) : null}
+      </View >
+            <Avatar
+            size={130}
+            rounded
+            icon={{ name: 'logout', type: 'MaterialIcons' }}
+            containerStyle={{ backgroundColor: 'red' }}
+            />
+              <Text style={{fontSize:20, fontWeight:"bold"}}>{evento[0].shift.end} </Text>
+        <View style={{ margin: 20 }}>
+          {!botonSalida ? (<Button title="Ingrese la hora de salida" onPress={() => setModalVisibleSalida(!modalVisibleSalida)} /> ) : null} 
+      <View/>
+      </View>
+        <View style={styles.centeredView}>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              Alert.alert("Modal has been closed.");
             }}
-          />
-          <Text>
-            {`${evento[0].branch.name} \nTURNO: ${evento[0].shift.type}`}
-          </Text>
-        </Card>
-
-
-      {botonEntrada ? (
-        <Text style={{ fontWeight: "bold", fontSize: 20 }}>
-          Su hora de entrada es: {horaEntrada}
-        </Text>
-      ) : null}
-
-<View style={{justifyContent:"center", alignItems:"center", marginTop:15}}>
-      <Avatar
-          size={145}
-          rounded
-          icon={{ name: 'login', type: 'MaterialIcons' }}
-          containerStyle={{ backgroundColor: 'green' }}
-        />
-      <Text style={{fontSize:20, fontWeight:"bold"}}>{evento[0].shift.start} </Text>
-      <View style={{ margin: 20 }}>
-        {!botonEntrada ? (
-          <Button title="Ingrese la hora de entrada" onPress={handleOnPress} />
-        ) : null}
-      </View>
-
-      {botonSalida ? (
-        <Text style={{ fontWeight: "bold", fontSize: 20 }}>
-          Su hora de salida es: {horaSalida}
-        </Text>
-      ) : null}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Text style={styles.modalText}>
+                  ¿Deseas confirmar el horario de entrada?
+                </Text>
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={handleOnPress}
+                >
+                  <Text style={styles.textStyle}>Aceptar</Text>
+                </Pressable>
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => setModalVisible(!modalVisible)}
+                >
+                  <Text style={styles.textStyle}>Cerrar</Text>
+                </Pressable>
+              </View>
+            </View>
+          </Modal>
+        </View>
+        <View style={styles.centeredView}>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisibleSalida}
+            onRequestClose={() => {
+              Alert.alert("Modal has been closed.");
+            }}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Text style={styles.modalText}>
+                  ¿Deseas confirmar el horario de salida?
+                </Text>
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={handleOnPressSalida}
+                >
+                  <Text style={styles.textStyle}>Aceptar</Text>
+                </Pressable>
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => setModalVisibleSalida(!modalVisibleSalida)}
+                >
+                  <Text style={styles.textStyle}>Cerrar</Text>
+                </Pressable>
+              </View>
+            </View>
+          </Modal>
+        </View>
+      </View>): null
+     }
 </View>
-<Avatar
-          size={145}
-          rounded
-          icon={{ name: 'logout', type: 'MaterialIcons' }}
-          containerStyle={{ backgroundColor: 'red' }}
-        />
-         <Text style={{fontSize:20, fontWeight:"bold"}}>{evento[0].shift.end} </Text>
-      <View style={{ margin: 20 }}>
-        {!botonSalida ? (
-          <Button
-            title="Ingrese la hora de salida"
-            onPress={handleOnPressSalida}
-          />
-        ) : null}
+ 
 
-      <View style={{ margin: 20 }}>
-        {!botonEntrada ? (
-          <Button
-            title="Ingrese la hora de entrada"
-            onPress={() => setModalVisible(!modalVisible)}
-          />
-        ) : null}
-      </View>
-
-      {botonSalida ? (
-        <Text style={{ fontWeight: "bold", fontSize: 20 }}>
-          Su hora de salida es: {horaSalida}
-        </Text>
-      ) : null}
-      <View style={{ margin: 20 }}>
-        {!botonSalida ? (
-          <Button
-            title="Ingrese la hora de salida"
-            onPress={() => setModalVisibleSalida(!modalVisibleSalida)}
-          />
-        ) : null}
-      </View>
-
-      {/* VISTA MODAL DE ENTRADA */}
-
-      <View style={styles.centeredView}>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            Alert.alert("Modal has been closed.");
-          }}
-        >
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <Text style={styles.modalText}>
-                ¿Deseas confirmar el horario de entrada?
-              </Text>
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={handleOnPress}
-              >
-                <Text style={styles.textStyle}>Aceptar</Text>
-              </Pressable>
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={() => setModalVisible(!modalVisible)}
-              >
-                <Text style={styles.textStyle}>Cerrar</Text>
-              </Pressable>
-            </View>
-          </View>
-        </Modal>
-      </View>
-
-      {/* VISTA MODAL DE SALIDA */}
-
-      <View style={styles.centeredView}>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisibleSalida}
-          onRequestClose={() => {
-            Alert.alert("Modal has been closed.");
-          }}
-        >
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <Text style={styles.modalText}>
-                ¿Deseas confirmar el horario de salida?
-              </Text>
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={handleOnPressSalida}
-              >
-                <Text style={styles.textStyle}>Aceptar</Text>
-              </Pressable>
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={() => setModalVisibleSalida(!modalVisibleSalida)}
-              >
-                <Text style={styles.textStyle}>Cerrar</Text>
-              </Pressable>
-            </View>
-          </View>
-        </Modal>
-
-      </View>
-    </View>
+ 
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -321,7 +254,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   button: {
-    margin: 2,
+    margin: 10,
     borderRadius: 20,
     padding: 10,
     elevation: 2,
@@ -336,6 +269,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
     textAlign: "center",
+    width:150,
   },
   modalText: {
     marginBottom: 15,
@@ -344,3 +278,17 @@ const styles = StyleSheet.create({
 });
 
 export default Fichaje;
+
+
+
+
+     {/* <MapView 
+      style={styles.map} initialRegion={{
+      latitude: latitud,
+      longitude: longitud,
+    }} >
+      <Marker
+      coordinate={{latitude: latitud, longitude: longitud}}
+      title="Usted esta aquí"
+      ></Marker>
+      </MapView> */}
