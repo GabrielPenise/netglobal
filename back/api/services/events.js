@@ -1,11 +1,4 @@
-const {
-  Event,
-  Client,
-  Branch,
-  Guard,
-  Shift,
-  GuardShift,
-} = require("../models");
+const { Event, Client, Branch, Guard, Shift } = require("../models");
 
 const moment = require("moment");
 
@@ -191,11 +184,12 @@ class EventsService {
         ],
       });
       let events = [];
+
       response.forEach((event, i) => {
         events[i] = {
           id: event.id,
           date: event.date,
-          title: `Turno ${event.guard.fullname}`,
+          title: `Turno ${event.guard.name} ${event.guard.lastname}`,
           start: new Date(`${event.date} ${event.shift.start}`),
           end: new Date(`${event.date} ${event.shift.end}`),
           branchId: event.branchId,
