@@ -43,7 +43,7 @@ const Sidebar = () => {
       icon: <FaRegCalendarAlt />,
     },
     {
-      path: "/reports",
+      path: "/reports/branches",
       name: "Reportes",
       icon: <FaRegChartBar />,
     },
