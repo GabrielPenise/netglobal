@@ -19,7 +19,7 @@ const Fichaje = ({navigation}) => {
 
   React.useEffect(() => {
     (async () => {
-      
+
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
         setErrorMsg('Permission to access location was denied');
@@ -36,8 +36,9 @@ const Fichaje = ({navigation}) => {
   const handleFecha = () =>{
     const fecha2= new Date().toISOString()
     setText(fecha2)
+   
   }
-
+//events/byDate/:guardId/:date
   const handleOnPress = ()=>{
     handleFecha()
     URLBase.put("/events/checkin/1", {time_in:text, position_in_latitude:latitud, position_in_longitude: longitud})
