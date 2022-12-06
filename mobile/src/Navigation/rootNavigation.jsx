@@ -49,13 +49,13 @@ const Stack = createNativeStackNavigator();
           }}
         />
         <Tab.Screen
-          name="Reportes"
+          name="Avisos"
           component={Reportes}
           options={{
-            tabBarLabel: "Reportes",
+            tabBarLabel: "Avisos",
             tabBarIcon: ({ color }) => (
               <MaterialCommunityIcons
-                name="clipboard"
+                name="chat"
                 color={color}
                 size={26}
               />

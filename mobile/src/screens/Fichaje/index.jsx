@@ -10,21 +10,23 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import CardTrabajo from "../../Commons/CardTrabajo";
 import userEvent from "../../store/event";
 
+
 const fecha = new Date().toISOString();
 const Fichaje = ({ navigation }) => {
-  const [text, setText] = useState(fecha);
-  const [textSalida, setTextSalida] = useState(fecha);
-  const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [botonEntrada, setBotonEntrada] = useState(false);
   const [botonSalida, setBotonSalida] = useState(false);
-  const [latitud, setLatitud] = useState(0);
-  const [longitud, setLongitud] = useState(0);
   const [horaEntrada, setHoraEntrada] = useState("");
   const [horaSalida, setHoraSalida] = useState("");
   const event = useSelector((state) => state.event);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisibleSalida, setModalVisibleSalida] = useState(false); 
+  const fecha = new Date().toISOString();
+  const fechaEvento =(parseInt(fecha.slice(0,10).split("-").join("")))
+
   const [evento, setEvento] = useState([
     {
       id: "",
@@ -65,15 +67,12 @@ const Fichaje = ({ navigation }) => {
       },
     },
   ]);
-const [modalVisibleSalida, setModalVisibleSalida] = useState(false);
-const [modalVisible, setModalVisible] = useState(false);
 
-const fecha = new Date().toISOString();
-const fechaEvento =(parseInt(fecha.slice(0,10).split("-").join("")))
 
   useEffect(() => {
     URLBase.get(`/events/byDate/${fechaEvento}/${user.id}`).then((res) => setEvento(res.data))
   }, []);
+
 
   const handleOnPress = () => {
     (async () => {
@@ -118,7 +117,9 @@ const fechaEvento =(parseInt(fecha.slice(0,10).split("-").join("")))
       );
     })();
     setBotonSalida(true);
-    setModalVisibleSalida(!modalVisible)
+
+    setModalVisibleSalida(!modalVisibleSalida)
+
   };
 
   return (
@@ -278,17 +279,3 @@ const styles = StyleSheet.create({
 });
 
 export default Fichaje;
-
-
-
-
-     {/* <MapView 
-      style={styles.map} initialRegion={{
-      latitude: latitud,
-      longitude: longitud,
-    }} >
-      <Marker
-      coordinate={{latitude: latitud, longitude: longitud}}
-      title="Usted esta aquí"
-      ></Marker>
-      </MapView> */}
