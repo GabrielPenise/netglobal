@@ -86,6 +86,8 @@ El sistema dispone de dos aplicaciones bien diferenciadas:
 - Redux
 - Moment
 - OpenStreetMap
+- React-HTML-Table-To-Excel
+- Sweetalert
 - React-Bootstrap
 - Bootstrap
 - SASS
@@ -164,12 +166,12 @@ Puedes ver todos los metodos de la API descargando la [colección de POSTMAN](ht
   - [x] Panel alta sucursales de un cliente
   - [x] Panel alta vigiladores
   - [x] Calendario y asignación de turnos
-  - [ ] Calendarios por vigilador
+  - [x] Calendarios por vigilador
   - [x] Calendarios por sucursal
-  - [ ] Otros
+  - [-] Otros
     - [x] Mapa validación localización sucursales y vigiladores
-    - [ ] Reporte de sucursales con horarios sin cubrir
-    - [ ] Reporte de horas trabajadas por vigilador
+    - [-] Reporte de sucursales con horarios sin cubrir
+    - [-] Reporte de horas trabajadas por vigilador
 
 <!-- MOBILE -->
 
@@ -178,9 +180,9 @@ Puedes ver todos los metodos de la API descargando la [colección de POSTMAN](ht
   - [x] Persistencia de usuario
   - [x] Fichaje horario entrada y salida
   - [x] Registrar geoposicionamiento entrada y salida
-  - [ ] Otros
-    - [ ] Consulta días y horarios próximas direcciones de trabajo
-    - [ ] Cargar avisos de ausencias en su calendario
+  - [-] Otros
+    - [-] Consulta días y horarios próximas direcciones de trabajo
+    - [-] Cargar avisos de ausencias en su calendario
     - [ ] Consultar cantidad de horas trabajadas
     - [ ] Aviso en horario aleatorio de carga de formulario durante horario de trabajo
     - [ ] Captura de imagen en el momento de registrar geoposicionamiento
