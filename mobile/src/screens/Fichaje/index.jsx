@@ -9,6 +9,7 @@ import {Alert, Modal, StyleSheet,Text,Pressable, View, Button, Platform} from "r
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import CardTrabajo from "../../Commons/CardTrabajo";
 import userEvent from "../../store/event";
+import DiaDescanso from "../../Commons/DiaDescanso";
 
 const fecha = new Date().toISOString();
 const Fichaje = ({ navigation }) => {
@@ -23,13 +24,12 @@ const Fichaje = ({ navigation }) => {
   const [horaEntrada, setHoraEntrada] = useState("");
   const [horaSalida, setHoraSalida] = useState("");
   const event = useSelector((state) => state.event);
-  const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const [evento, setEvento] = useState([
     {
       id: "",
       date: "",
-      time_in: "",
+      time_in: null,
       position_in_latitude: "",
       position_in_longitude: "",
       time_out: "",
@@ -73,7 +73,8 @@ const fechaEvento =(parseInt(fecha.slice(0,10).split("-").join("")))
 
   useEffect(() => {
     URLBase.get(`/events/byDate/${fechaEvento}/${user.id}`).then((res) => setEvento(res.data))
-  }, []);
+    }, [evento.id]);
+ 
 
   const handleOnPress = () => {
     (async () => {
@@ -83,17 +84,19 @@ const fechaEvento =(parseInt(fecha.slice(0,10).split("-").join("")))
         return;
       }
       let locacion = await Location.getCurrentPositionAsync({});
-      const update = await URLBase.put(`/events/checkin/1`, {
+      const confirmar = await URLBase.get(`/events/${evento[0].id}`) 
+      console.log(confirmar.data.time_in) 
+      const update = await URLBase.put(`/events/checkin/${evento[0].id}`, {
         time_in: locacion.timestamp,
         position_in_latitude: locacion.coords.latitude,
         position_in_longitude: locacion.coords.longitude,
-      });
+      })
       const horario = locacion.timestamp;
       const fecha = new Date(horario);
       setHoraEntrada(
         `${fecha.getHours()}:${fecha.getMinutes()}:${fecha.getSeconds()}`
-      );
-    })();
+      )
+    })()
     setBotonEntrada(true);
     setModalVisible(!modalVisible)
   };
@@ -106,7 +109,7 @@ const fechaEvento =(parseInt(fecha.slice(0,10).split("-").join("")))
         return;
       }
       let locacion = await Location.getCurrentPositionAsync({});
-      const update = await URLBase.put(`/events/checkout/1`, {
+      const update = await URLBase.put(`/events/checkout/${evento[0].id}`, {
         time_out: locacion.timestamp,
         position_out_latitude: locacion.coords.latitude,
         position_out_longitude: locacion.coords.longitude,
@@ -118,7 +121,7 @@ const fechaEvento =(parseInt(fecha.slice(0,10).split("-").join("")))
       );
     })();
     setBotonSalida(true);
-    setModalVisibleSalida(!modalVisible)
+    setModalVisibleSalida(!modalVisibleSalida)
   };
 
   return (
@@ -212,7 +215,7 @@ const fechaEvento =(parseInt(fecha.slice(0,10).split("-").join("")))
             </View>
           </Modal>
         </View>
-      </View>): null
+      </View>): <DiaDescanso/>
      }
 </View>
  
