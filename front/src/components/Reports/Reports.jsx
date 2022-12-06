@@ -16,13 +16,10 @@ const Reports = () => {
   const [reports, setReports] = useState([]);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  const [days, setDays] = useState(0);
 
   const handleClick = (e) => {
     e.preventDefault();
     if (startDate <= endDate) {
-      const diff = (endDate - startDate) / (1000 * 60 * 60 * 24) + 1;
-      setDays(Math.ceil(diff));
       Axios.get(
         `/reports/${user.id}/${type}/${format(
           startDate,
@@ -53,7 +50,10 @@ const Reports = () => {
             dateFormat="dd/MM/yyyy"
             calendarStartDay={1}
             selected={startDate}
-            onChange={(date) => setStartDate(date)}
+            onChange={(date) => {
+              setReports([]);
+              setStartDate(date);
+            }}
           />
           <Button className="mt-4 px-4" onClick={handleClick}>
             Buscar
@@ -65,17 +65,20 @@ const Reports = () => {
             dateFormat="dd/MM/yyyy"
             calendarStartDay={1}
             selected={endDate}
-            onChange={(date) => setEndDate(date)}
+            onChange={(date) => {
+              setReports([]);
+              setEndDate(date);
+            }}
           />
         </Col>
       </Row>
       {reports.length ? (
         <Row className="mt-5">
           <h5>Resultados</h5>
-          <Table reports={reports} days={days} />
+          <Table reports={reports} start={startDate} end={endDate} />
         </Row>
       ) : (
-        ""
+        "No hay datos para el periodo seleccionado"
       )}
     </Container>
   );
