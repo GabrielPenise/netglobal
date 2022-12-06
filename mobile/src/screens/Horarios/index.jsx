@@ -10,7 +10,7 @@ function Horarios({ navigation }) {
   const user = useSelector((state) => state.user);
   const [empleado, setEmpleado] = useState([
     {
-      branch: { name: "", city: "", province: "", fulladress: "", type: "" },
+      branch: { name: "", fulladress: "", type: "" },
       shift: { start: "", end: "" },
     },
   ]);
@@ -38,23 +38,18 @@ function Horarios({ navigation }) {
               <Card key={empleado.id}>
                 <Card.Title>HORARIO DEL DÍA: {dato.date}</Card.Title>
                 <View key={i} style={styles.user}>
-                <Text style={styles.datos}> Nombre: {dato.branch.name} </Text>
+                <Text style={styles.datos}> Nombre: {dato.branchName} </Text>
                 <Text style={styles.datos}>
                   {" "}
-                  Dirección: {dato.branch.fulladdress}{" "}
-                </Text>
-                <Text style={styles.datos}> Ciudad: {dato.branch.city} </Text>
-                <Text style={styles.datos}>
-                  {" "}
-                  Provincia: {dato.branch.province}{" "}
+                  Dirección: {dato.branchAddress}{" "}
                 </Text>
                 <Text style={styles.datos}>
                   {" "}
-                  Hora de ingreso: {dato.shift.start}{" "}
+                  Hora de ingreso: {dato.mobileStart}{" "}
                 </Text>
                 <Text style={styles.datos}>
                   {" "}
-                  Hora de salida: {dato.shift.end}{" "}
+                  Hora de salida: {dato.mobileEnd}{" "}
                 </Text>
               </View>
         </Card>
