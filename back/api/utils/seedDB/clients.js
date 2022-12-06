@@ -13,7 +13,7 @@ const clients = [
     first_access: false,
   },
   {
-    email: "cliente@cliente.com",
+    email: "empresasupercoto@gmail.com",
     password: "123456",
     cuit: 30548083156,
     name: "COTO  C.I.C.S.A ",
