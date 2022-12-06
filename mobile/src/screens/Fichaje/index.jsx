@@ -5,7 +5,7 @@ import axios from "axios";
 import * as Location from "expo-location";
 import { URLBase } from "../../url/variable";
 import { useSelector } from "react-redux";
-import { PricingCard, lightColors, Card, Icon } from "@rneui/themed";
+
 import {
   Alert,
   Modal,
@@ -19,46 +19,14 @@ import {
 
 const fecha = new Date().toISOString();
 const Fichaje = ({ navigation }) => {
-  const [text, setText] = useState(fecha);
-  const [textSalida, setTextSalida] = useState(fecha);
-  const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [botonEntrada, setBotonEntrada] = useState(false);
   const [botonSalida, setBotonSalida] = useState(false);
-  const [latitud, setLatitud] = useState(0);
-  const [longitud, setLongitud] = useState(0);
   const [horaEntrada, setHoraEntrada] = useState("");
   const [horaSalida, setHoraSalida] = useState("");
   const user = useSelector((state) => state.user);
-  const [modalVisibleSalida, setModalVisibleSalida] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-
-  // =======================  aca hay que obtener el ID del evento que corresponde a ese dia
-  // useEffect(() => {
-  //     URLBase.get(`/events/byDate/${user.id}/20221129`).then((data) => console.log(data))
-  //   },
-  //  [])
-  //
-
-  // React.useEffect(() => {
-  //   (async () => {
-
-  //     let { status } = await Location.requestForegroundPermissionsAsync();
-  //     if (status !== 'granted') {
-  //       setErrorMsg('Permission to access location was denied');
-  //       return;
-  //     }
-  //     let locacion = await Location.getCurrentPositionAsync({});
-  //     setLocation(locacion);
-  //     setLatitud(locacion.coords.latitude)
-  //     setLongitud(locacion.coords.longitude)
-  //   })();
-  // }, []);
-  // ================================================================
-  // const handleFecha = () =>{
-  //   const fecha2= new Date().toISOString()
-  //   setText(fecha2)
-  // }
+  const [modalVisibleSalida, setModalVisibleSalida] = useState(false);
 
   const handleOnPress = () => {
     (async () => {
@@ -103,6 +71,7 @@ const Fichaje = ({ navigation }) => {
       );
     })();
     setBotonSalida(true);
+    setModalVisibleSalida(!modalVisibleSalida)
     
   };
   return (
@@ -261,40 +230,3 @@ const styles = StyleSheet.create({
 });
 
 export default Fichaje;
-
-//   <View style={styles.centeredView}>
-//   <Modal
-//     animationType="slide"
-//     transparent={true}
-//     visible={modalVisibleSalida}
-//     onRequestClose={() => {
-//       Alert.alert("Modal has been closed.");
-
-//     }}
-//   >
-//     <View style={styles.centeredView}>
-//       <View style={styles.modalView}>
-//         <Text style={styles.modalText}>¿Deseas confirmar el horario de salida?</Text>
-//         <Pressable
-//           style={[styles.button, styles.buttonClose]}
-//           onPress={handleOnPressSalida}
-
-//         >
-//           <Text style={styles.textStyle}>Aceptar</Text>
-//         </Pressable>
-//         <Pressable
-//           style={[styles.button, styles.buttonClose]}
-//           onPress={() => setModalVisibleSalida(!modalVisibleSalida)}
-//         >
-//           <Text style={styles.textStyle}>Cerrar</Text>
-//         </Pressable>
-//       </View>
-//     </View>
-//   </Modal>
-//   <Pressable
-//     style={[styles.button, styles.buttonOpen]}
-//     onPress={() => setModalVisibleSalida(true)}
-//   >
-//     <Text style={styles.textStyle}>Show Modal</Text>
-//   </Pressable>
-// </View>
