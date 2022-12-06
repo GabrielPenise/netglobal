@@ -5,7 +5,36 @@ const moment = require("moment");
 class EventsService {
   // CREATE EVENT
   static async createEvent(body) {
+
+    const { shiftId, branchId, date, guardId } = body;
+
+
     try {
+      //check if dont exist other event with same shift
+      const evento = await Event.findOne({
+        where: { date, shiftId, branchId },
+      });
+      if (evento) {
+        return {
+          error: true,
+          data: {
+            status: 409,
+            message: `Ya hay un guardia asignado para ese turno`,
+          },
+        };
+      }
+      //check if the guard are not busy on this date
+      const guardiaOcupado = await Event.findOne({ where: { date, guardId } });
+      if (guardiaOcupado) {
+        return {
+          error: true,
+          data: {
+            status: 409,
+            message: `El guardia con id:${guardId} ya tiene asignado un evento el día ${date}`,
+          },
+        };
+      }
+
       const response = await Event.create(body);
       return { error: false, data: response };
     } catch (error) {

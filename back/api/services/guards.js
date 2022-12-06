@@ -72,6 +72,7 @@ class GuardsService {
           exclude: ["password", "salt", "createdAt", "updatedAt"],
         },
       });
+
       // filtramos guardias que se encuentran como máxim a 50km de la sucursal
       const response = guards.filter(
         (guard) =>
@@ -80,7 +81,7 @@ class GuardsService {
             guard.longitude,
             branch.latitude,
             branch.longitude
-          ) < 50
+          ) <= process.env.DISTANCE_TO_BRANCH
       );
       return { error: false, data: response };
     } catch (error) {

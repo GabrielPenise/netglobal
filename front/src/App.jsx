@@ -1,7 +1,7 @@
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Sidebar from "./components/SideBar";
-import Reports from "./components/Reports";
+import Reports from "./components/Reports/Reports";
 import Login from "./screens/Login";
 import Home from "./screens/Home";
 import Map from "./geolocalizacion/Map";
@@ -81,7 +81,7 @@ function App() {
                     <Route path="/map" element={<Map user={user} />} />
 
                     <Route path="/home" element={<Home />} />
-                    <Route path="/reports" element={<Reports />} />
+                    <Route path="/reports/:type" element={<Reports />} />
                   </>
                 )}
               </Routes>

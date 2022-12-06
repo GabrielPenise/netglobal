@@ -29,7 +29,7 @@ const Stack = createNativeStackNavigator();
           }}
         />
         <Tab.Screen
-          name="Fichaje"
+          name=" "
           component={Fichaje}
           options={{
             tabBarLabel: "Fichar",
