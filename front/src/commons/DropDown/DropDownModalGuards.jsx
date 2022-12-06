@@ -6,12 +6,14 @@ import DropDownSelect from "./DropDownSelect";
 export default function DropDownModalGuards({ handleSelect }) {
   const { activeEvent } = useSelector((state) => state.calendar);
 
-  let checkeo = {};
-  activeEvent ? (checkeo = activeEvent.title) : (checkeo = "Elija un Guardia");
+  let txtInLabel = {};
+  activeEvent
+    ? (txtInLabel = activeEvent.title)
+    : (txtInLabel = "Elija un Guardia");
   const [guards, setGuards] = useState([]);
   const [guardInput, setGuardInput] = useState({
     value: null,
-    label: `${checkeo}`,
+    label: `${txtInLabel}`,
   });
   const { user } = useSelector((state) => state.user);
 

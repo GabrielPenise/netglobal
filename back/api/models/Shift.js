@@ -7,7 +7,7 @@ Shift.init(
   {
     type: {
       type: S.ENUM,
-      values: ["Mañana", "Tarde", "Noche"],
+      values: ["Diurno", "Vespertino", "Matutino"],
       allowNull: false,
     },
     start: {

@@ -36,7 +36,7 @@ function Login() {
       })
       .catch(() => {
         setInput(initialState);
-        alert("Email o contraseNa incorrecta");
+        alert("Email o contraseña incorrecta");
       });
   };
 

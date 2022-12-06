@@ -61,7 +61,7 @@ export default function Branchs() {
           handleSelect={handleSelect}
         />
       </div>
-      {pathname === "/calendar" ? (
+      {pathname === "/calendar/branchCalendar" ? (
         <Calendario branch={input.value} />
       ) : (
         <>

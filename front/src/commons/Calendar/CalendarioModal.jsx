@@ -6,9 +6,7 @@ import Fecha from "./Fecha";
 import Turnos from "./Turnos";
 import { Axios } from "../../utils/AxiosWithCredentials";
 
-import DateTimePicker from "react-datetime-picker";
-
-import { Button, Modal, Form, Dropdown, DropdownButton } from "react-bootstrap";
+import { Button, Modal, Form } from "react-bootstrap";
 
 import "../../assets/styles/commons/CalendarioModal.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,10 +18,6 @@ import {
 } from "../../store/slices/index.js";
 
 import DropDownModalGuards from "../DropDown/DropDownModalGuards";
-import axios from "axios";
-
-const startDate = moment().minutes(0).seconds(0).add(1, "hours");
-const endDate = startDate.clone().add(8, "hours");
 const initialState = {
   title: "",
   start: null,
@@ -31,7 +25,7 @@ const initialState = {
   notes: "",
   guardId: null,
   branchId: null,
-  id: null,
+
   shiftId: null,
   date: null,
 };
@@ -41,8 +35,6 @@ export const CalendarioModal = ({ branch }) => {
   const { uiOpen } = useSelector((state) => state.modal);
   const { activeEvent } = useSelector((state) => state.calendar);
 
-  const [dateStart, setDateStart] = useState(startDate.toDate());
-  const [dateEnd, setDateEnd] = useState(endDate.toDate());
   const [formData, setFormData] = useState(initialState);
   const [date, setDate] = useState(new Date());
 
@@ -70,6 +62,9 @@ export const CalendarioModal = ({ branch }) => {
   };
 
   const handleShiftChange = (e) => {
+    if (e.value.end === "00:00:00") {
+      e.value.end = "23:59:00";
+    }
     const start = moment(`${date} ${e.value.start}`).toDate();
     const end = moment(`${date} ${e.value.end}`).toDate();
 
@@ -80,25 +75,37 @@ export const CalendarioModal = ({ branch }) => {
       end,
     });
   };
-  const validateDates = (date) => {
-    // const momentStartDate = moment(date);
-    // const momentEndDate = moment(new Date());
 
-    // if (momentEndDate.isSameOrAfter(momentStartDate)) {
-    //   //Fecha de inicio no puede ser Igual o Menor que la de finalizacion.
-    //   Swal.fire("Error", "Fecha incorrecta, verificar", "error");
-    // }
+  const validateDates = () => {
+    const momentStartDate = moment(new Date());
+    const momentEndDate = moment(formData.start);
+
+    if (!momentEndDate.isSameOrAfter(momentStartDate)) {
+      //Fecha de inicio no puede ser Igual o Menor que la de finalizacion.
+
+      Swal.fire(
+        "Error",
+        `No puede elegir el turno, por favor verificar`,
+        "error"
+      );
+
+      closeModal();
+
+      return true;
+    }
 
     if (formData.title.length === 0) {
       //Fecha de inicio no puede ser Igual o Menor que la de finalizacion.
       Swal.fire("Error", "Tiene que asignar un guardia", "error");
+      closeModal();
+      return true;
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     //Validar fecha e inputs
-    const error = validateDates(formData.date);
+    const error = validateDates();
     if (error) return;
 
     if (activeEvent) {
@@ -112,14 +119,16 @@ export const CalendarioModal = ({ branch }) => {
           "No se pudo editar el evento, recuerda que para editar tiene que cambiar el guardia. ",
           "error"
         );
-
-        console.error("No se pudo editar el evento");
       }
     } else {
       //endpoint para crear evento
       try {
-        await Axios.post("/events", { ...formData, branchId: branch.id });
-        dispatch(eventAddNew({ ...formData, branchId: branch.id }));
+        const { data } = await Axios.post("/events", {
+          ...formData,
+          branchId: branch.id,
+        });
+
+        dispatch(eventAddNew({ ...data, ...formData, branchId: branch.id }));
       } catch (err) {
         Swal.fire(
           "Error",
@@ -153,7 +162,19 @@ export const CalendarioModal = ({ branch }) => {
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
           {activeEvent ? (
-            `${activeEvent.date}`
+            <>
+              <div>{`${activeEvent.date}`}</div>
+
+              {activeEvent.cuil ? (
+                <>
+                  <br />
+
+                  <div>{`El evento pertenece a la Sucursal: ${activeEvent.branchName}`}</div>
+
+                  <br />
+                </>
+              ) : null}
+            </>
           ) : (
             <div className="mb-3">
               <label className="form-label">
