@@ -1,13 +1,18 @@
-const { Event, Client, Branch, Guard, Shift } = require("../models");
+const {
+  Event,
+  Client,
+  Branch,
+  Guard,
+  Shift,
+  GuardShift,
+} = require("../models");
 
 const moment = require("moment");
 
 class EventsService {
   // CREATE EVENT
   static async createEvent(body) {
-
     const { shiftId, branchId, date, guardId } = body;
-
 
     try {
       //check if dont exist other event with same shift
@@ -31,6 +36,24 @@ class EventsService {
           data: {
             status: 409,
             message: `El guardia con id:${guardId} ya tiene asignado un evento el día ${date}`,
+          },
+        };
+      }
+      const day = moment(date).format("dddd");
+      const turnoOcupado = await GuardShift.findOne({
+        where: {
+          guardId,
+          shiftId,
+          day,
+        },
+      });
+
+      if (!turnoOcupado) {
+        return {
+          error: true,
+          data: {
+            status: 409,
+            message: `Este guardia no tiene disponibilidad, en este horario.`,
           },
         };
       }
@@ -280,8 +303,8 @@ class EventsService {
           shiftId: evento.shiftId,
           branchName: evento.branch.name,
           branchAddress: evento.branch.fulladdress,
-          mobileStart:evento.shift.start,
-          mobileEnd:evento.shift.end
+          mobileStart: evento.shift.start,
+          mobileEnd: evento.shift.end,
         };
       });
 

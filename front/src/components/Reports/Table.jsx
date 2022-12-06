@@ -25,8 +25,6 @@ const TableData = ({ reports, start, end }) => {
     }
   }, [start, end]);
 
-  console.log(reports);
-
   return (
     <div>
       <Table
