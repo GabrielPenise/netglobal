@@ -12,7 +12,7 @@ function CardTrabajo({evento}) {
             style={{ padding: 0 }}
             source={{
               uri:
-                'https://mundogremial.com/wp-content/uploads/2019/10/musimundo.jpg',
+                'https://www.coto.com.ar/institucional/inauguracion-neuquen/images/neq.jpg',
             }}
           />
             <Text>
