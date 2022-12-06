@@ -1,6 +1,6 @@
 const { Guard, Branch, GuardShift, Shift } = require("../models");
 const { distanceCoordinates } = require("../utils/coordinates");
-
+const moment = require("moment");
 class GuardsService {
   static async getAll() {
     try {
@@ -40,7 +40,9 @@ class GuardsService {
     }
   }
 
-  static async getByDistance(branchId) {
+  static async getByDistance(branchId, date, shiftId) {
+    const newDate = moment(date).format("dddd");
+
     try {
       // comprobamos que la branch existe
       const branch = await Branch.findByPk(branchId);
@@ -60,11 +62,17 @@ class GuardsService {
         where: { clientId: branch.clientId, active: true },
         include: {
           model: GuardShift,
+          where: {
+            day: newDate,
+          },
           attributes: {
             exclude: ["createdAt", "updatedAt", "guardId", "shiftId"],
           },
           include: {
             model: Shift,
+            where: {
+              id: shiftId,
+            },
             attributes: { exclude: ["createdAt", "updatedAt"] },
           },
         },
@@ -83,6 +91,7 @@ class GuardsService {
             branch.longitude
           ) <= process.env.DISTANCE_TO_BRANCH
       );
+
       return { error: false, data: response };
     } catch (error) {
       console.error(error);
