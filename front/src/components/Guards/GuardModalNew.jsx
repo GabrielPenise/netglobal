@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { setUiOpenNew, newGuard } from "../../store/slices/index.js";
-import { Form, Button, Modal } from "react-bootstrap";
+import { Form, Button, Modal, Container, Col, Row } from "react-bootstrap";
 import { Axios } from "../../utils/AxiosWithCredentials.js";
 
 export default function GuardModalNew() {
@@ -11,7 +11,7 @@ export default function GuardModalNew() {
     name: "",
     lastname: "",
     email: "",
-    password: null,
+
     cuit: null,
     street: "",
     number: null,
@@ -28,7 +28,7 @@ export default function GuardModalNew() {
     { heading: "Nombre", key: "name", type: "text" },
     { heading: "Apellido", key: "lastname", type: "text" },
     { heading: "Email", key: "email", type: "email" },
-    { heading: "Password", key: "password", type: "password" },
+
     { heading: "Cuil", key: "cuil", type: "text" },
     { heading: "Calle", key: "street", type: "text" },
     { heading: "Altura", key: "number", type: "number" },
@@ -58,6 +58,7 @@ export default function GuardModalNew() {
     e.preventDefault();
     try {
       const { data } = await Axios.post("/guards/create", input);
+      //Otro Endpoint con la dataDel Guardia y Campos de Shiftid
       const guard = {
         value: { ...data },
         label: `Guardia: ${data.name} ${data.lastname} Activo: Si`,
@@ -75,7 +76,7 @@ export default function GuardModalNew() {
   };
   return (
     <Modal
-      size="sm"
+      size="lg"
       show={uiOpenNew}
       onHide={closeModal}
       centered
@@ -86,20 +87,42 @@ export default function GuardModalNew() {
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
-          {headingGuardNew.map((element, index) => {
-            return (
-              <div className="mb-3" key={index}>
-                <label className="form-label">{element.heading}</label>
-                <Form.Control
-                  value={input[element.key]}
-                  type={element.type}
-                  name={element.key}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
-            );
-          })}
+          <Container>
+            <Row>
+              <Col>
+                {headingGuardNew.map((element, index) => {
+                  return (
+                    <div className="mb-3" key={index}>
+                      <label className="form-label">{element.heading}</label>
+                      <Form.Control
+                        value={input[element.key]}
+                        type={element.type}
+                        name={element.key}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </div>
+                  );
+                })}
+              </Col>
+              <Col>
+                <label className="form-label">Texto</label>
+                <Form.Control />
+                <label className="form-label">Texto</label>
+                <Form.Control />
+                <label className="form-label">Texto</label>
+                <Form.Control />
+                <label className="form-label">Texto</label>
+                <Form.Control />
+                <label className="form-label">Texto</label>
+                <Form.Control />
+                <label className="form-label">Texto</label>
+                <Form.Control />
+                <label className="form-label">Texto</label>
+                <Form.Control />
+              </Col>
+            </Row>
+          </Container>
           <Modal.Footer>
             <Button variant="secondary" onClick={closeModal}>
               Cerrar

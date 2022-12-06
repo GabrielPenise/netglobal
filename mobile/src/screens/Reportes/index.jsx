@@ -1,20 +1,31 @@
-import React from "react";
-import { View, StyleSheet, Button, Alert, Text } from "react-native";
 
-
-
+import {React, useState } from "react";
+import { SafeAreaView, StyleSheet, TextInput,View, Alert, Modal,Text, Pressable,Button,Platform, Linking, } from "react-native";
+import { Icon } from '@rneui/themed';
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 function Reportes() {
+  const handleEmailPress = async ()=>{
+    await Linking.openURL("mailto:empresasupercoto@gmail.com?subject=Reporte&body=Necesito reportar:")
+  }
+  const handleWhatsappPress = async ()=>{
+    await Linking.openURL("https://wa.me/+542364313716?text=Necesito reportar la siguente urgencia:")
+  }
+
 
   return (
+
+    <View style={styles.container}>
+      <Text style={styles.text}>En caso de reportes de licencias / vacaciones enviar email:</Text>
+        < MaterialCommunityIcons
+        name="email"
+        size={60}
+        title="Email" onPress={handleEmailPress}
+      />
     
-<View>
-    { false ?   (<View style={styles.container}>
-    <Text> Ahora es true </Text>
-</View>) :  (<View style={styles.container}>
-<Text> Ahora es false </Text>
-</View> )}
-</View>
+     <Text style={styles.text}>En caso de necesitar reportar una urgencia enviar Whatsapp:</Text>
+     <MaterialCommunityIcons name="message" size={60} title="Whatsapp" onPress={handleWhatsappPress} />
+  </View>
   );
 }
 
@@ -26,5 +37,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center"
+  },
+  text:{
+    margin:10
   }
 });
