@@ -26,7 +26,7 @@ router.get("/validate", validateAuth, (req, res) => {
 router.get("/:id", validateAuth, GuardsController.getSingle);
 
 //GET GUARDS BY CLIENT api/guards/byClient/:id
-router.get("/byClient/:id", validateClient, GuardsController.getGuardsByClient);
+router.get("/byClient/:id", GuardsController.getGuardsByClient);
 
 //CREATE GUARD api/guards/create
 router.post(
