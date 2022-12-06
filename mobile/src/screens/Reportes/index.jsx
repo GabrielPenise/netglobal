@@ -1,7 +1,9 @@
+
 import {React, useState } from "react";
 import { SafeAreaView, StyleSheet, TextInput,View, Alert, Modal,Text, Pressable,Button,Platform, Linking, } from "react-native";
 import { Icon } from '@rneui/themed';
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+
 function Reportes() {
   const handleEmailPress = async ()=>{
     await Linking.openURL("mailto:empresasupercoto@gmail.com?subject=Reporte&body=Necesito reportar:")
@@ -12,6 +14,7 @@ function Reportes() {
 
 
   return (
+
     <View style={styles.container}>
       <Text style={styles.text}>En caso de reportes de licencias / vacaciones enviar email:</Text>
         < MaterialCommunityIcons

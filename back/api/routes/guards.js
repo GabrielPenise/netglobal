@@ -10,8 +10,11 @@ router.get("/", GuardsController.getAll);
 //GET ALL INACTIVES GUARDS api/guards/inactives
 router.get("/inactives", GuardsController.getInactivesGuards);
 
-//GET GUARD BY DISTANCE TO BRANCH api/guards/:id
-router.get("/byDistance/:id", validateAuth, GuardsController.getByDistance);
+//GET GUARD BY DISTANCE TO BRANCH api/guards/byDistance/:id
+router.get(
+  "/byDistance/:branchId/:date/:shiftId",
+  GuardsController.getByDistance
+);
 
 //PERSISTENCE api/guards/validate
 router.get("/validate", validateAuth, (req, res) => {
@@ -23,7 +26,7 @@ router.get("/validate", validateAuth, (req, res) => {
 router.get("/:id", validateAuth, GuardsController.getSingle);
 
 //GET GUARDS BY CLIENT api/guards/byClient/:id
-router.get("/byClient/:id", validateClient, GuardsController.getGuardsByClient);
+router.get("/byClient/:id", GuardsController.getGuardsByClient);
 
 //CREATE GUARD api/guards/create
 router.post(
