@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { FetchsDb } from "../../utils/FetchsDb";
 import DropDownSelect from "./DropDownSelect";
 
-export default function DropDownModalGuards({ handleSelect }) {
+export default function DropDownModalGuards(props) {
   const { activeEvent } = useSelector((state) => state.calendar);
 
   let txtInLabel = {};
@@ -15,10 +15,11 @@ export default function DropDownModalGuards({ handleSelect }) {
     value: null,
     label: `${txtInLabel}`,
   });
-  const { user } = useSelector((state) => state.user);
 
   const getGuards = async () => {
-    const guardsArr = await FetchsDb.fetchGet(`/guards/byclient/${user.id}`);
+    const guardsArr = await FetchsDb.fetchGet(
+      `/guards/byDistance/${props.branch.id}/${props.date}/${props.shiftId}`
+    );
 
     const optionsGuardsArr = guardsArr.map((element) => {
       return {
@@ -31,17 +32,16 @@ export default function DropDownModalGuards({ handleSelect }) {
   };
 
   useEffect(() => {
-    getGuards();
-  }, []);
-
-  //   const handleGuards = (e) => {
-  //     setGuardInput(e);
-  //   };
+    if (props.date && props.shiftId) {
+      //Revisar como disparar el useEffect
+      getGuards();
+    }
+  }, [props.date, props.shiftId]);
 
   return (
     <DropDownSelect
       options={guards}
-      handleSelect={handleSelect}
+      handleSelect={props.handleSelect}
       defVal={guardInput}
     />
   );

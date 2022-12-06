@@ -33,8 +33,12 @@ class GuardsController {
   }
 
   static async getByDistance(req, res) {
-    const { id } = req.params;
-    const { error, data } = await GuardsService.getByDistance(id);
+    const { branchId, date, shiftId } = req.params;
+    const { error, data } = await GuardsService.getByDistance(
+      branchId,
+      date,
+      shiftId
+    );
 
     if (error) {
       return res.status(data.status || 500).send({ message: data.message });

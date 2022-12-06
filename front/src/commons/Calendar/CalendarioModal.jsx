@@ -130,11 +130,20 @@ export const CalendarioModal = ({ branch }) => {
 
         dispatch(eventAddNew({ ...data, ...formData, branchId: branch.id }));
       } catch (err) {
-        Swal.fire(
-          "Error",
-          "No se pudo crear el evento, revise los campos ",
-          "error"
-        );
+        if (typeof err.response.data.message === "string") {
+          Swal.fire(
+            "Error",
+            `No se pudo crear el evento, ${err.response.data.message}`,
+            "error"
+          );
+        } else {
+          Swal.fire(
+            "Error",
+            `No se pudo crear el evento, por favor verificar.`,
+            "error"
+          );
+        }
+
         console.error(err, "Cant Create Events");
       }
     }
@@ -190,7 +199,12 @@ export const CalendarioModal = ({ branch }) => {
           )}
 
           <div className="mb-3">
-            <DropDownModalGuards handleSelect={handleGuardChange} />
+            <DropDownModalGuards
+              handleSelect={handleGuardChange}
+              branch={branch}
+              date={formData.date}
+              shiftId={formData.shiftId}
+            />
           </div>
 
           <Modal.Footer>
