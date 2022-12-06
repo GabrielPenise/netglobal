@@ -1,4 +1,4 @@
-const { GuardShift, Guards } = require("../models");
+const { GuardShift, Guard } = require("../models");
 
 class ShiftsServices {
   static async getAll() {
@@ -24,7 +24,7 @@ class ShiftsServices {
   static async getByGuard(guardId) {
     try {
       // comprobamos que el cliente existe
-      const guard = await Guards.findByPk(guardId);
+      const guard = await Guard.findByPk(guardId);
 
       if (!guard) {
         return {
@@ -48,20 +48,20 @@ class ShiftsServices {
   static async createGuardShift(body) {
     try {
       // comprobamos si ya existe un turno para un día de la semana para un guardia
-      const { day, guardId } = body;
-      const guardShift = await GuardShift.findOne({ where: { day, guardId } });
+      // const { guardId } = body;
+      // const guardShift = await GuardShift.findOne({ where: { guardId } });
 
-      if (guardShift) {
-        return {
-          error: true,
-          data: {
-            status: 405,
-            message: `Ya existe un turno para el día ${day} para el guardia ${guardId}`,
-          },
-        };
-      }
+      // if (guardShift) {
+      //   return {
+      //     error: true,
+      //     data: {
+      //       status: 405,
+      //       message: `Ya existe un turno para el día ${day} para el guardia ${guardId}`,
+      //     },
+      //   };
+      // }
 
-      const response = await GuardShift.create(body);
+      const response = await GuardShift.bulkCreate(body);
       return { error: false, data: response };
     } catch (error) {
       console.error(error);
