@@ -81,7 +81,7 @@ class GuardsService {
             guard.longitude,
             branch.latitude,
             branch.longitude
-          ) < 50
+          ) <= process.env.DISTANCE_TO_BRANCH
       );
       return { error: false, data: response };
     } catch (error) {
