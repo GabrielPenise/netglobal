@@ -279,6 +279,9 @@ class EventsService {
           guardId: evento.guardId,
           shiftId: evento.shiftId,
           branchName: evento.branch.name,
+          branchAddress: evento.branch.fulladdress,
+          mobileStart:evento.shift.start,
+          mobileEnd:evento.shift.end
         };
       });
 
