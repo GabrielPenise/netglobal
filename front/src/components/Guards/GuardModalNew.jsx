@@ -82,12 +82,15 @@ export default function GuardModalNew() {
     e.preventDefault();
     try {
       const { data } = await Axios.post("/guards/create", input);
-      //Otro Endpoint con la dataDel Guardia y Campos de Shiftid
+
       const guardWithShifts = guardShift.map((element) => {
-        element.guardId = data.id;
+        return {
+          ...element,
+          guardId: data.id,
+        };
       });
 
-      await Axios.post("/guardShift", guardWithShifts);
+      await Axios.post("/guardShifts", guardWithShifts);
 
       const guard = {
         value: { ...data },
