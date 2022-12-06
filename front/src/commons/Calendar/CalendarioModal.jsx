@@ -162,7 +162,19 @@ export const CalendarioModal = ({ branch }) => {
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
           {activeEvent ? (
-            `${activeEvent.date}`
+            <>
+              <div>{`${activeEvent.date}`}</div>
+
+              {activeEvent.cuil ? (
+                <>
+                  <br />
+
+                  <div>{`El evento pertenece a la Sucursal: ${activeEvent.branchName}`}</div>
+
+                  <br />
+                </>
+              ) : null}
+            </>
           ) : (
             <div className="mb-3">
               <label className="form-label">

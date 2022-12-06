@@ -17,7 +17,7 @@ import Guards from "./components/Guards/Guards";
 import Branchs from "./components/Branchs/Branchs";
 import ClientOrSu from "./components/ClientOrSu/ClientOrSu";
 import ChangePassword from "./screens/ChangePassword";
-import HomeCalendar from "./components/HomeCalendar";
+import HomeCalendar from "./commons/Calendar/HomeCalendar.jsx";
 
 function App() {
   const { user } = useSelector((state) => state.user);
@@ -66,7 +66,14 @@ function App() {
                   <>
                     <Route path="/" element={<Navigate to={"/home"} />} />
                     <Route path="/calendar" element={<HomeCalendar />} />
-
+                    <Route
+                      path={`/calendar/guardCalendar`}
+                      element={<Guards />}
+                    />
+                    <Route
+                      path={`/calendar/branchCalendar`}
+                      element={<Branchs />}
+                    />
                     <Route path={`/branch/${user.id}`} element={<Branchs />} />
 
                     <Route path={`/guards/${user.id}`} element={<Guards />} />

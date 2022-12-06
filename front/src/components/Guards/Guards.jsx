@@ -12,9 +12,13 @@ import DropDownSelect from "../../commons/DropDown/DropDownSelect.jsx";
 import DynamicTable from "../../commons/Tables/DynamicTable.jsx";
 import { setGuards, deleteGuard } from "../../store/slices/index.js";
 import { FetchsDb } from "../../utils/FetchsDb.js";
+import { useLocation } from "react-router-dom";
+import Calendario from "../../commons/Calendar/Calendario.jsx";
 
 export default function Guards() {
   const dispatch = useDispatch();
+  const { pathname } = useLocation();
+
   const guards = useSelector((state) => state.guards);
   const [input, setInput] = useState({});
 
@@ -60,11 +64,19 @@ export default function Guards() {
           handleSelect={handleSelect}
         />
       </div>
-
-      <DynamicTable object={Array(input.value)} handleDelete={handleDelete} />
-      <BtnNewForAbm />
-      <GuardModalEdit guard={input} setState={setInput} />
-      <GuardModalNew />
+      {pathname === "/calendar/guardCalendar" ? (
+        <Calendario branch={input.value} />
+      ) : (
+        <>
+          <DynamicTable
+            object={Array(input.value)}
+            handleDelete={handleDelete}
+          />
+          <BtnNewForAbm />
+          <GuardModalEdit guard={input} setState={setInput} />
+          <GuardModalNew />
+        </>
+      )}
     </Container>
   );
 }

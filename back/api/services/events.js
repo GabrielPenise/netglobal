@@ -222,6 +222,13 @@ class EventsService {
             },
           },
           {
+            model: Guard,
+            as: "guard",
+            attributes: {
+              exclude: ["password", "salt", "createdAt", "updatedAt"],
+            },
+          },
+          {
             model: Shift,
             as: "shift",
             attributes: {
@@ -230,7 +237,23 @@ class EventsService {
           },
         ],
       });
-      return { error: false, data: eventos };
+
+      const events = eventos.map((evento) => {
+        return {
+          id: evento.id,
+          cuil: evento.guard.cuil,
+          date: evento.date,
+          title: `Turno ${evento.guard.name} ${evento.guard.lastname}`,
+          start: new Date(`${evento.date} ${evento.shift.start}`),
+          end: new Date(`${evento.date} ${evento.shift.end}`),
+          branchId: evento.branchId,
+          guardId: evento.guardId,
+          shiftId: evento.shiftId,
+          branchName: evento.branch.name,
+        };
+      });
+
+      return { error: false, data: events };
     } catch (error) {
       console.error(error);
       return { error: true, data: error };
