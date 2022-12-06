@@ -120,13 +120,13 @@ const branches = [
     clientId: 3,
   },
   {
-    name: "Suc. San Nicolas",
+    name: "Sucursal San Nicolas-BsAs",
     street: "Avenida Alberdi",
     number: 361,
     city: "San Nicolas",
     province: "Buenos Aires",
     postalcode: "B2900",
-    clientId: 4,
+    clientId: 2,
   },
   {
     name: "Suc. Luján",
