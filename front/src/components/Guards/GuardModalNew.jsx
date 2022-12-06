@@ -5,13 +5,15 @@ import { setUiOpenNew, newGuard } from "../../store/slices/index.js";
 import { Form, Button, Modal, Container, Col, Row } from "react-bootstrap";
 import { Axios } from "../../utils/AxiosWithCredentials.js";
 
+import GuardShift from "./GuardShift.jsx";
+
 export default function GuardModalNew() {
   const { user } = useSelector((state) => state.user);
+
   const initialState = {
     name: "",
     lastname: "",
     email: "",
-
     cuit: null,
     street: "",
     number: null,
@@ -21,6 +23,7 @@ export default function GuardModalNew() {
     clientId: user.id,
   };
   const [input, setInput] = useState(initialState);
+  const [guardShift, setGuardShif] = useState([]);
   const dispatch = useDispatch();
   const { uiOpenNew } = useSelector((state) => state.modalCreate);
 
@@ -28,7 +31,6 @@ export default function GuardModalNew() {
     { heading: "Nombre", key: "name", type: "text" },
     { heading: "Apellido", key: "lastname", type: "text" },
     { heading: "Email", key: "email", type: "email" },
-
     { heading: "Cuil", key: "cuil", type: "text" },
     { heading: "Calle", key: "street", type: "text" },
     { heading: "Altura", key: "number", type: "number" },
@@ -37,11 +39,33 @@ export default function GuardModalNew() {
     { heading: "Codigo Postal", key: "postalcode", type: "text" },
   ];
 
+  const optionsForShifts = [
+    { label: "Lunes", name: "Monday" },
+    { label: "Martes", name: "Tuesday" },
+    { label: "Miercoles", name: "Wednesday" },
+    { label: "Jueves", name: "Thursday" },
+    { label: "viernes", name: "Friday" },
+    { label: "Sabado", name: "Saturday" },
+    { label: "Domingo", name: "Sunday" },
+  ];
+
   const closeModal = () => {
     dispatch(setUiOpenNew(false));
     setInput(initialState);
+    setGuardShif([]);
+  };
 
-    //Todo: Cerrar el modal, esta fn la voy a usar al final del handleSubmit
+  const handleDisponiblidad = (e) => {
+    const shiftId = Number(e.target.value);
+    const day = e.target.name;
+
+    const dayAndShift = { day, shiftId };
+
+    const guardShiftEdited = guardShift.filter(
+      (element) => element.day !== dayAndShift.day
+    );
+
+    setGuardShif([...guardShiftEdited, dayAndShift]);
   };
 
   const handleInputChange = (e) => {
@@ -59,6 +83,12 @@ export default function GuardModalNew() {
     try {
       const { data } = await Axios.post("/guards/create", input);
       //Otro Endpoint con la dataDel Guardia y Campos de Shiftid
+      const guardWithShifts = guardShift.map((element) => {
+        element.guardId = data.id;
+      });
+
+      await Axios.post("/guardShift", guardWithShifts);
+
       const guard = {
         value: { ...data },
         label: `Guardia: ${data.name} ${data.lastname} Activo: Si`,
@@ -83,7 +113,16 @@ export default function GuardModalNew() {
       aria-labelledby="contained-moda-tittle-vcenter"
     >
       <Modal.Header closeButton>
-        <Modal.Title>Nuevo Guardia</Modal.Title>
+        <Container>
+          <Row>
+            <Col>
+              <Modal.Title>Nuevo Guardia</Modal.Title>
+            </Col>
+            <Col>
+              <Modal.Title>Disponibilidad de Turnos </Modal.Title>
+            </Col>
+          </Row>
+        </Container>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
@@ -106,20 +145,16 @@ export default function GuardModalNew() {
                 })}
               </Col>
               <Col>
-                <label className="form-label">Texto</label>
-                <Form.Control />
-                <label className="form-label">Texto</label>
-                <Form.Control />
-                <label className="form-label">Texto</label>
-                <Form.Control />
-                <label className="form-label">Texto</label>
-                <Form.Control />
-                <label className="form-label">Texto</label>
-                <Form.Control />
-                <label className="form-label">Texto</label>
-                <Form.Control />
-                <label className="form-label">Texto</label>
-                <Form.Control />
+                <br />
+                {optionsForShifts.map((element) => {
+                  return (
+                    <GuardShift
+                      label={element.label}
+                      name={element.name}
+                      handle={handleDisponiblidad}
+                    />
+                  );
+                })}
               </Col>
             </Row>
           </Container>
