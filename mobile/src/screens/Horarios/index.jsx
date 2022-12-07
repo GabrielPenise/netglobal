@@ -35,7 +35,7 @@ function Horarios({ navigation }) {
           <Card.Divider />
           {empleado.map((dato, i) => {
             return (
-              <Card key={empleado.id}>
+              <Card key={i}>
                 <Card.Title>HORARIO DEL DÍA: {dato.date}</Card.Title>
                 <View key={i} style={styles.user}>
                 <Text style={styles.datos}> Nombre: {dato.branchName} </Text>
