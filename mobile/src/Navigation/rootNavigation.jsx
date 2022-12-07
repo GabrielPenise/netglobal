@@ -39,7 +39,7 @@ const Stack = createNativeStackNavigator();
           }}
         />
         <Tab.Screen
-          name="Horarios"
+          name="      "
           component={Horarios}
           options={{
             tabBarLabel: "Horarios",
