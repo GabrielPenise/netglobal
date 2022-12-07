@@ -17,10 +17,11 @@ const Fichaje = ({ navigation }) => {
   const [errorMsg, setErrorMsg] = useState(null);
   const [botonEntrada, setBotonEntrada] = useState(false);
   const [botonSalida, setBotonSalida] = useState(false);
-  const [horaEntrada, setHoraEntrada] = useState("");
-  const [horaSalida, setHoraSalida] = useState("");
+  const [horaEntrada, setHoraEntrada] = useState(null);
+  const [horaSalida, setHoraSalida] = useState(null);
   const event = useSelector((state) => state.event);
   const user = useSelector((state) => state.user);
+  const [horaTimeIn, setHoraTimeIn]  = useState(null)
 
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisibleSalida, setModalVisibleSalida] = useState(false); 
@@ -29,12 +30,12 @@ const Fichaje = ({ navigation }) => {
 
   const [evento, setEvento] = useState([
     {
-      id: "",
+      id: null,
       date: "",
       time_in: null,
       position_in_latitude: "",
       position_in_longitude: "",
-      time_out: "",
+      time_out: null,
       position_out_latitude: "",
       position_out_longitude: "",
       branchId: 1,
@@ -68,34 +69,40 @@ const Fichaje = ({ navigation }) => {
     },
   ]);
 
-
   useEffect(() => {
-    URLBase.get(`/events/byDate/${fechaEvento}/${user.id}`).then((res) => setEvento(res.data))
-    }, [evento.id]);
- 
+    URLBase.get(`/events/byDate/${fechaEvento}/${user.id}`).then((res) => {if(res.data.length) return setEvento(res.data)}).then(() => {
+      if (evento[0].time_in) {
+        const timeIn = new Date(evento[0].time_in)
+        const prueba = `${timeIn.getHours()}:${timeIn.getMinutes()}:${timeIn.getSeconds()}`
+        setHoraEntrada(prueba) 
+      }
+      if (evento[0].time_out) {
+        const timeOut = new Date(evento[0].time_out)
+        const prueba = `${timeOut.getHours()}:${timeOut.getMinutes()}:${timeOut.getSeconds()}`
+        setHoraSalida(prueba) 
+      }
+    })
+    }, [evento[0].time_in, evento[0].time_out]);
 
 
-  const handleOnPress = () => {
-    (async () => {
+
+
+  const handleOnPress = async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
         setErrorMsg("Permission to access location was denied");
         return;
       }
-      let locacion = await Location.getCurrentPositionAsync({});
-      const confirmar = await URLBase.get(`/events/${evento[0].id}`) 
-      console.log(confirmar.data.time_in) 
+      let locacion = await Location.getCurrentPositionAsync({}); 
+      const horario = new Date()
       const update = await URLBase.put(`/events/checkin/${evento[0].id}`, {
-        time_in: locacion.timestamp,
+        time_in: horario,
         position_in_latitude: locacion.coords.latitude,
         position_in_longitude: locacion.coords.longitude,
       })
-      const horario = locacion.timestamp;
-      const fecha = new Date(horario);
       setHoraEntrada(
-        `${fecha.getHours()}:${fecha.getMinutes()}:${fecha.getSeconds()}`
+        `${horario.getHours()}:${horario.getMinutes()}:${horario.getSeconds()}`
       )
-    })()
     setBotonEntrada(true);
     setModalVisible(!modalVisible)
   };
@@ -108,15 +115,14 @@ const Fichaje = ({ navigation }) => {
         return;
       }
       let locacion = await Location.getCurrentPositionAsync({});
+      const horario = new Date();
       const update = await URLBase.put(`/events/checkout/${evento[0].id}`, {
-        time_out: locacion.timestamp,
+        time_out: horario,
         position_out_latitude: locacion.coords.latitude,
         position_out_longitude: locacion.coords.longitude,
       });
-      const horario = locacion.timestamp;
-      const fecha = new Date(horario);
       setHoraSalida(
-        `${fecha.getHours()}: ${fecha.getMinutes()}: ${fecha.getSeconds()}`
+        `${horario.getHours()}: ${horario.getMinutes()}: ${horario.getSeconds()}`
       );
     })();
     setBotonSalida(true);
@@ -128,9 +134,9 @@ const Fichaje = ({ navigation }) => {
 
     <View style={styles.container}>
     {
-      evento?.length ? (<View style={styles.container}>
+      evento[0].id ? (<View style={styles.container}>
         <CardTrabajo evento={evento}/>
-        {botonEntrada ? (<Text style={{ fontWeight: "bold", fontSize: 20, marginTop:5 }}> Su hora de entrada es: {horaEntrada} </Text> ) : null}
+        {botonEntrada || horaEntrada ? (<Text style={{ fontWeight: "bold", fontSize: 20, marginTop:5 }}> Su hora de entrada es: {horaEntrada} </Text> ) : null}
       <View style={{justifyContent:"center", alignItems:"center", marginTop:5}}>
             <Avatar
             size={130}
@@ -140,9 +146,11 @@ const Fichaje = ({ navigation }) => {
             />
               <Text style={{fontSize:20, fontWeight:"bold"}}>{evento[0].shift.start} </Text>
         <View style={{ margin: 20 }}>
-          {!botonEntrada ? ( <Button title="Ingrese la hora de entrada" onPress={() => setModalVisible(!modalVisible)} /> ) : null}
+         
+
+          {!botonEntrada && !evento[0].time_in ? ( <Button title="Ingrese la hora de entrada" onPress={() => setModalVisible(!modalVisible)} /> ) : null}
         </View>
-        {botonSalida ? (<Text style={{ fontWeight: "bold", fontSize: 20, marginTop:5 }}> Su hora de salida es: {horaSalida} </Text>) : null}
+        {botonSalida || horaSalida ? (<Text style={{ fontWeight: "bold", fontSize: 20, marginTop:5 }}> Su hora de salida es: {horaSalida} </Text>) : null}
       </View >
             <Avatar
             size={130}
@@ -152,7 +160,8 @@ const Fichaje = ({ navigation }) => {
             />
               <Text style={{fontSize:20, fontWeight:"bold"}}>{evento[0].shift.end} </Text>
         <View style={{ margin: 20 }}>
-          {!botonSalida ? (<Button title="Ingrese la hora de salida" onPress={() => setModalVisibleSalida(!modalVisibleSalida)} /> ) : null} 
+
+          {!botonSalida && horaEntrada && !evento[0].time_out ? (<Button title="Ingrese la hora de salida" onPress={() => setModalVisibleSalida(!modalVisibleSalida)} /> ) : null} 
       <View/>
       </View>
         <View style={styles.centeredView}>
