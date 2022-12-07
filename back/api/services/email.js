@@ -31,7 +31,7 @@ exports.sendRegisterEmail = (user, password) => {
   );
 };
 
-exports.sendForgotPasswordEmail = async (user) => {
+/* exports.sendForgotPasswordEmail = async (user, token) => {
   readHTMLFile(
     __dirname + "/../utils/emails/forgotPassword.html",
     function (err, html) {
@@ -42,6 +42,8 @@ exports.sendForgotPasswordEmail = async (user) => {
       let template = handlebars.compile(html);
       let replacements = {
         username: user.name,
+        userId: user.id,
+        token,
       };
       let htmlToSend = template(replacements);
       let mailOptions = {
@@ -57,7 +59,7 @@ exports.sendForgotPasswordEmail = async (user) => {
       });
     }
   );
-};
+}; */
 
 let readHTMLFile = function (path, callback) {
   fs.readFile(path, { encoding: "utf-8" }, function (err, html) {

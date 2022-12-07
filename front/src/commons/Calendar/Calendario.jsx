@@ -27,19 +27,29 @@ export default function Calendario({ branch }) {
     localStorage.getItem("fijarVista") || "month"
   );
 
-  useEffect(() => {
-    if (branch)
-      Axios.get(`/events/byBranch/${branch.id}`)
-        .then((res) => {
-          // transformar start/end a tipo Date
+  const fetchData = async () => {
+    let dataFetch = null;
+    try {
+      if (!branch.cuil) {
+        const { data } = await Axios.get(`/events/byBranch/${branch.id}`);
+        dataFetch = data;
+      } else {
+        const { data } = await Axios.get(`/events/byGuard/${branch.id}`);
+        dataFetch = data;
+      }
 
-          res.data.forEach((event) => {
-            event.start = new Date(event.start);
-            event.end = new Date(event.end);
-          });
-          dispatch(branchEvents(res.data));
-        })
-        .catch((err) => console.error(err));
+      dataFetch.forEach((event) => {
+        event.start = new Date(event.start);
+        event.end = new Date(event.end);
+      });
+      dispatch(branchEvents(dataFetch));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    if (branch) fetchData();
   }, [branch]);
 
   const handleOnview = (e) => {

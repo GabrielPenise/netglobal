@@ -23,7 +23,7 @@ export default function ClientModalNew() {
   //heading es lo que voy a ver en el formulario, la key es el nombre de la prop de obj, y el type es para usar en el input de html
   const headingClientNew = [
     { heading: "Email", key: "email", type: "email" },
-    { heading: "Password", key: "password", type: "password" },
+
     { heading: "Nombre", key: "name", type: "text" },
 
     { heading: "Dirección", key: "address", type: "text" },
@@ -59,7 +59,11 @@ export default function ClientModalNew() {
       setInput(initialState);
       closeModal();
     } catch (err) {
-      alert("Error, Verificar los datos ingresados");
+      if (err.response.data !== typeof "object") {
+        alert(`Error, ${err.response.data}`);
+      } else {
+        alert(`Error, Verifique los datos ingresados`);
+      }
       console.error(err, "failed to create branch");
       setInput(initialState);
       closeModal();

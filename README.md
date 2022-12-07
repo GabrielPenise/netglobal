@@ -48,7 +48,7 @@
 
 <img src="front/src/assets/styles/image/logo_azul.png" alt="Logo" width="60">
 
-"Net Security" es proyecto de Certificación de servicios vigiladores, desde la cual una empresa de seguridad puede gestionar y controlar la presencia de vigiladores dentro de las distintas sucursales de sus clientes.
+"Net Security" es un proyecto de Certificación de servicios vigiladores, desde la cual una empresa puede gestionar y controlar la presencia de vigiladores dentro de sus distintas sucursales.
 
 El sistema dispone de dos aplicaciones bien diferenciadas:
 
@@ -67,10 +67,10 @@ El sistema dispone de dos aplicaciones bien diferenciadas:
 - Sequelize
 - Postgres
 - Morgan
+- Cors
 - Bcrypt
 - JWT
 - Dotenv
-- Cors
 - Nominatim
 - Moment
 - Nodemailer
@@ -86,6 +86,8 @@ El sistema dispone de dos aplicaciones bien diferenciadas:
 - Redux
 - Moment
 - OpenStreetMap
+- React-HTML-Table-To-Excel
+- Sweetalert
 - React-Bootstrap
 - Bootstrap
 - SASS
@@ -164,12 +166,12 @@ Puedes ver todos los metodos de la API descargando la [colección de POSTMAN](ht
   - [x] Panel alta sucursales de un cliente
   - [x] Panel alta vigiladores
   - [x] Calendario y asignación de turnos
-  - [ ] Calendarios por vigilador
+  - [x] Calendarios por vigilador
   - [x] Calendarios por sucursal
-  - [ ] Otros
+  - [-] Otros
     - [x] Mapa validación localización sucursales y vigiladores
-    - [ ] Reporte de sucursales con horarios sin cubrir
-    - [ ] Reporte de horas trabajadas por vigilador
+    - [-] Reporte de sucursales con horarios sin cubrir
+    - [-] Reporte de horas trabajadas por vigilador
 
 <!-- MOBILE -->
 
@@ -178,9 +180,9 @@ Puedes ver todos los metodos de la API descargando la [colección de POSTMAN](ht
   - [x] Persistencia de usuario
   - [x] Fichaje horario entrada y salida
   - [x] Registrar geoposicionamiento entrada y salida
-  - [ ] Otros
-    - [ ] Consulta días y horarios próximas direcciones de trabajo
-    - [ ] Cargar avisos de ausencias en su calendario
+  - [-] Otros
+    - [-] Consulta días y horarios próximas direcciones de trabajo
+    - [-] Cargar avisos de ausencias en su calendario
     - [ ] Consultar cantidad de horas trabajadas
     - [ ] Aviso en horario aleatorio de carga de formulario durante horario de trabajo
     - [ ] Captura de imagen en el momento de registrar geoposicionamiento

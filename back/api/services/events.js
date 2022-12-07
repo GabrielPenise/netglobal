@@ -12,8 +12,52 @@ const moment = require("moment");
 class EventsService {
   // CREATE EVENT
   static async createEvent(body) {
-    console.log(body);
+    const { shiftId, branchId, date, guardId } = body;
+
     try {
+      //check if dont exist other event with same shift
+      const evento = await Event.findOne({
+        where: { date, shiftId, branchId },
+      });
+      if (evento) {
+        return {
+          error: true,
+          data: {
+            status: 409,
+            message: `Ya hay un guardia asignado para ese turno`,
+          },
+        };
+      }
+      //check if the guard are not busy on this date
+      const guardiaOcupado = await Event.findOne({ where: { date, guardId } });
+      if (guardiaOcupado) {
+        return {
+          error: true,
+          data: {
+            status: 409,
+            message: `El guardia con id:${guardId} ya tiene asignado un evento el día ${date}`,
+          },
+        };
+      }
+      const day = moment(date).format("dddd");
+      const turnoOcupado = await GuardShift.findOne({
+        where: {
+          guardId,
+          shiftId,
+          day,
+        },
+      });
+
+      if (!turnoOcupado) {
+        return {
+          error: true,
+          data: {
+            status: 409,
+            message: `Este guardia no tiene disponibilidad, en este horario.`,
+          },
+        };
+      }
+
       const response = await Event.create(body);
       return { error: false, data: response };
     } catch (error) {
@@ -191,11 +235,12 @@ class EventsService {
         ],
       });
       let events = [];
+
       response.forEach((event, i) => {
         events[i] = {
           id: event.id,
           date: event.date,
-          title: `Turno ${event.guard.fullname}`,
+          title: `Turno ${event.guard.name} ${event.guard.lastname}`,
           start: new Date(`${event.date} ${event.shift.start}`),
           end: new Date(`${event.date} ${event.shift.end}`),
           branchId: event.branchId,
@@ -229,6 +274,13 @@ class EventsService {
             },
           },
           {
+            model: Guard,
+            as: "guard",
+            attributes: {
+              exclude: ["password", "salt", "createdAt", "updatedAt"],
+            },
+          },
+          {
             model: Shift,
             as: "shift",
             attributes: {
@@ -237,7 +289,26 @@ class EventsService {
           },
         ],
       });
-      return { error: false, data: eventos };
+
+      const events = eventos.map((evento) => {
+        return {
+          id: evento.id,
+          cuil: evento.guard.cuil,
+          date: evento.date,
+          title: `Turno ${evento.guard.name} ${evento.guard.lastname}`,
+          start: new Date(`${evento.date} ${evento.shift.start}`),
+          end: new Date(`${evento.date} ${evento.shift.end}`),
+          branchId: evento.branchId,
+          guardId: evento.guardId,
+          shiftId: evento.shiftId,
+          branchName: evento.branch.name,
+          branchAddress: evento.branch.fulladdress,
+          mobileStart: evento.shift.start,
+          mobileEnd: evento.shift.end,
+        };
+      });
+
+      return { error: false, data: events };
     } catch (error) {
       console.error(error);
       return { error: true, data: error };

@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import HomeScreen from "../screens/Home";
+import HomeScreen from "../screens/Credencial";
 import LoginScreen from "../screens/Login";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -29,7 +29,7 @@ const Stack = createNativeStackNavigator();
           }}
         />
         <Tab.Screen
-          name="Fichaje"
+          name=" "
           component={Fichaje}
           options={{
             tabBarLabel: "Fichar",
@@ -39,7 +39,7 @@ const Stack = createNativeStackNavigator();
           }}
         />
         <Tab.Screen
-          name="Horarios"
+          name="      "
           component={Horarios}
           options={{
             tabBarLabel: "Horarios",
@@ -49,13 +49,13 @@ const Stack = createNativeStackNavigator();
           }}
         />
         <Tab.Screen
-          name="Reportes"
+          name="Avisos"
           component={Reportes}
           options={{
-            tabBarLabel: "Reportes",
+            tabBarLabel: "Avisos",
             tabBarIcon: ({ color }) => (
               <MaterialCommunityIcons
-                name="clipboard"
+                name="chat"
                 color={color}
                 size={26}
               />
