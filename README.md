@@ -48,7 +48,7 @@
 
 <img src="front/src/assets/styles/image/logo_azul.png" alt="Logo" width="60">
 
-"Net Security" es proyecto de Certificación de servicios vigiladores, desde la cual una empresa de seguridad puede gestionar y controlar la presencia de vigiladores dentro de las distintas sucursales de sus clientes.
+"Net Security" es un proyecto de Certificación de servicios vigiladores, desde la cual una empresa puede gestionar y controlar la presencia de vigiladores dentro de sus distintas sucursales.
 
 El sistema dispone de dos aplicaciones bien diferenciadas:
 
@@ -67,10 +67,10 @@ El sistema dispone de dos aplicaciones bien diferenciadas:
 - Sequelize
 - Postgres
 - Morgan
+- Cors
 - Bcrypt
 - JWT
 - Dotenv
-- Cors
 - Nominatim
 - Moment
 - Nodemailer
