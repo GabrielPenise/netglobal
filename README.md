@@ -10,7 +10,7 @@
 <h3 align="center">APLICACION NET SECURITY</h3>
 
   <p align="center">
-    Proyecto profesional para bootcamp Plataforma 5 con la colaboración de Net Global Solutions S.A.
+    Proyecto profesional para Net Global Solutions S.A.
     <br />
     <a href="https://github.com/GabrielPenise/netglobal"><strong>Explora nuestro proyecto »</strong></a>
     <br />
